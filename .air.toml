@@ -1,0 +1,38 @@
+# Config file for Air - Live reload for Go applications
+
+# Root directory to be watched. The default is "." (the current directory)
+root_dir = "."
+
+# Temp directory for building the binary
+tmp_dir = "tmp"
+
+[build]
+  build_doc = "swag init -g cmd/app/main.go"
+  build_migrate = "migrate create -ext sql -dir migrations create_name_table"
+  
+  cmd = "go build -o ./tmp/main.exe ./cmd/app"
+  bin = "./tmp/main.exe"
+  full_bin = "./tmp/main.exe"
+
+
+[log]
+  # Log level: debug, info, warn, error, fatal, panic
+  level = "debug"
+
+[dirs]
+  # Directories to be watched for changes
+  include = ["."]
+  exclude = ["tmp", "vendor"]
+
+[files]
+  # File extensions to be watched
+  include = ["go", "tmpl", "html", "css", "js"]
+  exclude = []
+
+[env]
+  # List of environment variables to set before running the app
+  include = ["APP_ENV=development"]
+
+[extensions]
+  # Extensions for third-party tools (optional)
+  .go = "go fmt ./..."
