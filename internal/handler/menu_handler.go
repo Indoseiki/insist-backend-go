@@ -98,6 +98,48 @@ func (h *MenuHandler) GetMenu(c *fiber.Ctx) error {
 	return pkg.Response(c, fiber.StatusOK, "Menu found successfully", menu)
 }
 
+func (h *MenuHandler) GetMenusByUser(c *fiber.Ctx) error {
+	userID := c.Locals("userID").(uint)
+	page := c.QueryInt("page", 1)
+	rows := c.QueryInt("rows", 20)
+	search := c.Query("search")
+	offset := (page - 1) * rows
+
+	total, err := h.menuService.GetTotalByUser(userID, search)
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
+	}
+
+	menus, err := h.menuService.GetByUser(userID, offset, rows, search)
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
+	}
+
+	totalPages := int(math.Ceil(float64(total) / float64(rows)))
+	var nextPage *int
+	if page < totalPages {
+		nextPageVal := page + 1
+		nextPage = &nextPageVal
+	}
+
+	result := map[string]interface{}{
+		"items": menus,
+		"pagination": map[string]interface{}{
+			"current_page":  page,
+			"next_page":     nextPage,
+			"total_pages":   totalPages,
+			"rows_per_page": rows,
+			"total_rows":    total,
+		},
+	}
+
+	if len(menus) == 0 {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "No data found"))
+	}
+
+	return pkg.Response(c, fiber.StatusOK, "Data found successfully", result)
+}
+
 // CreateMenu godoc
 // @Summary Create a new menu
 // @Description Create a new menu with the provided details

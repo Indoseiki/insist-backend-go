@@ -28,6 +28,51 @@ func (s *MenuService) GetByID(menuID uint) (*model.MstMenu, error) {
 	return &menu, nil
 }
 
+func (s *MenuService) GetTotalByUser(userID uint, search string) (int64, error) {
+	var count int64
+
+	query := s.db.Table("mst_menus").
+		Select("COUNT(DISTINCT mst_menus.id)").
+		Joins("JOIN mst_role_menus ON mst_role_menus.id_menu = mst_menus.id").
+		Joins("JOIN mst_user_roles ON mst_user_roles.id_role = mst_role_menus.id_role").
+		Where("mst_user_roles.id_user = ? AND mst_menus.is_delete = ?", userID, 0)
+
+	if search != "" {
+		query = query.Where("mst_menus.label ILIKE ?", "%"+search+"%")
+	}
+
+	// Hitung total
+	if err := query.Count(&count).Error; err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}
+
+func (s *MenuService) GetByUser(userID uint, offset, limit int, search string) ([]model.MstMenu, error) {
+	var menus []model.MstMenu
+
+	query := s.db.Table("mst_menus").
+		Select("mst_menus.id, mst_menus.label, mst_menus.path, mst_menus.id_parent, mst_menus.icon").
+		Joins("JOIN mst_role_menus ON mst_role_menus.id_menu = mst_menus.id").
+		Joins("JOIN mst_user_roles ON mst_user_roles.id_role = mst_role_menus.id_role").
+		Where("mst_user_roles.id_user = ? AND mst_menus.is_delete = ?", userID, 0).
+		Group("mst_menus.id, mst_menus.label, mst_menus.path, mst_menus.id_parent, mst_menus.icon").
+		Order("mst_menus.label ASC").
+		Offset(offset).
+		Limit(limit)
+
+	if search != "" {
+		query = query.Where("mst_menus.label ILIKE ?", "%"+search+"%")
+	}
+
+	if err := query.Find(&menus).Error; err != nil {
+		return nil, err
+	}
+
+	return menus, nil
+}
+
 func (s *MenuService) GetTotal(search string) (int64, error) {
 	var count int64
 

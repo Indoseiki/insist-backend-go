@@ -15,6 +15,7 @@ func MenuRoutes(api fiber.Router, db *gorm.DB) {
 	menuHandler := handler.NewMenuHandler(menuService)
 
 	menu.Get("/", menuHandler.GetMenus)
+	menu.Get("/user", menuHandler.GetMenusByUser)
 	menu.Get("/:id", menuHandler.GetMenu)
 	menu.Post("/", menuHandler.CreateMenu)
 	menu.Put("/:id", menuHandler.UpdateMenu)
