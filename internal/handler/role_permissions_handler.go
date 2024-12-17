@@ -62,5 +62,5 @@ func (h *RolePermissionHandler) UpdateOrCreateRolePermission(c *fiber.Ctx) error
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	return pkg.Response(c, fiber.StatusCreated, "Role Permission save successfully", rolePermission)
+	return pkg.Response(c, fiber.StatusCreated, "Role Permission updated successfully", rolePermission)
 }

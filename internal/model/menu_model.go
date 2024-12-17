@@ -21,7 +21,7 @@ type MstMenu struct {
 	UpdatedBy     *MstUser       `gorm:"foreignKey:ID;references:IDUpdatedby" json:"updated_by,omitempty"`
 	MenuApprovals []*MstApproval `gorm:"foreignKey:IDMenu" json:"menu_approvals,omitempty"`
 
-	Parent          *MstMenu             `gorm:"foreignKey:IDParent" json:"parent,omitempty"`
-	Children        []*MstMenu           `gorm:"foreignKey:IDParent" json:"children,omitempty"`
-	RolePermissions []*MstRolePermission `gorm:"foreignKey:IDMenu;references:ID" json:"role_permissions,omitempty"`
+	Parent          *MstMenu           `gorm:"foreignKey:IDParent" json:"parent,omitempty"`
+	Children        []*MstMenu         `gorm:"foreignKey:IDParent" json:"children,omitempty"`
+	RolePermissions *MstRolePermission `gorm:"foreignKey:IDMenu;references:ID" json:"role_permissions,omitempty"`
 }
