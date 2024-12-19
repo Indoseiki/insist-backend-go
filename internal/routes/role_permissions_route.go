@@ -14,6 +14,7 @@ func RolePermissionRoutes(api fiber.Router, db *gorm.DB) {
 	rolePermissionService := service.NewRolePermissionService(db)
 	rolePermissionHandler := handler.NewRolePermissionHandler(rolePermissionService)
 
+	rolePermission.Get("/", rolePermissionHandler.GetMenuByPath)
 	rolePermission.Get("/:id", rolePermissionHandler.GetMenuTreeByRole)
 	// rolePermission.Get("/:id", rolePermissionHandler.GetRolePermission)
 	rolePermission.Post("/", rolePermissionHandler.UpdateOrCreateRolePermission)

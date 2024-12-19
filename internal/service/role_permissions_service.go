@@ -1,6 +1,7 @@
 package service
 
 import (
+	"insist-backend-golang/internal/dto"
 	"insist-backend-golang/internal/model"
 
 	"gorm.io/gorm"
@@ -12,6 +13,22 @@ type RolePermissionService struct {
 
 func NewRolePermissionService(db *gorm.DB) *RolePermissionService {
 	return &RolePermissionService{db: db}
+}
+
+func (s *RolePermissionService) GetByPath(userID uint, path string) ([]dto.MenuWithPermissions, error) {
+	var menus []dto.MenuWithPermissions
+
+	query := s.db.Table("mst_menus").
+		Select("mst_menus.label, mst_menus.path, mst_role_permissions.*").
+		Joins("JOIN mst_role_permissions ON mst_role_permissions.id_menu = mst_menus.id").
+		Joins("JOIN mst_user_roles ON mst_user_roles.id_role = mst_role_permissions.id_role").
+		Where("mst_user_roles.id_user = ? AND mst_menus.path = ?", userID, path)
+
+	if err := query.Scan(&menus).Error; err != nil {
+		return nil, err
+	}
+
+	return menus, nil
 }
 
 func (s *RolePermissionService) GetMenuTreeByRole(roleID uint) ([]model.MstMenu, error) {

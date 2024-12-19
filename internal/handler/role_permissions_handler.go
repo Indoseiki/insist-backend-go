@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"insist-backend-golang/internal/dto"
 	"insist-backend-golang/internal/model"
 	"insist-backend-golang/internal/service"
 	"insist-backend-golang/pkg"
@@ -38,6 +39,34 @@ func (h *RolePermissionHandler) GetMenuTreeByRole(c *fiber.Ctx) error {
 	}
 
 	return pkg.Response(c, fiber.StatusOK, "Menu tree role permission retrieved successfully", tree)
+}
+
+func (h *RolePermissionHandler) GetMenuByPath(c *fiber.Ctx) error {
+	userID := c.Locals("userID").(uint)
+	path := c.Query("path")
+
+	menus, err := h.rolePermissionService.GetByPath(userID, path)
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Menu not found"))
+	}
+
+	if len(menus) == 0 {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Menu not found"))
+	}
+
+	var result dto.MenuWithPermissions
+
+	for i, menu := range menus {
+		if i == 0 {
+			result = menu
+		} else {
+			result.IsCreate = result.IsCreate || menu.IsCreate
+			result.IsUpdate = result.IsUpdate || menu.IsUpdate
+			result.IsDelete = result.IsDelete || menu.IsDelete
+		}
+	}
+
+	return pkg.Response(c, fiber.StatusOK, "Menu found successfully", result)
 }
 
 // CreateRolePermission godoc
