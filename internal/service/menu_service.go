@@ -35,7 +35,7 @@ func (s *MenuService) GetTotalByUser(userID uint, search string) (int64, error) 
 		Select("COUNT(DISTINCT mst_menus.id)").
 		Joins("JOIN mst_role_menus ON mst_role_menus.id_menu = mst_menus.id").
 		Joins("JOIN mst_user_roles ON mst_user_roles.id_role = mst_role_menus.id_role").
-		Where("mst_user_roles.id_user = ? AND mst_menus.is_delete = ?", userID, 0)
+		Where("mst_user_roles.id_user = ?", userID)
 
 	if search != "" {
 		query = query.Where("mst_menus.label ILIKE ?", "%"+search+"%")
@@ -56,7 +56,7 @@ func (s *MenuService) GetByUser(userID uint, offset, limit int, search string) (
 		Select("mst_menus.id, mst_menus.label, mst_menus.path, mst_menus.id_parent, mst_menus.icon").
 		Joins("JOIN mst_role_menus ON mst_role_menus.id_menu = mst_menus.id").
 		Joins("JOIN mst_user_roles ON mst_user_roles.id_role = mst_role_menus.id_role").
-		Where("mst_user_roles.id_user = ? AND mst_menus.is_delete = ?", userID, 0).
+		Where("mst_user_roles.id_user = ?", userID).
 		Group("mst_menus.id, mst_menus.label, mst_menus.path, mst_menus.id_parent, mst_menus.icon").
 		Order("mst_menus.label ASC").
 		Offset(offset).
@@ -132,7 +132,7 @@ func (s *MenuService) Delete(menu *model.MstMenu) error {
 func (s *MenuService) GetMenuTree() ([]model.MstMenu, error) {
 	var rootMenus []model.MstMenu
 
-	if err := s.db.Where("id_parent = ? AND is_delete = ?", 0, 0).Order("sort ASC").Order("label ASC").Find(&rootMenus).Error; err != nil {
+	if err := s.db.Where("id_parent = ?", 0).Order("sort ASC").Order("label ASC").Find(&rootMenus).Error; err != nil {
 		return nil, err
 	}
 
@@ -148,7 +148,7 @@ func (s *MenuService) GetMenuTree() ([]model.MstMenu, error) {
 func (s *MenuService) loadChildren(menu *model.MstMenu) error {
 	var children []model.MstMenu
 
-	if err := s.db.Where("id_parent = ? AND is_delete = ?", menu.ID, 0).Order("sort ASC").Order("label ASC").Find(&children).Error; err != nil {
+	if err := s.db.Where("id_parent = ?", menu.ID).Order("sort ASC").Order("label ASC").Find(&children).Error; err != nil {
 		return err
 	}
 
@@ -184,7 +184,7 @@ func (s *MenuService) GetMenuTreeByUser(userID uint) ([]model.MstMenu, error) {
 		roleMenuIDs = append(roleMenuIDs, roleMenu.IDMenu)
 	}
 
-	if err := s.db.Where("id_parent = ? AND is_delete = ? AND id IN (?)", 0, 0, roleMenuIDs).Order("sort ASC").Order("label ASC").Find(&rootMenus).Error; err != nil {
+	if err := s.db.Where("id_parent = ? AND id IN (?)", 0, roleMenuIDs).Order("sort ASC").Order("label ASC").Find(&rootMenus).Error; err != nil {
 		return nil, err
 	}
 
@@ -200,7 +200,7 @@ func (s *MenuService) GetMenuTreeByUser(userID uint) ([]model.MstMenu, error) {
 func (s *MenuService) loadChildrenByUser(menu *model.MstMenu, roleMenuIDs []uint) error {
 	var children []model.MstMenu
 
-	if err := s.db.Where("id_parent = ? AND is_delete = ? AND id IN (?)", menu.ID, 0, roleMenuIDs).Order("sort ASC").Order("label ASC").Find(&children).Error; err != nil {
+	if err := s.db.Where("id_parent = ? AND id IN (?)", menu.ID, roleMenuIDs).Order("sort ASC").Order("label ASC").Find(&children).Error; err != nil {
 		return err
 	}
 
