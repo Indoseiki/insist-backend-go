@@ -8,5 +8,5 @@ CREATE TABLE
         message VARCHAR,
         user_agent VARCHAR,
         os VARCHAR,
-        created_at TIMESTAMP
+        created_at TIMESTAMPTZ
     );
