@@ -32,7 +32,7 @@ func (s *ActivityLogService) GetTotal(search string) (int64, error) {
 	query := s.db.Model(&model.ActivityLog{})
 
 	if search != "" {
-		query = query.Where("action ILIKE ?", "%"+search+"%")
+		query = query.Joins("JOIN mst_users u ON u.id = activity_logs.id_user").Where("action ILIKE ? OR u.name ILIKE ?", "%"+search+"%", "%"+search+"%")
 	}
 
 	if err := query.Count(&count).Error; err != nil {
@@ -56,7 +56,7 @@ func (s *ActivityLogService) GetAll(offset, limit int, search string, sortBy str
 	}
 
 	if search != "" {
-		query = query.Where("action ILIKE ?", "%"+search+"%")
+		query = query.Joins("JOIN mst_users u ON u.id = activity_logs.id_user").Where("action ILIKE ? OR u.name ILIKE ?", "%"+search+"%", "%"+search+"%")
 	}
 
 	if err := query.Find(&logs).Error; err != nil {
