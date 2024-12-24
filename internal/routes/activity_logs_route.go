@@ -17,6 +17,4 @@ func ActivityLogRoutes(api fiber.Router, db *gorm.DB) {
 	activityLog.Get("/", activityLogHandler.GetActivityLogs)
 	activityLog.Get("/:id", activityLogHandler.GetActivityLog)
 	activityLog.Post("/", activityLogHandler.CreateActivityLog)
-	activityLog.Put("/:id", activityLogHandler.UpdateActivityLog)
-	activityLog.Delete("/:id", activityLogHandler.DeleteActivityLog)
 }

@@ -48,6 +48,22 @@ func (h *RoleMenuHandler) GetRoleMenus(c *fiber.Ctx) error {
 	}
 
 	totalPages := int(math.Ceil(float64(total) / float64(rows)))
+
+	var start *int
+	if int(total) == 0 {
+		start = nil
+	} else {
+		value := offset + 1
+		start = &value
+	}
+
+	var end *int
+	if int(total) == 0 {
+		end = nil
+	} else {
+		value := int(math.Min(float64(offset+rows), float64(total)))
+		end = &value
+	}
 	var nextPage *int
 	if page < totalPages {
 		nextPageVal := page + 1
@@ -62,6 +78,8 @@ func (h *RoleMenuHandler) GetRoleMenus(c *fiber.Ctx) error {
 			"total_pages":   totalPages,
 			"rows_per_page": rows,
 			"total_rows":    total,
+			"from":          start,
+			"to":            end,
 		},
 	}
 

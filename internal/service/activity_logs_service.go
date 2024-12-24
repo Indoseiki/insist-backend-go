@@ -2,6 +2,7 @@ package service
 
 import (
 	"insist-backend-golang/internal/model"
+	"time"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -26,13 +27,37 @@ func (s *ActivityLogService) GetByID(logID uint) (*model.ActivityLog, error) {
 	return &log, nil
 }
 
-func (s *ActivityLogService) GetTotal(search string) (int64, error) {
+func (s *ActivityLogService) GetTotal(search string, action string, isSuccess string, arrayDate []string) (int64, error) {
 	var count int64
 
 	query := s.db.Model(&model.ActivityLog{})
 
 	if search != "" {
-		query = query.Joins("JOIN mst_users u ON u.id = activity_logs.id_user").Where("action ILIKE ? OR u.name ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Joins("JOIN mst_users u ON u.id = activity_logs.id_user").Where("u.name ILIKE ?", "%"+search+"%")
+	}
+
+	if action != "" {
+		query = query.Where("action = ?", action)
+	}
+
+	if isSuccess != "" {
+		query = query.Where("is_success =?", isSuccess)
+	}
+
+	if len(arrayDate) == 2 {
+		startDate, err := time.Parse("2006-01-02", arrayDate[0])
+		if err != nil {
+			startDate = time.Time{}
+		}
+
+		endDate, err := time.Parse("2006-01-02", arrayDate[1])
+		if err != nil {
+			endDate = time.Time{}
+		}
+
+		if !startDate.IsZero() && !endDate.IsZero() {
+			query = query.Where("DATE(created_at) BETWEEN ? AND ?", startDate, endDate)
+		}
 	}
 
 	if err := query.Count(&count).Error; err != nil {
@@ -42,7 +67,7 @@ func (s *ActivityLogService) GetTotal(search string) (int64, error) {
 	return count, nil
 }
 
-func (s *ActivityLogService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.ActivityLog, error) {
+func (s *ActivityLogService) GetAll(offset, limit int, search string, action string, isSuccess string, sortBy string, sortDirection bool, arrayDate []string) ([]model.ActivityLog, error) {
 	var logs []model.ActivityLog
 
 	query := s.db.Model(&model.ActivityLog{}).Preload("User", func(db *gorm.DB) *gorm.DB {
@@ -56,7 +81,31 @@ func (s *ActivityLogService) GetAll(offset, limit int, search string, sortBy str
 	}
 
 	if search != "" {
-		query = query.Joins("JOIN mst_users u ON u.id = activity_logs.id_user").Where("action ILIKE ? OR u.name ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Joins("JOIN mst_users u ON u.id = activity_logs.id_user").Where("u.name ILIKE ?", "%"+search+"%")
+	}
+
+	if action != "" {
+		query = query.Where("action = ?", action)
+	}
+
+	if isSuccess != "" {
+		query = query.Where("is_success = ?", isSuccess)
+	}
+
+	if len(arrayDate) == 2 {
+		startDate, err := time.Parse("2006-01-02", arrayDate[0])
+		if err != nil {
+			startDate = time.Time{}
+		}
+
+		endDate, err := time.Parse("2006-01-02", arrayDate[1])
+		if err != nil {
+			endDate = time.Time{}
+		}
+
+		if !startDate.IsZero() && !endDate.IsZero() {
+			query = query.Where("DATE(created_at) BETWEEN ? AND ?", startDate, endDate)
+		}
 	}
 
 	if err := query.Find(&logs).Error; err != nil {
@@ -76,4 +125,13 @@ func (s *ActivityLogService) Update(log *model.ActivityLog) error {
 
 func (s *ActivityLogService) Delete(log *model.ActivityLog) error {
 	return s.db.Delete(log).Error
+}
+
+func (s *ActivityLogService) GetByUsername(username string) (*model.MstUser, error) {
+	var user model.MstUser
+	if err := s.db.Where("username = ?", username).First(&user).Error; err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }

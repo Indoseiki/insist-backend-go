@@ -5,6 +5,7 @@ import "time"
 type ActivityLog struct {
 	ID        uint       `gorm:"primaryKey" json:"id"`
 	IDUser    uint       `json:"id_user,omitempty"`
+	Username  string     `json:"username,omitempty"`
 	IPAddress string     `json:"ip_address,omitempty"`
 	Action    string     `json:"action,omitempty"`
 	IsSuccess bool       `json:"is_success,omitempty"`

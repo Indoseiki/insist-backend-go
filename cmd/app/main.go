@@ -59,7 +59,9 @@ func main() {
 	routes.ApprovalRoutes(apiAdmin, config.DBINSIST)
 	routes.ApprovalUserRoutes(apiAdmin, config.DBINSIST)
 	routes.ApprovalStructureRoutes(apiAdmin, config.DBINSIST)
-	routes.ActivityLogRoutes(apiAdmin, config.DBINSIST)
+
+	// Log Route
+	routes.ActivityLogRoutes(api, config.DBINSIST)
 
 	println("Starting app with port " + os.Getenv("PORT"))
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))

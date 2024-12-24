@@ -1,10 +1,12 @@
 package handler
 
 import (
+	"fmt"
 	"insist-backend-golang/internal/model"
 	"insist-backend-golang/internal/service"
 	"insist-backend-golang/pkg"
 	"math"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -34,21 +36,43 @@ func (h *ActivityLogHandler) GetActivityLogs(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
 	search := c.Query("search")
+	action := c.Query("action", "")
+	isSuccess := c.Query("isSuccess", "")
+	rangeDate := c.Query("rangeDate", "")
 	sortBy := c.Query("sortBy", "")
 	sortDirection := c.QueryBool("sortDirection")
 	offset := (page - 1) * rows
 
-	total, err := h.ActivityLogService.GetTotal(search)
+	arrayDate := strings.Split(rangeDate, "~")
+	fmt.Println(arrayDate)
+
+	total, err := h.ActivityLogService.GetTotal(search, action, isSuccess, arrayDate)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	ActivityLogs, err := h.ActivityLogService.GetAll(offset, rows, search, sortBy, sortDirection)
+	ActivityLogs, err := h.ActivityLogService.GetAll(offset, rows, search, action, isSuccess, sortBy, sortDirection, arrayDate)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
 	totalPages := int(math.Ceil(float64(total) / float64(rows)))
+
+	var start *int
+	if int(total) == 0 {
+		start = nil
+	} else {
+		value := offset + 1
+		start = &value
+	}
+
+	var end *int
+	if int(total) == 0 {
+		end = nil
+	} else {
+		value := int(math.Min(float64(offset+rows), float64(total)))
+		end = &value
+	}
 	var nextPage *int
 	if page < totalPages {
 		nextPageVal := page + 1
@@ -63,6 +87,8 @@ func (h *ActivityLogHandler) GetActivityLogs(c *fiber.Ctx) error {
 			"total_pages":   totalPages,
 			"rows_per_page": rows,
 			"total_rows":    total,
+			"from":          start,
+			"to":            end,
 		},
 	}
 
@@ -110,17 +136,20 @@ func (h *ActivityLogHandler) GetActivityLog(c *fiber.Ctx) error {
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
 // @Router /admin/master/ActivityLog [post]
 func (h *ActivityLogHandler) CreateActivityLog(c *fiber.Ctx) error {
-	userID := c.Locals("userID").(uint)
-
 	var ActivityLog model.ActivityLog
 	if err := c.BodyParser(&ActivityLog); err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 
-	ActivityLog.IDUser = userID
+	user, err := h.ActivityLogService.GetByUsername(ActivityLog.Username)
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusOK, err.Error()))
+	}
+
+	ActivityLog.IDUser = user.ID
 	ActivityLog.IPAddress = c.IP()
 
-	err := h.ActivityLogService.Create(&ActivityLog)
+	err = h.ActivityLogService.Create(&ActivityLog)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
@@ -130,76 +159,4 @@ func (h *ActivityLogHandler) CreateActivityLog(c *fiber.Ctx) error {
 	}
 
 	return pkg.Response(c, fiber.StatusCreated, "Activity Log created successfully", result)
-}
-
-// UpdateActivityLog godoc
-// @Summary Update an existing Activity Log
-// @Description Update the details of an existing Activity Log by its ID
-// @Tags Activity Log
-// @Accept json
-// @Produce json
-// @Param id path int true "Activity Log ID"
-// @Param Activity Log body model.ActivityLog true "Updated Activity Log details"
-// @Success 200 {object} map[string]interface{} "Activity Log updated successfully"
-// @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
-// @Failure 404 {object} map[string]interface{} "Not Found: Activity Log not found"
-// @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/ActivityLog/{id} [put]
-func (h *ActivityLogHandler) UpdateActivityLog(c *fiber.Ctx) error {
-	ID, err := c.ParamsInt("id")
-	if err != nil {
-		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
-	}
-
-	var ActivityLog *model.ActivityLog
-	ActivityLog, err = h.ActivityLogService.GetByID(uint(ID))
-	if err != nil {
-		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Activity Log not found"))
-	}
-
-	if err := c.BodyParser(ActivityLog); err != nil {
-		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
-	}
-
-	ActivityLog.ID = uint(ID)
-
-	err = h.ActivityLogService.Update(ActivityLog)
-	if err != nil {
-		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
-	}
-
-	result := map[string]interface{}{
-		"id": ActivityLog.ID,
-	}
-
-	return pkg.Response(c, fiber.StatusOK, "Activity Log updated successfully", result)
-}
-
-// DeleteActivityLog godoc
-// @Summary Delete a Activity Log
-// @Description Delete a Activity Log by its ID
-// @Tags Activity Log
-// @Param id path int true "Activity Log ID"
-// @Success 200 {object} map[string]interface{} "Activity Log deleted successfully"
-// @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
-// @Failure 404 {object} map[string]interface{} "Not Found: Activity Log not found"
-// @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/ActivityLog/{id} [delete]
-func (h *ActivityLogHandler) DeleteActivityLog(c *fiber.Ctx) error {
-	ID, err := c.ParamsInt("id")
-	if err != nil {
-		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
-	}
-
-	user, err := h.ActivityLogService.GetByID(uint(ID))
-	if err != nil {
-		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Activity Log not found"))
-	}
-
-	err = h.ActivityLogService.Delete(user)
-	if err != nil {
-		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
-	}
-
-	return pkg.Response(c, fiber.StatusOK, "Activity Log deleted successfully", nil)
 }
