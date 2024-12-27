@@ -44,21 +44,28 @@ func main() {
 	apiAuth := api.Group("/auth")
 	routes.AuthRoutes(apiAuth, config.DBINSIST)
 
-	// Admin Routes
-	apiAdmin := api.Group("/admin", middleware.VerifyToken)
-	routes.UserRoutes(apiAdmin, config.DBINSIST)
-	routes.DeptRoutes(apiAdmin, config.DBINSIST)
-	routes.RoleRoutes(apiAdmin, config.DBINSIST)
-	routes.MenuRoutes(apiAdmin, config.DBINSIST)
-	routes.EmployeeRoutes(apiAdmin, config.DBINSIST)
-	routes.ReasonRoutes(apiAdmin, config.DBINSIST)
-	routes.KeyValueRoutes(apiAdmin, config.DBINSIST)
-	routes.UserRoleRoutes(apiAdmin, config.DBINSIST)
-	routes.RoleMenuRoutes(apiAdmin, config.DBINSIST)
-	routes.RolePermissionRoutes(apiAdmin, config.DBINSIST)
-	routes.ApprovalRoutes(apiAdmin, config.DBINSIST)
-	routes.ApprovalUserRoutes(apiAdmin, config.DBINSIST)
-	routes.ApprovalStructureRoutes(apiAdmin, config.DBINSIST)
+	// ADM Routes
+	apiADM := api.Group("/admin", middleware.VerifyToken)
+	routes.UserRoutes(apiADM, config.DBINSIST)
+	routes.DeptRoutes(apiADM, config.DBINSIST)
+	routes.RoleRoutes(apiADM, config.DBINSIST)
+	routes.MenuRoutes(apiADM, config.DBINSIST)
+	routes.EmployeeRoutes(apiADM, config.DBINSIST)
+	routes.ReasonRoutes(apiADM, config.DBINSIST)
+	routes.KeyValueRoutes(apiADM, config.DBINSIST)
+	routes.UserRoleRoutes(apiADM, config.DBINSIST)
+	routes.RoleMenuRoutes(apiADM, config.DBINSIST)
+	routes.RolePermissionRoutes(apiADM, config.DBINSIST)
+	routes.ApprovalRoutes(apiADM, config.DBINSIST)
+	routes.ApprovalUserRoutes(apiADM, config.DBINSIST)
+	routes.ApprovalStructureRoutes(apiADM, config.DBINSIST)
+
+	// PRD Routes
+	apiPRD := api.Group("/prd", middleware.VerifyToken)
+	routes.BuildingRoutes(apiPRD, config.DBINSIST)
+	routes.FCSRoutes(apiPRD, config.DBINSIST)
+	routes.SectionRoutes(apiPRD, config.DBINSIST)
+	routes.SubSectionRoutes(apiPRD, config.DBINSIST)
 
 	// Log Route
 	routes.ActivityLogRoutes(api, config.DBINSIST)

@@ -1,6 +1,7 @@
 CREATE TABLE
-    mst_depts (
+    mst_fcs (
         id SERIAL PRIMARY KEY,
+        id_building INT REFERENCES mst_buildings (id) ON UPDATE CASCADE ON DELETE RESTRICT,
         code VARCHAR NOT NULL,
         description VARCHAR NOT NULL,
         remarks VARCHAR,

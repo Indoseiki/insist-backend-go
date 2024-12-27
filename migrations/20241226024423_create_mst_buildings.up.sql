@@ -1,8 +1,9 @@
 CREATE TABLE
-    mst_depts (
+    mst_buildings (
         id SERIAL PRIMARY KEY,
         code VARCHAR NOT NULL,
         description VARCHAR NOT NULL,
+        plant VARCHAR NOT NULL,
         remarks VARCHAR,
         id_createdby INT REFERENCES mst_users (id) ON UPDATE CASCADE ON DELETE RESTRICT,
         id_updatedby INT REFERENCES mst_users (id) ON UPDATE CASCADE ON DELETE RESTRICT,

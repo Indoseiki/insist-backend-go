@@ -227,5 +227,5 @@ func (h *EmployeeHandler) SyncEmployee(c *fiber.Ctx) error {
 	}
 
 	fmt.Println("Employee synchronization successfully")
-	return pkg.Response(c, fiber.StatusOK, "Data synchronization successful", nil)
+	return pkg.Response(c, fiber.StatusOK, "Employee synchronization successfully", nil)
 }
