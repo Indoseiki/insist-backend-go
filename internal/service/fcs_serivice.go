@@ -18,7 +18,7 @@ func NewFCSService(db *gorm.DB) *FCSService {
 func (s *FCSService) GetByID(fcsID uint) (*model.MstFCS, error) {
 	var fcs model.MstFCS
 	if err := s.db.Preload("Building", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, id_building, code, description, plant")
+		return db.Select("id, code, description, plant")
 	}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
@@ -50,7 +50,7 @@ func (s *FCSService) GetAll(offset, limit int, search string, sortBy string, sor
 	var fcs []model.MstFCS
 
 	query := s.db.Model(&model.MstFCS{}).Preload("Building", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, id_building, code, description, plant")
+		return db.Select("id, code, description, plant")
 	}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
