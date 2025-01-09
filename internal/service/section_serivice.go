@@ -18,9 +18,7 @@ func NewSectionService(db *gorm.DB) *SectionService {
 func (s *SectionService) GetByID(buildingID uint) (*model.MstSection, error) {
 	var building model.MstSection
 	if err := s.db.Preload("FCS", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, id_building, code, description")
-	}).Preload("FCS.Building", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, code, description, plant")
+		return db.Select("id, code, description")
 	}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
@@ -52,9 +50,7 @@ func (s *SectionService) GetAll(offset, limit int, search string, sortBy string,
 	var buildings []model.MstSection
 
 	query := s.db.Model(&model.MstSection{}).Preload("FCS", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, id_building, code, description")
-	}).Preload("FCS.Building", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, code, description, plant")
+		return db.Select("id, code, description")
 	}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {

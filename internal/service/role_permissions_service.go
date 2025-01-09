@@ -47,7 +47,7 @@ func (s *RolePermissionService) GetMenuTreeByRole(roleID uint) ([]model.MstMenu,
 	}
 
 	if err := s.db.Where("id_parent = ? AND id IN (?)", 0, roleMenuIDs).
-		Order("sort ASC").
+		Order("sort ASC").Order("label ASC").
 		Preload("RolePermissions", "id_role = ?", roleID).
 		Find(&rootMenus).Error; err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (s *RolePermissionService) loadChildrenByRole(menu *model.MstMenu, roleMenu
 	var children []model.MstMenu
 
 	if err := s.db.Where("id_parent = ? AND id IN (?)", menu.ID, roleMenuIDs).
-		Order("sort ASC").
+		Order("sort ASC").Order("label ASC").
 		Preload("RolePermissions", "id_role = ?", roleID).
 		Find(&children).Error; err != nil {
 		return err
