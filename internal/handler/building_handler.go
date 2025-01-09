@@ -33,17 +33,18 @@ func NewBuildingHandler(buildingService *service.BuildingService) *BuildingHandl
 func (h *BuildingHandler) GetBuildings(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
+	idFCS := c.QueryInt("idFCS")
 	search := c.Query("search")
 	sortBy := c.Query("sortBy", "")
 	sortDirection := c.QueryBool("sortDirection")
 	offset := (page - 1) * rows
 
-	total, err := h.buildingService.GetTotal(search)
+	total, err := h.buildingService.GetTotal(search, uint(idFCS))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	buildings, err := h.buildingService.GetAll(offset, rows, search, sortBy, sortDirection)
+	buildings, err := h.buildingService.GetAll(offset, rows, search, sortBy, sortDirection, uint(idFCS))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}

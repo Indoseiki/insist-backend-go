@@ -28,10 +28,14 @@ func (s *BuildingService) GetByID(buildingID uint) (*model.MstBuilding, error) {
 	return &building, nil
 }
 
-func (s *BuildingService) GetTotal(search string) (int64, error) {
+func (s *BuildingService) GetTotal(search string, IDFCS uint) (int64, error) {
 	var count int64
 
-	query := s.db.Model(&model.MstBuilding{})
+	query := s.db.Model(&model.MstBuilding{}).Joins("JOIN mst_fcs_buildings ON mst_fcs_buildings.id_building = mst_buildings.id").Select("DISTINCT mst_buildings.*")
+
+	if IDFCS != 0 {
+		query = query.Where("mst_fcs_buildings.id_fcs = ?", IDFCS)
+	}
 
 	if search != "" {
 		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
@@ -44,19 +48,23 @@ func (s *BuildingService) GetTotal(search string) (int64, error) {
 	return count, nil
 }
 
-func (s *BuildingService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.MstBuilding, error) {
+func (s *BuildingService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool, IDFCS uint) ([]model.MstBuilding, error) {
 	var buildings []model.MstBuilding
 
-	query := s.db.Model(&model.MstBuilding{}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
+	query := s.db.Model(&model.MstBuilding{}).Select("DISTINCT mst_buildings.*").Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
-	}).Offset(offset).Limit(limit)
+	}).Joins("JOIN mst_fcs_buildings ON mst_fcs_buildings.id_building = mst_buildings.id").Offset(offset).Limit(limit)
 
 	if sortBy != "" {
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
 	} else {
 		query = query.Order("updated_at ASC")
+	}
+
+	if IDFCS != 0 {
+		query = query.Where("mst_fcs_buildings.id_fcs = ?", IDFCS)
 	}
 
 	if search != "" {

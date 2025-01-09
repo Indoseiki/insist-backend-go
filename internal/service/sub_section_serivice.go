@@ -20,9 +20,9 @@ func (s *SubSectionService) GetByID(buildingID uint) (*model.MstSubSection, erro
 	if err := s.db.Preload("Section", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, id_fcs, code, description")
 	}).Preload("Section.FCS", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, id_building, code, description")
-	}).Preload("Section.FCS.Building", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, code, description, plant")
+		return db.Select("id, code, description")
+	}).Preload("Building", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, code, description")
 	}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
@@ -56,9 +56,9 @@ func (s *SubSectionService) GetAll(offset, limit int, search string, sortBy stri
 	query := s.db.Model(&model.MstSubSection{}).Preload("Section", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, id_fcs, code, description")
 	}).Preload("Section.FCS", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, id_building, code, description")
-	}).Preload("Section.FCS.Building", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, code, description, plant")
+		return db.Select("id, code, description")
+	}).Preload("Building", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, code, description")
 	}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {

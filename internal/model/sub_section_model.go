@@ -7,6 +7,7 @@ import (
 type MstSubSection struct {
 	ID          uint       `gorm:"primaryKey" json:"id"`
 	IDSection   uint       `json:"id_section,omitempty"`
+	IDBuilding  uint       `json:"id_building,omitempty"`
 	Code        string     `json:"code,omitempty"`
 	Description string     `json:"description,omitempty"`
 	Remarks     string     `json:"remarks,omitempty"`
@@ -18,5 +19,6 @@ type MstSubSection struct {
 	CreatedBy *MstUser `gorm:"foreignKey:ID;references:IDCreatedby" json:"created_by,omitempty"`
 	UpdatedBy *MstUser `gorm:"foreignKey:ID;references:IDUpdatedby" json:"updated_by,omitempty"`
 
-	Section *MstSection `gorm:"foreignKey:ID;references:IDSection" json:"section,omitempty"`
+	Section  *MstSection  `gorm:"foreignKey:ID;references:IDSection" json:"section,omitempty"`
+	Building *MstBuilding `gorm:"foreignKey:ID;references:IDBuilding" json:"building,omitempty"`
 }
