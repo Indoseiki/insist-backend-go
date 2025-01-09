@@ -66,6 +66,7 @@ func main() {
 	routes.FCSRoutes(apiPRD, config.DBINSIST)
 	routes.SectionRoutes(apiPRD, config.DBINSIST)
 	routes.SubSectionRoutes(apiPRD, config.DBINSIST)
+	routes.FCSBuildingRoutes(apiPRD, config.DBINSIST)
 
 	// Log Route
 	routes.ActivityLogRoutes(api, config.DBINSIST)

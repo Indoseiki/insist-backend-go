@@ -2,6 +2,7 @@ CREATE TABLE
     mst_sub_sections (
         id SERIAL PRIMARY KEY,
         id_section INT REFERENCES mst_sections (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+        id_building INT REFERENCES mst_buildings (id) ON UPDATE CASCADE ON DELETE RESTRICT,
         code VARCHAR NOT NULL,
         description VARCHAR NOT NULL,
         remarks VARCHAR,

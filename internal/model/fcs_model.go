@@ -6,7 +6,6 @@ import (
 
 type MstFCS struct {
 	ID          uint       `gorm:"primaryKey" json:"id"`
-	IDBuilding  uint       `json:"id_building,omitempty"`
 	Code        string     `json:"code,omitempty"`
 	Description string     `json:"description,omitempty"`
 	Remarks     string     `json:"remarks,omitempty"`
@@ -18,5 +17,5 @@ type MstFCS struct {
 	CreatedBy *MstUser `gorm:"foreignKey:ID;references:IDCreatedby" json:"created_by,omitempty"`
 	UpdatedBy *MstUser `gorm:"foreignKey:ID;references:IDUpdatedby" json:"updated_by,omitempty"`
 
-	Building *MstBuilding `gorm:"foreignKey:ID;references:IDBuilding" json:"building,omitempty"`
+	FCSBuilding []*MstFCSBuilding `gorm:"foreignKey:IDFCS;references:ID" json:"buildings,omitempty"`
 }
