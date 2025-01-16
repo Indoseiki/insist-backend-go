@@ -60,6 +60,16 @@ func main() {
 	routes.ApprovalUserRoutes(apiADM, config.DBINSIST)
 	routes.ApprovalStructureRoutes(apiADM, config.DBINSIST)
 
+	// EGD Routes
+	apiEGD := api.Group("/egd", middleware.VerifyToken)
+	routes.ProcessRoutes(apiEGD, config.DBINSIST)
+	routes.UoMRoutes(apiEGD, config.DBINSIST)
+
+	// PID Routes
+	apiPID := api.Group("/pid", middleware.VerifyToken)
+	routes.WarehouseRoutes(apiPID, config.DBINSIST)
+	routes.LocationRoutes(apiPID, config.DBINSIST)
+
 	// PRD Routes
 	apiPRD := api.Group("/prd", middleware.VerifyToken)
 	routes.BuildingRoutes(apiPRD, config.DBINSIST)
