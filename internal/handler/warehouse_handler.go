@@ -33,17 +33,18 @@ func NewWarehouseHandler(warehouseService *service.WarehouseService) *WarehouseH
 func (h *WarehouseHandler) GetWarehouses(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
+	idBuilding := c.QueryInt("id_building")
 	search := c.Query("search")
 	sortBy := c.Query("sortBy", "")
 	sortDirection := c.QueryBool("sortDirection")
 	offset := (page - 1) * rows
 
-	total, err := h.warehouseService.GetTotal(search)
+	total, err := h.warehouseService.GetTotal(search, uint(idBuilding))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	warehouses, err := h.warehouseService.GetAll(offset, rows, search, sortBy, sortDirection)
+	warehouses, err := h.warehouseService.GetAll(offset, rows, search, sortBy, sortDirection, uint(idBuilding))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}

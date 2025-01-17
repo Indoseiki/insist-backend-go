@@ -7,7 +7,8 @@ import (
 type MstWarehouse struct {
 	ID          uint       `gorm:"primaryKey" json:"id"`
 	IDBuilding  uint       `json:"id_building,omitempty"`
-	Location    string     `json:"location,omitempty"`
+	Code        string     `json:"code,omitempty"`
+	Description string     `json:"description,omitempty"`
 	Remarks     string     `json:"remarks,omitempty"`
 	IDCreatedby uint       `json:"id_createdby,omitempty"`
 	IDUpdatedby uint       `json:"id_updatedby,omitempty"`

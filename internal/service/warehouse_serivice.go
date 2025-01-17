@@ -30,10 +30,14 @@ func (s *WarehouseService) GetByID(warehouseID uint) (*model.MstWarehouse, error
 	return &warehouse, nil
 }
 
-func (s *WarehouseService) GetTotal(search string) (int64, error) {
+func (s *WarehouseService) GetTotal(search string, idBuilding uint) (int64, error) {
 	var count int64
 
 	query := s.db.Model(&model.MstWarehouse{})
+
+	if idBuilding != 0 {
+		query = query.Where("id_building = ?", idBuilding)
+	}
 
 	if search != "" {
 		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
@@ -46,7 +50,7 @@ func (s *WarehouseService) GetTotal(search string) (int64, error) {
 	return count, nil
 }
 
-func (s *WarehouseService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.MstWarehouse, error) {
+func (s *WarehouseService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool, idBuilding uint) ([]model.MstWarehouse, error) {
 	var warehouses []model.MstWarehouse
 
 	query := s.db.Model(&model.MstWarehouse{}).Preload("Building", func(db *gorm.DB) *gorm.DB {
@@ -61,6 +65,10 @@ func (s *WarehouseService) GetAll(offset, limit int, search string, sortBy strin
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
 	} else {
 		query = query.Order("updated_at ASC")
+	}
+
+	if idBuilding != 0 {
+		query = query.Where("id_building = ?", idBuilding)
 	}
 
 	if search != "" {
