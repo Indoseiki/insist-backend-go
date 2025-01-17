@@ -34,10 +34,14 @@ func (s *SubSectionService) GetByID(buildingID uint) (*model.MstSubSection, erro
 	return &building, nil
 }
 
-func (s *SubSectionService) GetTotal(search string) (int64, error) {
+func (s *SubSectionService) GetTotal(search string, idSection uint) (int64, error) {
 	var count int64
 
 	query := s.db.Model(&model.MstSubSection{})
+
+	if idSection != 0 {
+		query = query.Where("id_section = ?", idSection)
+	}
 
 	if search != "" {
 		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
@@ -50,7 +54,7 @@ func (s *SubSectionService) GetTotal(search string) (int64, error) {
 	return count, nil
 }
 
-func (s *SubSectionService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.MstSubSection, error) {
+func (s *SubSectionService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool, idSection uint) ([]model.MstSubSection, error) {
 	var buildings []model.MstSubSection
 
 	query := s.db.Model(&model.MstSubSection{}).Preload("Section", func(db *gorm.DB) *gorm.DB {
@@ -69,6 +73,10 @@ func (s *SubSectionService) GetAll(offset, limit int, search string, sortBy stri
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
 	} else {
 		query = query.Order("updated_at ASC")
+	}
+
+	if idSection != 0 {
+		query = query.Where("id_section = ?", idSection)
 	}
 
 	if search != "" {
