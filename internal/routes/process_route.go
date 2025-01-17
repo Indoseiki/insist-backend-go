@@ -14,7 +14,7 @@ func ProcessRoutes(api fiber.Router, db *gorm.DB) {
 	processService := service.NewProcessService(db)
 	processHandler := handler.NewProcessHandler(processService)
 
-	process.Get("/", processHandler.GetAllProcess)
+	process.Get("/", processHandler.GetProcesses)
 	process.Get("/:id", processHandler.GetProcess)
 	process.Post("/", processHandler.CreateProcess)
 	process.Put("/:id", processHandler.UpdateProcess)

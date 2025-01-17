@@ -30,7 +30,7 @@ func NewProcessHandler(processService *service.ProcessService) *ProcessHandler {
 // @Failure 404 {object} map[string]interface{} "Not Found: No data found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
 // @Router /admin/master/process [get]
-func (h *ProcessHandler) GetAllProcess(c *fiber.Ctx) error {
+func (h *ProcessHandler) GetProcesses(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
 	search := c.Query("search")
