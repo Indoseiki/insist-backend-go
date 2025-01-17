@@ -1,5 +1,5 @@
 CREATE TABLE
-    mst_process (
+    mst_processes (
         id SERIAL PRIMARY KEY,
         code VARCHAR NOT NULL,
         description VARCHAR NOT NULL,

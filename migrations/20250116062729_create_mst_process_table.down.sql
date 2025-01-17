@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS mst_process;
+DROP TABLE IF EXISTS mst_processes;
