@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-type MstUoMs struct {
+type MstUoms struct {
 	ID          uint       `gorm:"primaryKey" json:"id"`
 	Code        string     `json:"code,omitempty"`
 	Description string     `json:"description,omitempty"`

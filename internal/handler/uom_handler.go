@@ -123,7 +123,7 @@ func (h *UoMHandler) GetUoM(c *fiber.Ctx) error {
 // @Tags UoM
 // @Accept json
 // @Produce json
-// @Param uom body model.MstUoMs true "UoM details"
+// @Param uom body model.MstUoms true "UoM details"
 // @Success 201 {object} map[string]interface{} "UoM created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
@@ -131,7 +131,7 @@ func (h *UoMHandler) GetUoM(c *fiber.Ctx) error {
 func (h *UoMHandler) CreateUoM(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
-	var uom model.MstUoMs
+	var uom model.MstUoms
 	if err := c.BodyParser(&uom); err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
 	}
@@ -158,7 +158,7 @@ func (h *UoMHandler) CreateUoM(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "UoM ID"
-// @Param uom body model.MstUoMs true "Updated uom details"
+// @Param uom body model.MstUoms true "Updated uom details"
 // @Success 200 {object} map[string]interface{} "UoM updated successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 404 {object} map[string]interface{} "Not Found: UoM not found"
@@ -172,7 +172,7 @@ func (h *UoMHandler) UpdateUoM(c *fiber.Ctx) error {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 
-	var uom *model.MstUoMs
+	var uom *model.MstUoms
 	uom, err = h.uomService.GetByID(uint(ID))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "UoM not found"))

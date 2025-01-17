@@ -15,8 +15,8 @@ func NewUoMService(db *gorm.DB) *UoMService {
 	return &UoMService{db: db}
 }
 
-func (s *UoMService) GetByID(uomID uint) (*model.MstUoMs, error) {
-	var uom model.MstUoMs
+func (s *UoMService) GetByID(uomID uint) (*model.MstUoms, error) {
+	var uom model.MstUoms
 	if err := s.db.Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
@@ -31,7 +31,7 @@ func (s *UoMService) GetByID(uomID uint) (*model.MstUoMs, error) {
 func (s *UoMService) GetTotal(search string) (int64, error) {
 	var count int64
 
-	query := s.db.Model(&model.MstUoMs{})
+	query := s.db.Model(&model.MstUoms{})
 
 	if search != "" {
 		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
@@ -44,10 +44,10 @@ func (s *UoMService) GetTotal(search string) (int64, error) {
 	return count, nil
 }
 
-func (s *UoMService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.MstUoMs, error) {
-	var uoms []model.MstUoMs
+func (s *UoMService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.MstUoms, error) {
+	var uoms []model.MstUoms
 
-	query := s.db.Model(&model.MstUoMs{}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
+	query := s.db.Model(&model.MstUoms{}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
@@ -70,14 +70,14 @@ func (s *UoMService) GetAll(offset, limit int, search string, sortBy string, sor
 	return uoms, nil
 }
 
-func (s *UoMService) Create(uom *model.MstUoMs) error {
+func (s *UoMService) Create(uom *model.MstUoms) error {
 	return s.db.Create(uom).Error
 }
 
-func (s *UoMService) Update(uom *model.MstUoMs) error {
+func (s *UoMService) Update(uom *model.MstUoms) error {
 	return s.db.Save(uom).Error
 }
 
-func (s *UoMService) Delete(uom *model.MstUoMs) error {
+func (s *UoMService) Delete(uom *model.MstUoms) error {
 	return s.db.Delete(uom).Error
 }
