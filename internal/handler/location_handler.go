@@ -33,17 +33,18 @@ func NewLocationHandler(locationService *service.LocationService) *LocationHandl
 func (h *LocationHandler) GetLocations(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
+	idWarehouse := c.QueryInt("id_warehouse")
 	search := c.Query("search")
 	sortBy := c.Query("sortBy", "")
 	sortDirection := c.QueryBool("sortDirection")
 	offset := (page - 1) * rows
 
-	total, err := h.locationService.GetTotal(search)
+	total, err := h.locationService.GetTotal(search, uint(idWarehouse))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	locations, err := h.locationService.GetAll(offset, rows, search, sortBy, sortDirection)
+	locations, err := h.locationService.GetAll(offset, rows, search, sortBy, sortDirection, uint(idWarehouse))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}

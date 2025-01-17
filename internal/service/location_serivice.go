@@ -30,13 +30,17 @@ func (s *LocationService) GetByID(locationID uint) (*model.MstLocation, error) {
 	return &location, nil
 }
 
-func (s *LocationService) GetTotal(search string) (int64, error) {
+func (s *LocationService) GetTotal(search string, idWarehouse uint) (int64, error) {
 	var count int64
 
 	query := s.db.Model(&model.MstLocation{})
 
+	if idWarehouse != 0 {
+		query = query.Where("id_warehouse = ?", idWarehouse)
+	}
+
 	if search != "" {
-		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Where("location ILIKE ?", "%"+search+"%")
 	}
 
 	if err := query.Count(&count).Error; err != nil {
@@ -46,7 +50,7 @@ func (s *LocationService) GetTotal(search string) (int64, error) {
 	return count, nil
 }
 
-func (s *LocationService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.MstLocation, error) {
+func (s *LocationService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool, idWarehouse uint) ([]model.MstLocation, error) {
 	var locations []model.MstLocation
 
 	query := s.db.Model(&model.MstLocation{}).Preload("Warehouse", func(db *gorm.DB) *gorm.DB {
@@ -63,8 +67,12 @@ func (s *LocationService) GetAll(offset, limit int, search string, sortBy string
 		query = query.Order("updated_at ASC")
 	}
 
+	if idWarehouse != 0 {
+		query = query.Where("id_warehouse = ?", idWarehouse)
+	}
+
 	if search != "" {
-		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Where("location ILIKE ?", "%"+search+"%")
 	}
 
 	if err := query.Find(&locations).Error; err != nil {

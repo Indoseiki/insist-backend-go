@@ -17,5 +17,5 @@ type MstLocation struct {
 	CreatedBy *MstUser `gorm:"foreignKey:ID;references:IDCreatedby" json:"created_by,omitempty"`
 	UpdatedBy *MstUser `gorm:"foreignKey:ID;references:IDUpdatedby" json:"updated_by,omitempty"`
 
-	Warehouse *MstBuilding `gorm:"foreignKey:ID;references:IDWarehouse" json:"warehouse,omitempty"`
+	Warehouse *MstWarehouse `gorm:"foreignKey:ID;references:IDWarehouse" json:"warehouse,omitempty"`
 }
