@@ -33,17 +33,18 @@ func NewSectionHandler(sectionService *service.SectionService) *SectionHandler {
 func (h *SectionHandler) GetSections(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
+	idFCS := c.QueryInt("id_fcs")
 	search := c.Query("search")
 	sortBy := c.Query("sortBy", "")
 	sortDirection := c.QueryBool("sortDirection")
 	offset := (page - 1) * rows
 
-	total, err := h.sectionService.GetTotal(search)
+	total, err := h.sectionService.GetTotal(search, uint(idFCS))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	sections, err := h.sectionService.GetAll(offset, rows, search, sortBy, sortDirection)
+	sections, err := h.sectionService.GetAll(offset, rows, search, sortBy, sortDirection, uint(idFCS))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
