@@ -16,7 +16,8 @@ func ApprovalRoutes(api fiber.Router, db *gorm.DB) {
 
 	approval.Get("/", approvalHandler.GetApprovals)
 	approval.Get("/:id", approvalHandler.GetApproval)
+	approval.Get("/:id/menu", approvalHandler.GetApprovalByIdMenu)
 	approval.Post("/", approvalHandler.CreateApproval)
-	approval.Put("/", approvalHandler.UpdateApproval)
+	approval.Put("/:id", approvalHandler.UpdateApproval)
 	approval.Delete("/:id", approvalHandler.DeleteApproval)
 }

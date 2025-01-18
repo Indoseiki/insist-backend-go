@@ -27,6 +27,19 @@ func (s *ApprovalService) GetByID(approvalID uint) (*model.MstApproval, error) {
 	return &approval, nil
 }
 
+func (s *ApprovalService) GetByIdMenu(idMenu uint) ([]model.MstApproval, error) {
+	var approvals []model.MstApproval
+	if err := s.db.Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, name")
+	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, name")
+	}).Where("id_menu = ?", idMenu).Order("level ASC").Find(&approvals).Error; err != nil {
+		return nil, err
+	}
+
+	return approvals, nil
+}
+
 func (s *ApprovalService) GetTotal(search string) (int64, error) {
 	var count int64
 
@@ -63,11 +76,11 @@ func (s *ApprovalService) GetAll(offset, limit int, search string) ([]model.MstA
 	return approvals, nil
 }
 
-func (s *ApprovalService) Create(approval []*model.MstApproval) error {
+func (s *ApprovalService) Create(approval *model.MstApproval) error {
 	return s.db.Create(approval).Error
 }
 
-func (s *ApprovalService) Update(approval []*model.MstApproval) error {
+func (s *ApprovalService) Update(approval *model.MstApproval) error {
 	return s.db.Save(approval).Error
 }
 

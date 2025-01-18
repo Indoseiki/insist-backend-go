@@ -114,6 +114,31 @@ func (h *ApprovalHandler) GetApproval(c *fiber.Ctx) error {
 	return pkg.Response(c, fiber.StatusOK, "Approval found successfully", approval)
 }
 
+// GetApprovalByIdMenu godoc
+// @Summary Get approval by ID Menu
+// @Description Retrieve a specific approval by its ID Menu
+// @Tags Approval
+// @Accept json
+// @Produce json
+// @Param id path int true "menu ID"
+// @Success 200 {object} map[string]interface{} "Approval found successfully"
+// @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID Menu"
+// @Failure 404 {object} map[string]interface{} "Not Found: Approval not found"
+// @Router /admin/approval/{id}/menu [get]
+func (h *ApprovalHandler) GetApprovalByIdMenu(c *fiber.Ctx) error {
+	ID, err := c.ParamsInt("id")
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
+	}
+
+	approval, err := h.approvalService.GetByIdMenu(uint(ID))
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Approval not found"))
+	}
+
+	return pkg.Response(c, fiber.StatusOK, "Approval found successfully", approval)
+}
+
 // CreateApproval godoc
 // @Summary Create a new approval
 // @Description Create a new approval with the provided details
@@ -131,26 +156,23 @@ func (h *ApprovalHandler) CreateApproval(c *fiber.Ctx) error {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusUnauthorized, "Invalid userID"))
 	}
 
-	var approvals []*model.MstApproval
-	if err := c.BodyParser(&approvals); err != nil {
+	var approval *model.MstApproval
+	if err := c.BodyParser(&approval); err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, "Failed to parse request body"))
 	}
 
-	for _, approval := range approvals {
-		approval.IDCreatedby = userID
-		approval.IDUpdatedby = userID
-	}
+	approval.IDCreatedby = userID
+	approval.IDUpdatedby = userID
 
-	if err := h.approvalService.Create(approvals); err != nil {
+	if err := h.approvalService.Create(approval); err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	var ids []uint
-	for _, approval := range approvals {
-		ids = append(ids, approval.ID)
+	result := map[string]interface{}{
+		"id": approval.ID,
 	}
 
-	return pkg.Response(c, fiber.StatusCreated, "Approvals created successfully", ids)
+	return pkg.Response(c, fiber.StatusCreated, "Approval created successfully", result)
 }
 
 // UpdateApproval godoc
@@ -167,26 +189,36 @@ func (h *ApprovalHandler) CreateApproval(c *fiber.Ctx) error {
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
 // @Router /admin/approval/{id} [put]
 func (h *ApprovalHandler) UpdateApproval(c *fiber.Ctx) error {
-	userID, ok := c.Locals("userID").(uint)
-	if !ok {
-		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusUnauthorized, "Invalid or missing user ID"))
-	}
+	userID := c.Locals("userID").(uint)
 
-	var approvals []*model.MstApproval
-	if err := c.BodyParser(&approvals); err != nil {
+	ID, err := c.ParamsInt("id")
+	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 
-	for _, approval := range approvals {
-		approval.IDUpdatedby = userID
+	var approval *model.MstApproval
+	approval, err = h.approvalService.GetByID(uint(ID))
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Approval not found"))
 	}
 
-	err := h.approvalService.Update(approvals)
+	if err := c.BodyParser(approval); err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
+	}
+
+	approval.ID = uint(ID)
+	approval.IDUpdatedby = userID
+
+	err = h.approvalService.Update(approval)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	return pkg.Response(c, fiber.StatusOK, "Approvals updated successfully", nil)
+	result := map[string]interface{}{
+		"id": approval.ID,
+	}
+
+	return pkg.Response(c, fiber.StatusOK, "Approval updated successfully", result)
 }
 
 // DeleteApproval godoc

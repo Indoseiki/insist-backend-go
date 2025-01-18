@@ -15,6 +15,7 @@ func ApprovalUserRoutes(api fiber.Router, db *gorm.DB) {
 	approvalUserHandler := handler.NewApprovalUserHandler(approvalUserService)
 
 	approvalUser.Get("/", approvalUserHandler.GetApprovalUsers)
+	approvalUser.Get("/:id/approval", approvalUserHandler.GetApprovalUsersByIdApproval)
 	approvalUser.Put("/:id", approvalUserHandler.UpdateApprovalUser)
 	approvalUser.Delete("/:id", approvalUserHandler.DeleteApprovalUser)
 }

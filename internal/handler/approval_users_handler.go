@@ -19,6 +19,31 @@ func NewApprovalUserHandler(approvalUserService *service.ApprovalUserService) *A
 	return &ApprovalUserHandler{approvalUserService: approvalUserService}
 }
 
+// GetApproval UsersByIdMenu godoc
+// @Summary Get approval by ID Approval
+// @Description Retrieve a specific approval by its ID Approval
+// @Tags Approval Users
+// @Accept json
+// @Produce json
+// @Param id path int true "menu ID"
+// @Success 200 {object} map[string]interface{} "Approval Users found successfully"
+// @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID Approval"
+// @Failure 404 {object} map[string]interface{} "Not Found: Approval Users not found"
+// @Router /admin/approval/{id}/menu [get]
+func (h *ApprovalUserHandler) GetApprovalUsersByIdApproval(c *fiber.Ctx) error {
+	ID, err := c.ParamsInt("id")
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
+	}
+
+	approval, err := h.approvalUserService.GetByIdApproval(uint(ID))
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Approval Users not found"))
+	}
+
+	return pkg.Response(c, fiber.StatusOK, "Approval Users found successfully", approval)
+}
+
 // GetApprovalUsers godoc
 // @Summary Get a list of approval userss
 // @Description Retrieves approval userss with pagination and optional search

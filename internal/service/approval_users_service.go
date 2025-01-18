@@ -14,6 +14,19 @@ func NewApprovalUserService(db *gorm.DB) *ApprovalUserService {
 	return &ApprovalUserService{db: db}
 }
 
+func (s *ApprovalUserService) GetByIdApproval(idApproval uint) ([]model.MstApprovalUser, error) {
+	var approvalUsers []model.MstApprovalUser
+	if err := s.db.Preload("User", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, name")
+	}).Preload("Approval", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, id_menu, status, action, count, level")
+	}).Where("id_approval = ?", idApproval).Find(&approvalUsers).Error; err != nil {
+		return nil, err
+	}
+
+	return approvalUsers, nil
+}
+
 func (s *ApprovalUserService) GetTotal(search string) (int64, error) {
 	var count int64
 
