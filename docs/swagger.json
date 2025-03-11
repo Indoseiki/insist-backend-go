@@ -331,6 +331,51 @@
             }
         },
         "/admin/approval-user/{id}": {
+            "get": {
+                "description": "Retrieve a specific approval by its ID Approval",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Approval Users"
+                ],
+                "summary": "Get approval by ID Approval",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "menu ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Approval Users found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID Approval",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Approval Users not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
             "delete": {
                 "description": "Delete a approval users by its ID",
                 "tags": [
@@ -524,6 +569,207 @@
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/approval/{id}/menu": {
+            "get": {
+                "description": "Retrieve a specific approval by its ID Menu",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Approval"
+                ],
+                "summary": "Get approval by ID Menu",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "menu ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Approval found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID Menu",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Approval not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/master/ActivityLog": {
+            "get": {
+                "description": "Retrieves Activity Logs with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Activity Log"
+                ],
+                "summary": "Get a list of Activity Logs",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering Activity Log",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new Activity Log with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Activity Log"
+                ],
+                "summary": "Create a new Activity Log",
+                "parameters": [
+                    {
+                        "description": "Activity Log details",
+                        "name": "ActivityLog",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ActivityLog"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Activity Log created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/master/ActivityLog/{id}": {
+            "get": {
+                "description": "Retrieve a specific Activity Log by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Activity Log"
+                ],
+                "summary": "Get Activity Log by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Activity Log ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Activity Log found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Activity Log not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -1900,7 +2146,7 @@
                 }
             },
             "post": {
-                "description": "Create a new Role Menu with the provided details",
+                "description": "Update a new Role Menu with the provided details",
                 "consumes": [
                     "application/json"
                 ],
@@ -1910,7 +2156,7 @@
                 "tags": [
                     "Role Menu"
                 ],
-                "summary": "Create a new Role Menu",
+                "summary": "Update a new Role Menu",
                 "parameters": [
                     {
                         "description": "Role Menu details",
@@ -1986,52 +2232,6 @@
                     },
                     "404": {
                         "description": "Not Found: Role Menu not found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete a RoleMenu by its ID",
-                "tags": [
-                    "Role Menu"
-                ],
-                "summary": "Delete a roleMenu",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Role Menu ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Role Menu deleted successfully",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request: Invalid ID",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found: RoleMenu not found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -2406,52 +2606,6 @@
                     },
                     "404": {
                         "description": "Not Found: User Role not found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete a UserRole by its ID",
-                "tags": [
-                    "User Role"
-                ],
-                "summary": "Delete a userRole",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User Role ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User Role deleted successfully",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request: Invalid ID",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found: UserRole not found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -2979,7 +3133,14 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized: Incorrect password, inactive user, or two-factor authentication required",
+                        "description": "Unauthorized: Incorrect password, inactive user",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden: Two-factor authentication required",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -3379,6 +3540,2766 @@
                     }
                 }
             }
+        },
+        "/egd/master/process": {
+            "get": {
+                "description": "Retrieves processs with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Process"
+                ],
+                "summary": "Get a list of processs",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering process",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new process with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Process"
+                ],
+                "summary": "Create a new process",
+                "parameters": [
+                    {
+                        "description": "Process details",
+                        "name": "process",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstProcess"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Process created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/egd/master/process/{id}": {
+            "get": {
+                "description": "Retrieve a specific process by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Process"
+                ],
+                "summary": "Get process by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Process found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Process not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing process by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Process"
+                ],
+                "summary": "Update an existing process",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated process details",
+                        "name": "process",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstProcess"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Process updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Process not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a process by its ID",
+                "tags": [
+                    "Process"
+                ],
+                "summary": "Delete a process",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Process ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Process deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Process not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/egd/master/uom": {
+            "get": {
+                "description": "Retrieves uoms with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "UoM"
+                ],
+                "summary": "Get a list of uoms",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering uom",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new uom with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "UoM"
+                ],
+                "summary": "Create a new uom",
+                "parameters": [
+                    {
+                        "description": "UoM details",
+                        "name": "uom",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstUoms"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "UoM created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/egd/master/uom/{id}": {
+            "get": {
+                "description": "Retrieve a specific uom by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "UoM"
+                ],
+                "summary": "Get uom by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "UoM ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UoM found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: UoM not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing uom by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "UoM"
+                ],
+                "summary": "Update an existing uom",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "UoM ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated uom details",
+                        "name": "uom",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstUoms"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UoM updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: UoM not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a uom by its ID",
+                "tags": [
+                    "UoM"
+                ],
+                "summary": "Delete a uom",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "UoM ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UoM deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: UoM not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/mnt/master/machine": {
+            "get": {
+                "description": "Retrieves machines with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Machine"
+                ],
+                "summary": "Get a list of machines",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering machine",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new machine with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Machine"
+                ],
+                "summary": "Create a new machine",
+                "parameters": [
+                    {
+                        "description": "Machine and its details",
+                        "name": "machine",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateMachinePayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Machine created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/mnt/master/machine/{id}": {
+            "get": {
+                "description": "Retrieve a specific machine by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Machine"
+                ],
+                "summary": "Get machine by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Machine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Machine found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Machine not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing machine by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Machine"
+                ],
+                "summary": "Update an existing machine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Machine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated machine details",
+                        "name": "machine",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstMachine"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Machine updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Machine not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a machine by its ID",
+                "tags": [
+                    "Machine"
+                ],
+                "summary": "Delete a machine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Machine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Machine deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Machine not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/mnt/master/machine/{id}/detail": {
+            "get": {
+                "description": "Fetches a list of machine details with optional sorting, and pagination.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Machine"
+                ],
+                "summary": "Retrieve machine details with pagination, sorting, and filtering",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page number (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of rows per page (default: 20)",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Column name to sort by",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Sorting direction: true for ascending, false for descending",
+                        "name": "sortDirection",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Machine details retrieved successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No machine details found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/mnt/master/machine/{id}/revision": {
+            "put": {
+                "description": "This endpoint creates a new revision of an existing machine by copying its details and updating the revision number.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Machine"
+                ],
+                "summary": "Create a new revision of an existing machine",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Detail Machine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Machine revision created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid machine ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Machine not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/mnt/master/machine/{id}/status": {
+            "get": {
+                "description": "Fetches a list of machine status details for a specific machine ID with optional sorting and pagination.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Machine"
+                ],
+                "summary": "Retrieve machine status details with pagination, sorting, and filtering",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Machine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number (default: 1)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Number of rows per page (default: 20)",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Column name to sort by (default: detail_updated_at)",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Sorting direction: false for ascending, true for descending (default: false)",
+                        "name": "sortDirection",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Machine status details retrieved successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid query parameters",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No machine status details found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Adds a new status entry for a specific machine ID.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Machine"
+                ],
+                "summary": "Create a new machine status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Machine ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Machine status details",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstMachineStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Machine status created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/pid/master/location": {
+            "get": {
+                "description": "Retrieves locations with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Get a list of locations",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering location",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new location with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Create a new location",
+                "parameters": [
+                    {
+                        "description": "Location details",
+                        "name": "location",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstLocation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Location created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/pid/master/location/{id}": {
+            "get": {
+                "description": "Retrieve a specific location by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Get location by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Location ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Location not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing location by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Update an existing location",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Location ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated location details",
+                        "name": "location",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstLocation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Location not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a location by its ID",
+                "tags": [
+                    "Location"
+                ],
+                "summary": "Delete a location",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Location ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Location not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/pid/master/warehouse": {
+            "get": {
+                "description": "Retrieves warehouses with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Get a list of warehouses",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering warehouse",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new warehouse with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Create a new warehouse",
+                "parameters": [
+                    {
+                        "description": "Warehouse details",
+                        "name": "warehouse",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstWarehouse"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Warehouse created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/pid/master/warehouse/{id}": {
+            "get": {
+                "description": "Retrieve a specific warehouse by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Get warehouse by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Warehouse ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warehouse found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Warehouse not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing warehouse by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Update an existing warehouse",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Warehouse ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated warehouse details",
+                        "name": "warehouse",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstWarehouse"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warehouse updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Warehouse not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a warehouse by its ID",
+                "tags": [
+                    "Warehouse"
+                ],
+                "summary": "Delete a warehouse",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Warehouse ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warehouse deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Warehouse not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prd/master/building": {
+            "get": {
+                "description": "Retrieves buildings with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Building"
+                ],
+                "summary": "Get a list of buildings",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering building",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new building with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Building"
+                ],
+                "summary": "Create a new building",
+                "parameters": [
+                    {
+                        "description": "Building details",
+                        "name": "building",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstBuilding"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Building created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prd/master/building/{id}": {
+            "get": {
+                "description": "Retrieve a specific building by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Building"
+                ],
+                "summary": "Get building by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Building ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Building found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Building not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing building by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Building"
+                ],
+                "summary": "Update an existing building",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Building ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated building details",
+                        "name": "building",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstBuilding"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Building updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Building not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a building by its ID",
+                "tags": [
+                    "Building"
+                ],
+                "summary": "Delete a building",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Building ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Building deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Building not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prd/master/fcs": {
+            "get": {
+                "description": "Retrieves fcs with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FCS"
+                ],
+                "summary": "Get a list of fcs",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering fcs",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new fcs with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FCS"
+                ],
+                "summary": "Create a new fcs",
+                "parameters": [
+                    {
+                        "description": "FCS details",
+                        "name": "fcs",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstFCS"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "FCS created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prd/master/fcs-building": {
+            "get": {
+                "description": "Retrieves FCS Buildings with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FCS Building"
+                ],
+                "summary": "Get a list of FCS Buildings",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering FCS Building",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new FCS Building with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FCS Building"
+                ],
+                "summary": "Create a new FCS Building",
+                "parameters": [
+                    {
+                        "description": "FCS Building details",
+                        "name": "FCSBuilding",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.FCSBuildings"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "FCS Building created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prd/master/fcs-building/{id}": {
+            "get": {
+                "description": "Retrieve a specific FCS Building by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FCS Building"
+                ],
+                "summary": "Get FCS Building by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "FCS Building ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "FCS Building found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: FCS Building not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prd/master/fcs/{id}": {
+            "get": {
+                "description": "Retrieve a specific fcs by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FCS"
+                ],
+                "summary": "Get fcs by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "FCS ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "FCS found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: FCS not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing fcs by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "FCS"
+                ],
+                "summary": "Update an existing fcs",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "FCS ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated fcs details",
+                        "name": "fcs",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstFCS"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "FCS updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: FCS not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a fcs by its ID",
+                "tags": [
+                    "FCS"
+                ],
+                "summary": "Delete a fcs",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "FCS ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "FCS deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: FCS not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prd/master/section": {
+            "get": {
+                "description": "Retrieves sections with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Section"
+                ],
+                "summary": "Get a list of sections",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering section",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new section with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Section"
+                ],
+                "summary": "Create a new section",
+                "parameters": [
+                    {
+                        "description": "Section details",
+                        "name": "section",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstSection"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Section created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prd/master/section/{id}": {
+            "get": {
+                "description": "Retrieve a specific section by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Section"
+                ],
+                "summary": "Get section by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Section ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Section found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Section not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing section by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Section"
+                ],
+                "summary": "Update an existing section",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Section ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated section details",
+                        "name": "section",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstSection"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Section updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Section not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a section by its ID",
+                "tags": [
+                    "Section"
+                ],
+                "summary": "Delete a section",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Section ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Section deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Section not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prd/master/sub-section": {
+            "get": {
+                "description": "Retrieves subSections with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SubSection"
+                ],
+                "summary": "Get a list of subSections",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering subSection",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new subSection with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SubSection"
+                ],
+                "summary": "Create a new subSection",
+                "parameters": [
+                    {
+                        "description": "SubSection details",
+                        "name": "subSection",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstSubSection"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "SubSection created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/prd/master/sub-section/{id}": {
+            "get": {
+                "description": "Retrieve a specific subSection by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SubSection"
+                ],
+                "summary": "Get subSection by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SubSection ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SubSection found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: SubSection not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing subSection by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SubSection"
+                ],
+                "summary": "Update an existing subSection",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SubSection ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated subSection details",
+                        "name": "subSection",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstSubSection"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SubSection updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: SubSection not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a subSection by its ID",
+                "tags": [
+                    "SubSection"
+                ],
+                "summary": "Delete a subSection",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "SubSection ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "SubSection deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: SubSection not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -3401,6 +6322,34 @@
                 },
                 "new_password": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.CreateMachinePayload": {
+            "type": "object",
+            "properties": {
+                "machine": {
+                    "$ref": "#/definitions/model.MstMachine"
+                },
+                "machine_detail": {
+                    "$ref": "#/definitions/model.MstMachineDetail"
+                },
+                "machine_status": {
+                    "$ref": "#/definitions/model.MstMachineStatus"
+                }
+            }
+        },
+        "dto.FCSBuildings": {
+            "type": "object",
+            "properties": {
+                "id_building": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "id_fcs": {
+                    "type": "integer"
                 }
             }
         },
@@ -3451,6 +6400,44 @@
                 },
                 "id_user": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.ActivityLog": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_user": {
+                    "type": "integer"
+                },
+                "ip_address": {
+                    "type": "string"
+                },
+                "is_success": {
+                    "type": "boolean"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "os": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "user_agent": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         },
@@ -3521,6 +6508,44 @@
                 }
             }
         },
+        "model.MstBuilding": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "plant": {
+                    "type": "string"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
         "model.MstDept": {
             "type": "object",
             "properties": {
@@ -3553,6 +6578,64 @@
                 },
                 "updated_by": {
                     "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
+        "model.MstFCS": {
+            "type": "object",
+            "properties": {
+                "buildings": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.MstFCSBuilding"
+                    }
+                },
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
+        "model.MstFCSBuilding": {
+            "type": "object",
+            "properties": {
+                "building": {
+                    "$ref": "#/definitions/model.MstBuilding"
+                },
+                "fcs": {
+                    "$ref": "#/definitions/model.MstFCS"
+                },
+                "id_building": {
+                    "type": "integer"
+                },
+                "id_fcs": {
+                    "type": "integer"
                 }
             }
         },
@@ -3591,6 +6674,254 @@
                 }
             }
         },
+        "model.MstLocation": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "id_warehouse": {
+                    "type": "integer"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "warehouse": {
+                    "$ref": "#/definitions/model.MstWarehouse"
+                }
+            }
+        },
+        "model.MstMachine": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
+        "model.MstMachineDetail": {
+            "type": "object",
+            "properties": {
+                "asset_num": {
+                    "type": "string"
+                },
+                "asset_num_old": {
+                    "type": "string"
+                },
+                "cavity": {
+                    "type": "integer"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "code_old": {
+                    "type": "string"
+                },
+                "coolant": {
+                    "type": "string"
+                },
+                "coolant_capacity": {
+                    "type": "number"
+                },
+                "coolant_uom": {
+                    "$ref": "#/definitions/model.MstUoms"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dimension_front": {
+                    "type": "number"
+                },
+                "dimension_front_uom": {
+                    "$ref": "#/definitions/model.MstUoms"
+                },
+                "dimension_side": {
+                    "type": "number"
+                },
+                "dimension_side_uom": {
+                    "$ref": "#/definitions/model.MstUoms"
+                },
+                "electricity": {
+                    "type": "number"
+                },
+                "electricity_uom": {
+                    "$ref": "#/definitions/model.MstUoms"
+                },
+                "hydraulic": {
+                    "type": "string"
+                },
+                "hydraulic_capacity": {
+                    "type": "number"
+                },
+                "hydraulic_uom": {
+                    "$ref": "#/definitions/model.MstUoms"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_coolant_uom": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_dimension_front_uom": {
+                    "type": "integer"
+                },
+                "id_dimension_side_uom": {
+                    "type": "integer"
+                },
+                "id_electricity_uom": {
+                    "type": "integer"
+                },
+                "id_hydraulic_uom": {
+                    "type": "integer"
+                },
+                "id_lubricant_uom": {
+                    "type": "integer"
+                },
+                "id_machine": {
+                    "type": "integer"
+                },
+                "id_power_uom": {
+                    "type": "integer"
+                },
+                "id_sliding_uom": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "lubricant": {
+                    "type": "string"
+                },
+                "lubricant_capacity": {
+                    "type": "number"
+                },
+                "lubricant_uom": {
+                    "$ref": "#/definitions/model.MstUoms"
+                },
+                "machine": {
+                    "$ref": "#/definitions/model.MstMachine"
+                },
+                "maker": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "power": {
+                    "type": "number"
+                },
+                "power_uom": {
+                    "$ref": "#/definitions/model.MstUoms"
+                },
+                "rev_no": {
+                    "type": "integer"
+                },
+                "sliding": {
+                    "type": "string"
+                },
+                "sliding_capacity": {
+                    "type": "number"
+                },
+                "sliding_uom": {
+                    "$ref": "#/definitions/model.MstUoms"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
+        "model.MstMachineStatus": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_machine": {
+                    "type": "integer"
+                },
+                "id_reason": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "machine": {
+                    "$ref": "#/definitions/model.MstMachine"
+                },
+                "reason": {
+                    "$ref": "#/definitions/model.MstReason"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
         "model.MstMenu": {
             "type": "object",
             "properties": {
@@ -3621,9 +6952,6 @@
                 "id_updatedby": {
                     "type": "integer"
                 },
-                "is_delete": {
-                    "type": "integer"
-                },
                 "label": {
                     "type": "string"
                 },
@@ -3640,13 +6968,45 @@
                     "type": "string"
                 },
                 "role_permissions": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.MstRolePermission"
-                    }
+                    "$ref": "#/definitions/model.MstRolePermission"
                 },
                 "sort": {
                     "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
+        "model.MstProcess": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "remarks": {
+                    "type": "string"
                 },
                 "updated_at": {
                     "type": "string"
@@ -3784,6 +7144,129 @@
                 }
             }
         },
+        "model.MstSection": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "fcs": {
+                    "$ref": "#/definitions/model.MstFCS"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_fcs": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
+        "model.MstSubSection": {
+            "type": "object",
+            "properties": {
+                "building": {
+                    "$ref": "#/definitions/model.MstBuilding"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_building": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_section": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "section": {
+                    "$ref": "#/definitions/model.MstSection"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
+        "model.MstUoms": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
         "model.MstUser": {
             "type": "object",
             "properties": {
@@ -3862,6 +7345,47 @@
                     "$ref": "#/definitions/model.MstRole"
                 },
                 "user": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
+        "model.MstWarehouse": {
+            "type": "object",
+            "properties": {
+                "building": {
+                    "$ref": "#/definitions/model.MstBuilding"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_building": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
                     "$ref": "#/definitions/model.MstUser"
                 }
             }

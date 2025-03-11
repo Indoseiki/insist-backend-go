@@ -14,6 +14,24 @@ definitions:
       new_password:
         type: string
     type: object
+  dto.CreateMachinePayload:
+    properties:
+      machine:
+        $ref: '#/definitions/model.MstMachine'
+      machine_detail:
+        $ref: '#/definitions/model.MstMachineDetail'
+      machine_status:
+        $ref: '#/definitions/model.MstMachineStatus'
+    type: object
+  dto.FCSBuildings:
+    properties:
+      id_building:
+        items:
+          type: integer
+        type: array
+      id_fcs:
+        type: integer
+    type: object
   dto.RoleMenus:
     properties:
       id_menu:
@@ -45,6 +63,31 @@ definitions:
         type: array
       id_user:
         type: integer
+    type: object
+  model.ActivityLog:
+    properties:
+      action:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      id_user:
+        type: integer
+      ip_address:
+        type: string
+      is_success:
+        type: boolean
+      message:
+        type: string
+      os:
+        type: string
+      user:
+        $ref: '#/definitions/model.MstUser'
+      user_agent:
+        type: string
+      username:
+        type: string
     type: object
   model.MstApproval:
     properties:
@@ -90,6 +133,31 @@ definitions:
       user:
         $ref: '#/definitions/model.MstUser'
     type: object
+  model.MstBuilding:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      plant:
+        type: string
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstDept:
     properties:
       code:
@@ -112,6 +180,44 @@ definitions:
         type: string
       updated_by:
         $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstFCS:
+    properties:
+      buildings:
+        items:
+          $ref: '#/definitions/model.MstFCSBuilding'
+        type: array
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstFCSBuilding:
+    properties:
+      building:
+        $ref: '#/definitions/model.MstBuilding'
+      fcs:
+        $ref: '#/definitions/model.MstFCS'
+      id_building:
+        type: integer
+      id_fcs:
+        type: integer
     type: object
   model.MstKeyValue:
     properties:
@@ -136,6 +242,170 @@ definitions:
       value:
         type: string
     type: object
+  model.MstLocation:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      id_warehouse:
+        type: integer
+      location:
+        type: string
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+      warehouse:
+        $ref: '#/definitions/model.MstWarehouse'
+    type: object
+  model.MstMachine:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstMachineDetail:
+    properties:
+      asset_num:
+        type: string
+      asset_num_old:
+        type: string
+      cavity:
+        type: integer
+      code:
+        type: string
+      code_old:
+        type: string
+      coolant:
+        type: string
+      coolant_capacity:
+        type: number
+      coolant_uom:
+        $ref: '#/definitions/model.MstUoms'
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      dimension_front:
+        type: number
+      dimension_front_uom:
+        $ref: '#/definitions/model.MstUoms'
+      dimension_side:
+        type: number
+      dimension_side_uom:
+        $ref: '#/definitions/model.MstUoms'
+      electricity:
+        type: number
+      electricity_uom:
+        $ref: '#/definitions/model.MstUoms'
+      hydraulic:
+        type: string
+      hydraulic_capacity:
+        type: number
+      hydraulic_uom:
+        $ref: '#/definitions/model.MstUoms'
+      id:
+        type: integer
+      id_coolant_uom:
+        type: integer
+      id_createdby:
+        type: integer
+      id_dimension_front_uom:
+        type: integer
+      id_dimension_side_uom:
+        type: integer
+      id_electricity_uom:
+        type: integer
+      id_hydraulic_uom:
+        type: integer
+      id_lubricant_uom:
+        type: integer
+      id_machine:
+        type: integer
+      id_power_uom:
+        type: integer
+      id_sliding_uom:
+        type: integer
+      id_updatedby:
+        type: integer
+      lubricant:
+        type: string
+      lubricant_capacity:
+        type: number
+      lubricant_uom:
+        $ref: '#/definitions/model.MstUoms'
+      machine:
+        $ref: '#/definitions/model.MstMachine'
+      maker:
+        type: string
+      name:
+        type: string
+      power:
+        type: number
+      power_uom:
+        $ref: '#/definitions/model.MstUoms'
+      rev_no:
+        type: integer
+      sliding:
+        type: string
+      sliding_capacity:
+        type: number
+      sliding_uom:
+        $ref: '#/definitions/model.MstUoms'
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstMachineStatus:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_machine:
+        type: integer
+      id_reason:
+        type: integer
+      id_updatedby:
+        type: integer
+      machine:
+        $ref: '#/definitions/model.MstMachine'
+      reason:
+        $ref: '#/definitions/model.MstReason'
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstMenu:
     properties:
       children:
@@ -156,8 +426,6 @@ definitions:
         type: integer
       id_updatedby:
         type: integer
-      is_delete:
-        type: integer
       label:
         type: string
       menu_approvals:
@@ -169,11 +437,32 @@ definitions:
       path:
         type: string
       role_permissions:
-        items:
-          $ref: '#/definitions/model.MstRolePermission'
-        type: array
+        $ref: '#/definitions/model.MstRolePermission'
       sort:
         type: integer
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstProcess:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      remarks:
+        type: string
       updated_at:
         type: string
       updated_by:
@@ -263,6 +552,87 @@ definitions:
       role:
         $ref: '#/definitions/model.MstRole'
     type: object
+  model.MstSection:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      fcs:
+        $ref: '#/definitions/model.MstFCS'
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_fcs:
+        type: integer
+      id_updatedby:
+        type: integer
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstSubSection:
+    properties:
+      building:
+        $ref: '#/definitions/model.MstBuilding'
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_building:
+        type: integer
+      id_createdby:
+        type: integer
+      id_section:
+        type: integer
+      id_updatedby:
+        type: integer
+      remarks:
+        type: string
+      section:
+        $ref: '#/definitions/model.MstSection'
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstUoms:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstUser:
     properties:
       created_at:
@@ -315,6 +685,33 @@ definitions:
       role:
         $ref: '#/definitions/model.MstRole'
       user:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstWarehouse:
+    properties:
+      building:
+        $ref: '#/definitions/model.MstBuilding'
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_building:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
         $ref: '#/definitions/model.MstUser'
     type: object
   model.PasswordReset:
@@ -600,6 +997,37 @@ paths:
       summary: Delete a approval users
       tags:
       - Approval User
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific approval by its ID Approval
+      parameters:
+      - description: menu ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Approval Users found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID Approval'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Approval Users not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get approval by ID Approval
+      tags:
+      - Approval Users
   /admin/approval/{id}:
     delete:
       description: Delete a approval by its ID
@@ -706,6 +1134,143 @@ paths:
       summary: Update an existing approval
       tags:
       - Approval
+  /admin/approval/{id}/menu:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific approval by its ID Menu
+      parameters:
+      - description: menu ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Approval found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID Menu'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Approval not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get approval by ID Menu
+      tags:
+      - Approval
+  /admin/master/ActivityLog:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Activity Logs with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering Activity Log
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Activity Logs
+      tags:
+      - Activity Log
+    post:
+      consumes:
+      - application/json
+      description: Create a new Activity Log with the provided details
+      parameters:
+      - description: Activity Log details
+        in: body
+        name: ActivityLog
+        required: true
+        schema:
+          $ref: '#/definitions/model.ActivityLog'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Activity Log created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Activity Log
+      tags:
+      - Activity Log
+  /admin/master/ActivityLog/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific Activity Log by its ID
+      parameters:
+      - description: Activity Log ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Activity Log found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Activity Log not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Activity Log by ID
+      tags:
+      - Activity Log
   /admin/master/department:
     get:
       consumes:
@@ -1647,7 +2212,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Create a new Role Menu with the provided details
+      description: Update a new Role Menu with the provided details
       parameters:
       - description: Role Menu details
         in: body
@@ -1673,42 +2238,10 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Create a new Role Menu
+      summary: Update a new Role Menu
       tags:
       - Role Menu
   /admin/master/role-menu/{id}:
-    delete:
-      description: Delete a RoleMenu by its ID
-      parameters:
-      - description: Role Menu ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: Role Menu deleted successfully
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: 'Bad Request: Invalid ID'
-          schema:
-            additionalProperties: true
-            type: object
-        "404":
-          description: 'Not Found: RoleMenu not found'
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Delete a roleMenu
-      tags:
-      - Role Menu
     get:
       consumes:
       - application/json
@@ -1966,38 +2499,6 @@ paths:
       tags:
       - User Role
   /admin/master/user-role/{id}:
-    delete:
-      description: Delete a UserRole by its ID
-      parameters:
-      - description: User Role ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: User Role deleted successfully
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: 'Bad Request: Invalid ID'
-          schema:
-            additionalProperties: true
-            type: object
-        "404":
-          description: 'Not Found: UserRole not found'
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Delete a userRole
-      tags:
-      - User Role
     get:
       consumes:
       - application/json
@@ -2422,8 +2923,12 @@ paths:
             additionalProperties: true
             type: object
         "401":
-          description: 'Unauthorized: Incorrect password, inactive user, or two-factor
-            authentication required'
+          description: 'Unauthorized: Incorrect password, inactive user'
+          schema:
+            additionalProperties: true
+            type: object
+        "403":
+          description: 'Forbidden: Two-factor authentication required'
           schema:
             additionalProperties: true
             type: object
@@ -2664,4 +3169,1898 @@ paths:
       summary: Get user information
       tags:
       - Authentication
+  /egd/master/process:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves processs with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering process
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of processs
+      tags:
+      - Process
+    post:
+      consumes:
+      - application/json
+      description: Create a new process with the provided details
+      parameters:
+      - description: Process details
+        in: body
+        name: process
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstProcess'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Process created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new process
+      tags:
+      - Process
+  /egd/master/process/{id}:
+    delete:
+      description: Delete a process by its ID
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Process deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Process not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a process
+      tags:
+      - Process
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific process by its ID
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Process found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Process not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get process by ID
+      tags:
+      - Process
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing process by its ID
+      parameters:
+      - description: Process ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated process details
+        in: body
+        name: process
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstProcess'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Process updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Process not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing process
+      tags:
+      - Process
+  /egd/master/uom:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves uoms with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering uom
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of uoms
+      tags:
+      - UoM
+    post:
+      consumes:
+      - application/json
+      description: Create a new uom with the provided details
+      parameters:
+      - description: UoM details
+        in: body
+        name: uom
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstUoms'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: UoM created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new uom
+      tags:
+      - UoM
+  /egd/master/uom/{id}:
+    delete:
+      description: Delete a uom by its ID
+      parameters:
+      - description: UoM ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: UoM deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: UoM not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a uom
+      tags:
+      - UoM
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific uom by its ID
+      parameters:
+      - description: UoM ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: UoM found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: UoM not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get uom by ID
+      tags:
+      - UoM
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing uom by its ID
+      parameters:
+      - description: UoM ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated uom details
+        in: body
+        name: uom
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstUoms'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: UoM updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: UoM not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing uom
+      tags:
+      - UoM
+  /mnt/master/machine:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves machines with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering machine
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of machines
+      tags:
+      - Machine
+    post:
+      consumes:
+      - application/json
+      description: Create a new machine with the provided details
+      parameters:
+      - description: Machine and its details
+        in: body
+        name: machine
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateMachinePayload'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Machine created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new machine
+      tags:
+      - Machine
+  /mnt/master/machine/{id}:
+    delete:
+      description: Delete a machine by its ID
+      parameters:
+      - description: Machine ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Machine deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Machine not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a machine
+      tags:
+      - Machine
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific machine by its ID
+      parameters:
+      - description: Machine ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Machine found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Machine not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get machine by ID
+      tags:
+      - Machine
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing machine by its ID
+      parameters:
+      - description: Machine ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated machine details
+        in: body
+        name: machine
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstMachine'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Machine updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Machine not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing machine
+      tags:
+      - Machine
+  /mnt/master/machine/{id}/detail:
+    get:
+      consumes:
+      - application/json
+      description: Fetches a list of machine details with optional sorting, and pagination.
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Number of rows per page (default: 20)'
+        in: query
+        name: rows
+        type: integer
+      - description: Column name to sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sorting direction: true for ascending, false for descending'
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Machine details retrieved successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid query parameters'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No machine details found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Retrieve machine details with pagination, sorting, and filtering
+      tags:
+      - Machine
+  /mnt/master/machine/{id}/revision:
+    put:
+      consumes:
+      - application/json
+      description: This endpoint creates a new revision of an existing machine by
+        copying its details and updating the revision number.
+      parameters:
+      - description: Detail Machine ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Machine revision created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid machine ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Machine not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new revision of an existing machine
+      tags:
+      - Machine
+  /mnt/master/machine/{id}/status:
+    get:
+      consumes:
+      - application/json
+      description: Fetches a list of machine status details for a specific machine
+        ID with optional sorting and pagination.
+      parameters:
+      - description: Machine ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Number of rows per page (default: 20)'
+        in: query
+        name: rows
+        type: integer
+      - description: 'Column name to sort by (default: detail_updated_at)'
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sorting direction: false for ascending, true for descending
+          (default: false)'
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Machine status details retrieved successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid query parameters'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No machine status details found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Retrieve machine status details with pagination, sorting, and filtering
+      tags:
+      - Machine
+    put:
+      consumes:
+      - application/json
+      description: Adds a new status entry for a specific machine ID.
+      parameters:
+      - description: Machine ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Machine status details
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstMachineStatus'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Machine status created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new machine status
+      tags:
+      - Machine
+  /pid/master/location:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves locations with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering location
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of locations
+      tags:
+      - Location
+    post:
+      consumes:
+      - application/json
+      description: Create a new location with the provided details
+      parameters:
+      - description: Location details
+        in: body
+        name: location
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstLocation'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Location created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new location
+      tags:
+      - Location
+  /pid/master/location/{id}:
+    delete:
+      description: Delete a location by its ID
+      parameters:
+      - description: Location ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Location deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Location not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a location
+      tags:
+      - Location
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific location by its ID
+      parameters:
+      - description: Location ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Location found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Location not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get location by ID
+      tags:
+      - Location
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing location by its ID
+      parameters:
+      - description: Location ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated location details
+        in: body
+        name: location
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstLocation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Location updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Location not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing location
+      tags:
+      - Location
+  /pid/master/warehouse:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves warehouses with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering warehouse
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of warehouses
+      tags:
+      - Warehouse
+    post:
+      consumes:
+      - application/json
+      description: Create a new warehouse with the provided details
+      parameters:
+      - description: Warehouse details
+        in: body
+        name: warehouse
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstWarehouse'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Warehouse created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new warehouse
+      tags:
+      - Warehouse
+  /pid/master/warehouse/{id}:
+    delete:
+      description: Delete a warehouse by its ID
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Warehouse deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Warehouse not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a warehouse
+      tags:
+      - Warehouse
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific warehouse by its ID
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Warehouse found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Warehouse not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get warehouse by ID
+      tags:
+      - Warehouse
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing warehouse by its ID
+      parameters:
+      - description: Warehouse ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated warehouse details
+        in: body
+        name: warehouse
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstWarehouse'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Warehouse updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Warehouse not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing warehouse
+      tags:
+      - Warehouse
+  /prd/master/building:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves buildings with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering building
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of buildings
+      tags:
+      - Building
+    post:
+      consumes:
+      - application/json
+      description: Create a new building with the provided details
+      parameters:
+      - description: Building details
+        in: body
+        name: building
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstBuilding'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Building created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new building
+      tags:
+      - Building
+  /prd/master/building/{id}:
+    delete:
+      description: Delete a building by its ID
+      parameters:
+      - description: Building ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Building deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Building not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a building
+      tags:
+      - Building
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific building by its ID
+      parameters:
+      - description: Building ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Building found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Building not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get building by ID
+      tags:
+      - Building
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing building by its ID
+      parameters:
+      - description: Building ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated building details
+        in: body
+        name: building
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstBuilding'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Building updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Building not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing building
+      tags:
+      - Building
+  /prd/master/fcs:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves fcs with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering fcs
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of fcs
+      tags:
+      - FCS
+    post:
+      consumes:
+      - application/json
+      description: Create a new fcs with the provided details
+      parameters:
+      - description: FCS details
+        in: body
+        name: fcs
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstFCS'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: FCS created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new fcs
+      tags:
+      - FCS
+  /prd/master/fcs-building:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves FCS Buildings with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering FCS Building
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of FCS Buildings
+      tags:
+      - FCS Building
+    post:
+      consumes:
+      - application/json
+      description: Create a new FCS Building with the provided details
+      parameters:
+      - description: FCS Building details
+        in: body
+        name: FCSBuilding
+        required: true
+        schema:
+          $ref: '#/definitions/dto.FCSBuildings'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: FCS Building created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new FCS Building
+      tags:
+      - FCS Building
+  /prd/master/fcs-building/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific FCS Building by its ID
+      parameters:
+      - description: FCS Building ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: FCS Building found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: FCS Building not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get FCS Building by ID
+      tags:
+      - FCS Building
+  /prd/master/fcs/{id}:
+    delete:
+      description: Delete a fcs by its ID
+      parameters:
+      - description: FCS ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: FCS deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: FCS not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a fcs
+      tags:
+      - FCS
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific fcs by its ID
+      parameters:
+      - description: FCS ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: FCS found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: FCS not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get fcs by ID
+      tags:
+      - FCS
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing fcs by its ID
+      parameters:
+      - description: FCS ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated fcs details
+        in: body
+        name: fcs
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstFCS'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: FCS updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: FCS not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing fcs
+      tags:
+      - FCS
+  /prd/master/section:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves sections with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering section
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of sections
+      tags:
+      - Section
+    post:
+      consumes:
+      - application/json
+      description: Create a new section with the provided details
+      parameters:
+      - description: Section details
+        in: body
+        name: section
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstSection'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Section created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new section
+      tags:
+      - Section
+  /prd/master/section/{id}:
+    delete:
+      description: Delete a section by its ID
+      parameters:
+      - description: Section ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Section deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Section not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a section
+      tags:
+      - Section
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific section by its ID
+      parameters:
+      - description: Section ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Section found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Section not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get section by ID
+      tags:
+      - Section
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing section by its ID
+      parameters:
+      - description: Section ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated section details
+        in: body
+        name: section
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstSection'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Section updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Section not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing section
+      tags:
+      - Section
+  /prd/master/sub-section:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves subSections with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering subSection
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of subSections
+      tags:
+      - SubSection
+    post:
+      consumes:
+      - application/json
+      description: Create a new subSection with the provided details
+      parameters:
+      - description: SubSection details
+        in: body
+        name: subSection
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstSubSection'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: SubSection created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new subSection
+      tags:
+      - SubSection
+  /prd/master/sub-section/{id}:
+    delete:
+      description: Delete a subSection by its ID
+      parameters:
+      - description: SubSection ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: SubSection deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: SubSection not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a subSection
+      tags:
+      - SubSection
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific subSection by its ID
+      parameters:
+      - description: SubSection ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: SubSection found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: SubSection not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get subSection by ID
+      tags:
+      - SubSection
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing subSection by its ID
+      parameters:
+      - description: SubSection ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated subSection details
+        in: body
+        name: subSection
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstSubSection'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: SubSection updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: SubSection not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing subSection
+      tags:
+      - SubSection
 swagger: "2.0"

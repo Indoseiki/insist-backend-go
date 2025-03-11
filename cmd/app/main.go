@@ -65,6 +65,10 @@ func main() {
 	routes.ProcessRoutes(apiEGD, config.DBINSIST)
 	routes.UoMRoutes(apiEGD, config.DBINSIST)
 
+	// MNT Routes
+	apiMNT := api.Group("/mnt")
+	routes.MachineRoutes(apiMNT, config.DBINSIST)
+
 	// PID Routes
 	apiPID := api.Group("/pid", middleware.VerifyToken)
 	routes.WarehouseRoutes(apiPID, config.DBINSIST)
