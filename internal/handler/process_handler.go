@@ -29,7 +29,7 @@ func NewProcessHandler(processService *service.ProcessService) *ProcessHandler {
 // @Success 200 {object} map[string]interface{} "Data found successfully"
 // @Failure 404 {object} map[string]interface{} "Not Found: No data found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/process [get]
+// @Router /egd/master/process [get]
 func (h *ProcessHandler) GetProcesses(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
@@ -102,7 +102,7 @@ func (h *ProcessHandler) GetProcesses(c *fiber.Ctx) error {
 // @Success 200 {object} map[string]interface{} "Process found successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: Process not found"
-// @Router /admin/master/process/{id} [get]
+// @Router /egd/master/process/{id} [get]
 func (h *ProcessHandler) GetProcess(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {
@@ -127,7 +127,7 @@ func (h *ProcessHandler) GetProcess(c *fiber.Ctx) error {
 // @Success 201 {object} map[string]interface{} "Process created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/process [post]
+// @Router /egd/master/process [post]
 func (h *ProcessHandler) CreateProcess(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -163,7 +163,7 @@ func (h *ProcessHandler) CreateProcess(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 404 {object} map[string]interface{} "Not Found: Process not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/process/{id} [put]
+// @Router /egd/master/process/{id} [put]
 func (h *ProcessHandler) UpdateProcess(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -206,7 +206,7 @@ func (h *ProcessHandler) UpdateProcess(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: Process not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/process/{id} [delete]
+// @Router /egd/master/process/{id} [delete]
 func (h *ProcessHandler) DeleteProcess(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {

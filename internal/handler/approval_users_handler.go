@@ -29,7 +29,7 @@ func NewApprovalUserHandler(approvalUserService *service.ApprovalUserService) *A
 // @Success 200 {object} map[string]interface{} "Approval Users found successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID Approval"
 // @Failure 404 {object} map[string]interface{} "Not Found: Approval Users not found"
-// @Router /admin/approval/{id}/menu [get]
+// @Router /admin/approval-user/{id} [get]
 func (h *ApprovalUserHandler) GetApprovalUsersByIdApproval(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {

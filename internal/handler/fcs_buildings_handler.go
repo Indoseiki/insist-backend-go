@@ -30,7 +30,7 @@ func NewFCSBuildingHandler(userRoleService *service.FCSBuildingService) *FCSBuil
 // @Success 200 {object} map[string]interface{} "Data found successfully"
 // @Failure 404 {object} map[string]interface{} "Not Found: No data found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/user-role [get]
+// @Router /prd/master/fcs-building [get]
 func (h *FCSBuildingHandler) GetFCSBuildings(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
@@ -100,7 +100,7 @@ func (h *FCSBuildingHandler) GetFCSBuildings(c *fiber.Ctx) error {
 // @Success 200 {object} map[string]interface{} "FCS Building found successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: FCS Building not found"
-// @Router /admin/master/user-role/{id} [get]
+// @Router /prd/master/fcs-building/{id} [get]
 func (h *FCSBuildingHandler) GetFCSBuilding(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {
@@ -125,7 +125,7 @@ func (h *FCSBuildingHandler) GetFCSBuilding(c *fiber.Ctx) error {
 // @Success 201 {object} map[string]interface{} "FCS Building created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/user-role [post]
+// @Router /prd/master/fcs-building [post]
 func (h *FCSBuildingHandler) UpdateFCSBuilding(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {

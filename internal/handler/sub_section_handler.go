@@ -29,7 +29,7 @@ func NewSubSectionHandler(subSectionService *service.SubSectionService) *SubSect
 // @Success 200 {object} map[string]interface{} "Data found successfully"
 // @Failure 404 {object} map[string]interface{} "Not Found: No data found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/sub-section [get]
+// @Router /prd/master/sub-section [get]
 func (h *SubSectionHandler) GetSubSections(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
@@ -102,7 +102,7 @@ func (h *SubSectionHandler) GetSubSections(c *fiber.Ctx) error {
 // @Success 200 {object} map[string]interface{} "SubSection found successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: SubSection not found"
-// @Router /admin/master/sub-section/{id} [get]
+// @Router /prd/master/sub-section/{id} [get]
 func (h *SubSectionHandler) GetSubSection(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {
@@ -127,7 +127,7 @@ func (h *SubSectionHandler) GetSubSection(c *fiber.Ctx) error {
 // @Success 201 {object} map[string]interface{} "SubSection created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/sub-section [post]
+// @Router /prd/master/sub-section [post]
 func (h *SubSectionHandler) CreateSubSection(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -163,7 +163,7 @@ func (h *SubSectionHandler) CreateSubSection(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 404 {object} map[string]interface{} "Not Found: SubSection not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/sub-section/{id} [put]
+// @Router /prd/master/sub-section/{id} [put]
 func (h *SubSectionHandler) UpdateSubSection(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -206,7 +206,7 @@ func (h *SubSectionHandler) UpdateSubSection(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: SubSection not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/sub-section/{id} [delete]
+// @Router /prd/master/sub-section/{id} [delete]
 func (h *SubSectionHandler) DeleteSubSection(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {

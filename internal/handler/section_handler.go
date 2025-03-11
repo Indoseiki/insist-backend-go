@@ -29,7 +29,7 @@ func NewSectionHandler(sectionService *service.SectionService) *SectionHandler {
 // @Success 200 {object} map[string]interface{} "Data found successfully"
 // @Failure 404 {object} map[string]interface{} "Not Found: No data found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/section [get]
+// @Router /prd/master/section [get]
 func (h *SectionHandler) GetSections(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
@@ -102,7 +102,7 @@ func (h *SectionHandler) GetSections(c *fiber.Ctx) error {
 // @Success 200 {object} map[string]interface{} "Section found successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: Section not found"
-// @Router /admin/master/section/{id} [get]
+// @Router /prd/master/section/{id} [get]
 func (h *SectionHandler) GetSection(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {
@@ -127,7 +127,7 @@ func (h *SectionHandler) GetSection(c *fiber.Ctx) error {
 // @Success 201 {object} map[string]interface{} "Section created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/section [post]
+// @Router /prd/master/section [post]
 func (h *SectionHandler) CreateSection(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -163,7 +163,7 @@ func (h *SectionHandler) CreateSection(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 404 {object} map[string]interface{} "Not Found: Section not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/section/{id} [put]
+// @Router /prd/master/section/{id} [put]
 func (h *SectionHandler) UpdateSection(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -206,7 +206,7 @@ func (h *SectionHandler) UpdateSection(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: Section not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/section/{id} [delete]
+// @Router /prd/master/section/{id} [delete]
 func (h *SectionHandler) DeleteSection(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {

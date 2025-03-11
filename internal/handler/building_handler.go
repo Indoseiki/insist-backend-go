@@ -29,7 +29,7 @@ func NewBuildingHandler(buildingService *service.BuildingService) *BuildingHandl
 // @Success 200 {object} map[string]interface{} "Data found successfully"
 // @Failure 404 {object} map[string]interface{} "Not Found: No data found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/building [get]
+// @Router /prd/master/building [get]
 func (h *BuildingHandler) GetBuildings(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
@@ -103,7 +103,7 @@ func (h *BuildingHandler) GetBuildings(c *fiber.Ctx) error {
 // @Success 200 {object} map[string]interface{} "Building found successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: Building not found"
-// @Router /admin/master/building/{id} [get]
+// @Router /prd/master/building/{id} [get]
 func (h *BuildingHandler) GetBuilding(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {
@@ -128,7 +128,7 @@ func (h *BuildingHandler) GetBuilding(c *fiber.Ctx) error {
 // @Success 201 {object} map[string]interface{} "Building created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/building [post]
+// @Router /prd/master/building [post]
 func (h *BuildingHandler) CreateBuilding(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -164,7 +164,7 @@ func (h *BuildingHandler) CreateBuilding(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 404 {object} map[string]interface{} "Not Found: Building not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/building/{id} [put]
+// @Router /prd/master/building/{id} [put]
 func (h *BuildingHandler) UpdateBuilding(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -207,7 +207,7 @@ func (h *BuildingHandler) UpdateBuilding(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: Building not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/building/{id} [delete]
+// @Router /prd/master/building/{id} [delete]
 func (h *BuildingHandler) DeleteBuilding(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {

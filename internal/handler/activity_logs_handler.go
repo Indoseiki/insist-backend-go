@@ -130,7 +130,7 @@ func (h *ActivityLogHandler) GetActivityLog(c *fiber.Ctx) error {
 // @Tags Activity Log
 // @Accept json
 // @Produce json
-// @Param Activity Log body model.ActivityLog true "Activity Log details"
+// @Param ActivityLog body model.ActivityLog true "Activity Log details"
 // @Success 201 {object} map[string]interface{} "Activity Log created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
