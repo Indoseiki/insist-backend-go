@@ -7434,7 +7434,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:5050/api",
+	Host:             "localhost:8050/api",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "INSIST REST API Documentation",

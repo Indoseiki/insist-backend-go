@@ -735,7 +735,7 @@ definitions:
       updated_at:
         type: string
     type: object
-host: localhost:5050/api
+host: localhost:8050/api
 info:
   contact: {}
   description: INSIST adalah sistem manajemen manufaktur milik PT. Indoseiki Metalutama.

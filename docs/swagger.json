@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:5050/api",
+    "host": "localhost:8050/api",
     "basePath": "/",
     "paths": {
         "/admin/approval": {

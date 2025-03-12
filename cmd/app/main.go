@@ -1,7 +1,7 @@
 // @title           INSIST REST API Documentation
 // @version         1.0
 // @description     INSIST adalah sistem manajemen manufaktur milik PT. Indoseiki Metalutama. REST API Documentation untuk INSIST menjelaskan bagaimana pengembang dapat menggunakan API ini untuk mengelola dan mengakses data manufaktur perusahaan dengan aman dan efisien, menggunakan protokol HTTP dan metode REST seperti GET, POST, PUT, & DELETE.
-// @host            localhost:5050/api
+// @host            localhost:8050/api
 // @BasePath        /
 package main
 
@@ -66,7 +66,7 @@ func main() {
 	routes.UoMRoutes(apiEGD, config.DBINSIST)
 
 	// MNT Routes
-	apiMNT := api.Group("/mnt")
+	apiMNT := api.Group("/mnt", middleware.VerifyToken)
 	routes.MachineRoutes(apiMNT, config.DBINSIST)
 
 	// PID Routes
