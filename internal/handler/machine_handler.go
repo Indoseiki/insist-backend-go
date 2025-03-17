@@ -215,7 +215,7 @@ func (h *MachineHandler) UpdateMachine(c *fiber.Ctx) error {
 	}
 
 	result := map[string]interface{}{
-		"id_detail": machineDetail.ID,
+		"id": machineDetail.ID,
 	}
 
 	return pkg.Response(c, fiber.StatusOK, "Machine detail updated successfully", result)

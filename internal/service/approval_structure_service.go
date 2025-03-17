@@ -77,3 +77,19 @@ func (s *ApprovalStructureService) GetAll(offset, limit int, search string, sort
 
 	return approvalUsers, nil
 }
+
+func (s *ApprovalStructureService) GetAllByMenu(userID uint, path string) ([]model.ViewApprovalStructure, error) {
+	var approvalStructures []model.ViewApprovalStructure
+
+	query := s.db.Model(&model.ViewApprovalStructure{})
+
+	if path != "" {
+		query = query.Where("id_user = ? AND path = ?", userID, path)
+	}
+
+	if err := query.Find(&approvalStructures).Error; err != nil {
+		return nil, err
+	}
+
+	return approvalStructures, nil
+}

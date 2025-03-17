@@ -16,4 +16,5 @@ func ApprovalStructureRoutes(api fiber.Router, db *gorm.DB) {
 
 	approvalStructure.Get("/", approvalStructureHandler.GetApprovalStructures)
 	approvalStructure.Get("/:id", approvalStructureHandler.GetApprovalStructure)
+	approvalStructure.Get("/:id/menu", approvalStructureHandler.GetApprovalStructureByMenu)
 }

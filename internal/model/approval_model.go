@@ -21,3 +21,14 @@ type MstApproval struct {
 	Menu          *MstMenu           `gorm:"foreignKey:IDMenu;references:ID" json:"menu,omitempty"`
 	ApprovalUsers []*MstApprovalUser `gorm:"foreignKey:IDApproval" json:"approval_users,omitempty"`
 }
+
+type ViewApprovalStructure struct {
+	IDApproval uint   `json:"id_approval"`
+	IDUser     uint   `json:"id_user"`
+	Path       string `json:"path"`
+	Name       string `json:"name"`
+	Count      uint   `json:"count"`
+	Action     string `json:"action"`
+	Status     string `json:"status"`
+	Level      uint   `json:"level"`
+}

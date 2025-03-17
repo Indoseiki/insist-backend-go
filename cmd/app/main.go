@@ -59,6 +59,7 @@ func main() {
 	routes.ApprovalRoutes(apiADM, config.DBINSIST)
 	routes.ApprovalUserRoutes(apiADM, config.DBINSIST)
 	routes.ApprovalStructureRoutes(apiADM, config.DBINSIST)
+	routes.ApprovalHistoryRoutes(apiADM, config.DBINSIST)
 
 	// EGD Routes
 	apiEGD := api.Group("/egd", middleware.VerifyToken)

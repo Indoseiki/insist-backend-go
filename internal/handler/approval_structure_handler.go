@@ -114,3 +114,29 @@ func (h *ApprovalStructureHandler) GetApprovalStructure(c *fiber.Ctx) error {
 
 	return pkg.Response(c, fiber.StatusOK, "Approval Structure found successfully", approvalStructure)
 }
+
+// GetApprovalStructureByMenu godoc
+// @Summary Get approval structure by menu path
+// @Description Retrieve approval structure based on the provided menu path
+// @Tags Approval Structure
+// @Accept json
+// @Produce json
+// @Param path query string true "Menu Path"
+// @Success 200 {object} map[string]interface{} "Approval Structure found successfully"
+// @Failure 400 {object} map[string]interface{} "Bad Request: Invalid path"
+// @Failure 404 {object} map[string]interface{} "Not Found: Approval Structure not found"
+// @Router /admin/approval-structure/menu [get]
+func (h *ApprovalStructureHandler) GetApprovalStructureByMenu(c *fiber.Ctx) error {
+	path := c.Query("path")
+	ID, err := c.ParamsInt("id")
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
+	}
+
+	approvalStructure, err := h.approvalStructureService.GetAllByMenu(uint(ID), path)
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Approval Structure by menu not found"))
+	}
+
+	return pkg.Response(c, fiber.StatusOK, "Approval Structure by menu found successfully", approvalStructure)
+}
