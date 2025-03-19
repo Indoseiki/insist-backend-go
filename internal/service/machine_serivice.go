@@ -2,7 +2,6 @@ package service
 
 import (
 	"insist-backend-golang/internal/model"
-	"log"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -36,8 +35,6 @@ func (s *MachineService) GetTotal(search string, reasonID uint, approval string)
 	if reasonID != 0 {
 		query = query.Where("id_reason = ?", reasonID)
 	}
-
-	log.Println(approval)
 
 	if approval != "" {
 		if approval == "-" {
