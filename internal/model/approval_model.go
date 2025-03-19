@@ -10,7 +10,7 @@ type MstApproval struct {
 	Status      string     `json:"status,omitempty"`
 	Action      string     `json:"action,omitempty"`
 	Count       uint       `json:"count,omitempty"`
-	Level       uint       `json:"level,omitempty"`
+	Level       int        `json:"level,omitempty"`
 	IDCreatedby uint       `json:"id_createdby,omitempty"`
 	IDUpdatedby uint       `json:"id_updatedby,omitempty"`
 	CreatedAt   *time.Time `gorm:"autoCreateTime" json:"created_at,omitempty"`
@@ -30,5 +30,5 @@ type ViewApprovalStructure struct {
 	Count      uint   `json:"count"`
 	Action     string `json:"action"`
 	Status     string `json:"status"`
-	Level      uint   `json:"level"`
+	Level      int    `json:"level"`
 }

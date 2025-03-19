@@ -2,6 +2,7 @@ package service
 
 import (
 	"insist-backend-golang/internal/model"
+	"log"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -27,10 +28,24 @@ func (s *MachineService) GetByID(machineID uint) (*model.ViewMstMachine, error) 
 	return &machine, nil
 }
 
-func (s *MachineService) GetTotal(search string) (int64, error) {
+func (s *MachineService) GetTotal(search string, reasonID uint, approval string) (int64, error) {
 	var count int64
 
 	query := s.db.Model(&model.ViewMstMachine{})
+
+	if reasonID != 0 {
+		query = query.Where("id_reason = ?", reasonID)
+	}
+
+	log.Println(approval)
+
+	if approval != "" {
+		if approval == "-" {
+			query = query.Where("approval_status IS NULL")
+		} else {
+			query = query.Where("approval_status = ?", approval)
+		}
+	}
 
 	if search != "" {
 		query = query.Where("code ILIKE ? OR description ILIKE ? OR name ILIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%")
@@ -43,7 +58,7 @@ func (s *MachineService) GetTotal(search string) (int64, error) {
 	return count, nil
 }
 
-func (s *MachineService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.ViewMstMachine, error) {
+func (s *MachineService) GetAll(offset, limit int, search string, reasonID uint, approval string, sortBy string, sortDirection bool) ([]model.ViewMstMachine, error) {
 	var machines []model.ViewMstMachine
 
 	query := s.db.Model(&model.ViewMstMachine{}).Offset(offset).Limit(limit)
@@ -52,6 +67,18 @@ func (s *MachineService) GetAll(offset, limit int, search string, sortBy string,
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
 	} else {
 		query = query.Order("machine_updated_at ASC")
+	}
+
+	if reasonID != 0 {
+		query = query.Where("id_reason = ?", reasonID)
+	}
+
+	if approval != "" {
+		if approval == "-" {
+			query = query.Where("approval_status IS NULL")
+		} else {
+			query = query.Where("approval_status = ?", approval)
+		}
 	}
 
 	if search != "" {

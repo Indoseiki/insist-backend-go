@@ -10,6 +10,7 @@ import (
 
 func ApprovalHistoryRoutes(api fiber.Router, db *gorm.DB) {
 	approvalHistory := api.Group("approval-history")
+	approvalNotification := api.Group("approval-notification")
 
 	approvalHistoryService := service.NewApprovalHistoryService(db)
 	approvalHistoryHandler := handler.NewApprovalHistoryHandler(approvalHistoryService)
@@ -19,4 +20,6 @@ func ApprovalHistoryRoutes(api fiber.Router, db *gorm.DB) {
 	approvalHistory.Post("/", approvalHistoryHandler.CreateApprovalHistory)
 	approvalHistory.Put("/:id", approvalHistoryHandler.UpdateApprovalHistory)
 	approvalHistory.Delete("/:id", approvalHistoryHandler.DeleteApprovalHistory)
+
+	approvalNotification.Get("/", approvalHistoryHandler.GetApprovalNotifications)
 }

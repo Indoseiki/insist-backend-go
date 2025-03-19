@@ -35,15 +35,17 @@ func (h *ReasonHandler) GetReasons(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
 	menuID := c.QueryInt("id_menu", 0)
+	path := c.Query("path")
+	key := c.Query("key")
 	search := c.Query("search")
 	offset := (page - 1) * rows
 
-	total, err := h.reasonService.GetTotal(search, uint(menuID))
+	total, err := h.reasonService.GetTotal(search, path, key, uint(menuID))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	reasons, err := h.reasonService.GetAll(offset, rows, search, uint(menuID))
+	reasons, err := h.reasonService.GetAll(offset, rows, search, path, key, uint(menuID))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}

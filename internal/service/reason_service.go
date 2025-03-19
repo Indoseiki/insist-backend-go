@@ -29,17 +29,26 @@ func (s *ReasonService) GetByID(reasonID uint) (*model.MstReason, error) {
 	return &reason, nil
 }
 
-func (s *ReasonService) GetTotal(search string, menuID uint) (int64, error) {
+func (s *ReasonService) GetTotal(search, path string, key string, menuID uint) (int64, error) {
 	var count int64
 
-	query := s.db.Model(&model.MstReason{})
+	query := s.db.Model(&model.MstReason{}).
+		Joins("JOIN mst_menus ON mst_menus.id = mst_reasons.id_menu")
 
 	if menuID != 0 {
-		query = query.Where("id_menu = ?", menuID)
+		query = query.Where("mst_reasons.id_menu = ?", menuID)
+	}
+
+	if path != "" {
+		query = query.Where("mst_menus.path = ?", path)
+	}
+
+	if key != "" {
+		query = query.Where("mst_reasons.key = ?", key)
 	}
 
 	if search != "" {
-		query = query.Where("key ILIKE ? OR code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%")
+		query = query.Where("mst_reasons.key ILIKE ? OR mst_reasons.code ILIKE ? OR mst_reasons.description ILIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%")
 	}
 
 	if err := query.Count(&count).Error; err != nil {
@@ -49,23 +58,37 @@ func (s *ReasonService) GetTotal(search string, menuID uint) (int64, error) {
 	return count, nil
 }
 
-func (s *ReasonService) GetAll(offset, limit int, search string, menuID uint) ([]model.MstReason, error) {
+func (s *ReasonService) GetAll(offset, limit int, search, path string, key string, menuID uint) ([]model.MstReason, error) {
 	var reasons []model.MstReason
 
-	query := s.db.Model(&model.MstReason{}).Preload("Menu", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, label")
-	}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, name")
-	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, name")
-	}).Offset(offset).Limit(limit)
+	query := s.db.Model(&model.MstReason{}).
+		Joins("JOIN mst_menus ON mst_menus.id = mst_reasons.id_menu").
+		Preload("Menu", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id, label, path")
+		}).
+		Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id, name")
+		}).
+		Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id, name")
+		}).
+		Offset(offset).
+		Limit(limit)
 
 	if menuID != 0 {
-		query = query.Where("id_menu = ?", menuID)
+		query = query.Where("mst_reasons.id_menu = ?", menuID)
+	}
+
+	if path != "" {
+		query = query.Where("mst_menus.path = ?", path)
+	}
+
+	if key != "" {
+		query = query.Where("mst_reasons.key = ?", key)
 	}
 
 	if search != "" {
-		query = query.Where("key ILIKE ? OR code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%")
+		query = query.Where("mst_reasons.key ILIKE ? OR mst_reasons.code ILIKE ? OR mst_reasons.description ILIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%")
 	}
 
 	if err := query.Find(&reasons).Error; err != nil {

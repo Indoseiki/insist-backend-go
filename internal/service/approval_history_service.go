@@ -77,3 +77,19 @@ func (s *ApprovalHistoryService) Update(approvalHistory *model.ApprovalHistory) 
 func (s *ApprovalHistoryService) Delete(approvalHistory *model.ApprovalHistory) error {
 	return s.db.Delete(approvalHistory).Error
 }
+
+func (s *ApprovalHistoryService) GetNotification(userID uint) ([]model.ViewApprovalNotification, error) {
+	var approvalNotifications []model.ViewApprovalNotification
+
+	query := s.db.Model(&model.ViewApprovalNotification{})
+
+	if userID != 0 {
+		query = query.Where("next_id_user = ?", userID)
+	}
+
+	if err := query.Find(&approvalNotifications).Error; err != nil {
+		return nil, err
+	}
+
+	return approvalNotifications, nil
+}

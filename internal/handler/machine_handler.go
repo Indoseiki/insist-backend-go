@@ -6,6 +6,7 @@ import (
 	"insist-backend-golang/internal/service"
 	"insist-backend-golang/pkg"
 	"math"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -34,17 +35,19 @@ func NewMachineHandler(machineService *service.MachineService) *MachineHandler {
 func (h *MachineHandler) GetMachines(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
+	reasonID := c.QueryInt("id_reason", 0)
+	approval := c.Query("approval")
 	search := c.Query("search")
 	sortBy := c.Query("sortBy", "")
 	sortDirection := c.QueryBool("sortDirection")
 	offset := (page - 1) * rows
 
-	total, err := h.machineService.GetTotal(search)
+	total, err := h.machineService.GetTotal(search, uint(reasonID), approval)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	machines, err := h.machineService.GetAll(offset, rows, search, sortBy, sortDirection)
+	machines, err := h.machineService.GetAll(offset, rows, search, uint(reasonID), approval, sortBy, sortDirection)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
@@ -312,6 +315,9 @@ func (h *MachineHandler) RevisionMachine(c *fiber.Ctx) error {
 	newMachineDetail.RevNo += 1
 	newMachineDetail.IDCreatedby = userID
 	newMachineDetail.IDUpdatedby = userID
+	now := time.Now()
+	newMachineDetail.CreatedAt = &now
+	newMachineDetail.UpdatedAt = &now
 
 	tx := h.machineService.BeginTx()
 

@@ -29,7 +29,7 @@ func NewApprovalHistoryHandler(approvalHistoryService *service.ApprovalHistorySe
 // @Success 200 {object} map[string]interface{} "Data found successfully"
 // @Failure 404 {object} map[string]interface{} "Not Found: No data found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /prd/master/approvalHistory [get]
+// @Router /admin/approval-history [get]
 func (h *ApprovalHistoryHandler) GetApprovalHistories(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
@@ -101,7 +101,7 @@ func (h *ApprovalHistoryHandler) GetApprovalHistories(c *fiber.Ctx) error {
 // @Success 200 {object} map[string]interface{} "Approval History found successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: ApprovalHistory not found"
-// @Router /prd/master/approvalHistory/{id} [get]
+// @Router /admin/approval-history/{id} [get]
 func (h *ApprovalHistoryHandler) GetApprovalHistory(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {
@@ -126,7 +126,7 @@ func (h *ApprovalHistoryHandler) GetApprovalHistory(c *fiber.Ctx) error {
 // @Success 201 {object} map[string]interface{} "Approval History created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /prd/master/approvalHistory [post]
+// @Router /admin/approval-history [post]
 func (h *ApprovalHistoryHandler) CreateApprovalHistory(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -161,7 +161,7 @@ func (h *ApprovalHistoryHandler) CreateApprovalHistory(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 404 {object} map[string]interface{} "Not Found: ApprovalHistory not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /prd/master/approvalHistory/{id} [put]
+// @Router /admin/approval-history/{id} [put]
 func (h *ApprovalHistoryHandler) UpdateApprovalHistory(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -204,7 +204,7 @@ func (h *ApprovalHistoryHandler) UpdateApprovalHistory(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: ApprovalHistory not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /prd/master/approvalHistory/{id} [delete]
+// @Router /admin/approval-history/{id} [delete]
 func (h *ApprovalHistoryHandler) DeleteApprovalHistory(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {
@@ -222,4 +222,24 @@ func (h *ApprovalHistoryHandler) DeleteApprovalHistory(c *fiber.Ctx) error {
 	}
 
 	return pkg.Response(c, fiber.StatusOK, "Approval History deleted successfully", nil)
+}
+
+// GetApprovalNotifications godoc
+// @Summary Get approval notifications for the logged-in user
+// @Description Retrieve approval notifications based on the authenticated user's ID
+// @Tags Approval Notifications
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{} "Approval Notifications found successfully"
+// @Failure 404 {object} map[string]interface{} "Not Found: Approval Notifications not found"
+// @Router /admin/approval-history/notifications [get]
+func (h *ApprovalHistoryHandler) GetApprovalNotifications(c *fiber.Ctx) error {
+	userID := c.Locals("userID").(uint)
+
+	approvalNotifications, err := h.approvalHistoryService.GetNotification(userID)
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Approval Notification not found"))
+	}
+
+	return pkg.Response(c, fiber.StatusOK, "Approval Notification found successfully", approvalNotifications)
 }
