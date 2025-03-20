@@ -93,3 +93,27 @@ func (s *ApprovalHistoryService) GetNotification(userID uint) ([]model.ViewAppro
 
 	return approvalNotifications, nil
 }
+
+func (s *ApprovalHistoryService) GetAllByRefID(refID uint, refTable string) ([]model.ApprovalHistory, error) {
+	var approvalHistories []model.ApprovalHistory
+
+	query := s.db.Model(&model.ApprovalHistory{}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, name")
+	}).Preload("Approval", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, status")
+	})
+
+	if refID != 0 {
+		query = query.Where("ref_id = ?", refID)
+	}
+
+	if refTable != "" {
+		query = query.Where("ref_table = ?", refTable)
+	}
+
+	if err := query.Find(&approvalHistories).Error; err != nil {
+		return nil, err
+	}
+
+	return approvalHistories, nil
+}

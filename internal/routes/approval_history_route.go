@@ -17,6 +17,7 @@ func ApprovalHistoryRoutes(api fiber.Router, db *gorm.DB) {
 
 	approvalHistory.Get("/", approvalHistoryHandler.GetApprovalHistories)
 	approvalHistory.Get("/:id", approvalHistoryHandler.GetApprovalHistory)
+	approvalHistory.Get("/:id/ref", approvalHistoryHandler.GetAllByRefID)
 	approvalHistory.Post("/", approvalHistoryHandler.CreateApprovalHistory)
 	approvalHistory.Put("/:id", approvalHistoryHandler.UpdateApprovalHistory)
 	approvalHistory.Delete("/:id", approvalHistoryHandler.DeleteApprovalHistory)

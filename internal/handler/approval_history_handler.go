@@ -243,3 +243,30 @@ func (h *ApprovalHistoryHandler) GetApprovalNotifications(c *fiber.Ctx) error {
 
 	return pkg.Response(c, fiber.StatusOK, "Approval Notification found successfully", approvalNotifications)
 }
+
+// GetAllByRefID godoc
+// @Summary Get approval histories by reference ID
+// @Description Retrieve approval histories based on the provided reference ID (as a path parameter) and reference table
+// @Tags Approval Histories
+// @Accept json
+// @Produce json
+// @Param id path int true "Reference ID"
+// @Param ref_table query string false "Reference Table"
+// @Success 200 {object} map[string]interface{} "Approval Histories found successfully"
+// @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID parameter"
+// @Failure 404 {object} map[string]interface{} "Not Found: Approval Histories not found"
+// @Router /admin/approval-history/{id}/ref [get]
+func (h *ApprovalHistoryHandler) GetAllByRefID(c *fiber.Ctx) error {
+	refTable := c.Query("ref_table")
+	ID, err := c.ParamsInt("id")
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
+	}
+
+	approvalHistories, err := h.approvalHistoryService.GetAllByRefID(uint(ID), refTable)
+	if err != nil {
+		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Approval Histories not found"))
+	}
+
+	return pkg.Response(c, fiber.StatusOK, "Approval Histories found successfully", approvalHistories)
+}
