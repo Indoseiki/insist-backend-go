@@ -61,6 +61,10 @@ func main() {
 	routes.ApprovalStructureRoutes(apiADM, config.DBINSIST)
 	routes.ApprovalHistoryRoutes(apiADM, config.DBINSIST)
 
+	// ACF Routes
+	apiACF := api.Group("/acf", middleware.VerifyToken)
+	routes.ChartOfAccountRoutes(apiACF, config.DBINSIST)
+
 	// EGD Routes
 	apiEGD := api.Group("/egd", middleware.VerifyToken)
 	routes.ProcessRoutes(apiEGD, config.DBINSIST)

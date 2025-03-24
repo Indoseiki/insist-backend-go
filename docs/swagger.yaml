@@ -89,6 +89,29 @@ definitions:
       username:
         type: string
     type: object
+  model.ApprovalHistory:
+    properties:
+      approval:
+        $ref: '#/definitions/model.MstApproval'
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      id:
+        type: integer
+      id_approval:
+        type: integer
+      id_createdby:
+        type: integer
+      key:
+        type: string
+      message:
+        type: string
+      ref_id:
+        type: integer
+      ref_table:
+        type: string
+    type: object
   model.MstApproval:
     properties:
       action:
@@ -152,6 +175,35 @@ definitions:
       plant:
         type: string
       remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstChartOfAccount:
+    properties:
+      account:
+        type: integer
+      class:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      exchange_rate_type:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      remarks:
+        type: string
+      type:
         type: string
       updated_at:
         type: string
@@ -745,6 +797,185 @@ info:
   title: INSIST REST API Documentation
   version: "1.0"
 paths:
+  /acf/master/chart-of-account:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves chart of accounts with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering chart of account
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of chart of accounts
+      tags:
+      - Chart Of Account
+    post:
+      consumes:
+      - application/json
+      description: Create a new chart of account with the provided details
+      parameters:
+      - description: Chart Of Account details
+        in: body
+        name: chartOfAccount
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstChartOfAccount'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Chart Of Account created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new chart of account
+      tags:
+      - Chart Of Account
+  /acf/master/chart-of-account/{id}:
+    delete:
+      description: Delete a chart of account by its ID
+      parameters:
+      - description: Chart Of Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Chart Of Account deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Chart Of Account not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a chart of account
+      tags:
+      - Chart Of Account
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific chart of account by its ID
+      parameters:
+      - description: Chart Of Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Chart Of Account found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Chart Of Account not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get chart of account by ID
+      tags:
+      - Chart Of Account
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing chart of account by its ID
+      parameters:
+      - description: Chart Of Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated chart of account details
+        in: body
+        name: chartOfAccount
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstChartOfAccount'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Chart Of Account updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Chart Of Account not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing chart of account
+      tags:
+      - Chart Of Account
   /admin/approval:
     get:
       consumes:
@@ -818,6 +1049,244 @@ paths:
       summary: Create a new approval
       tags:
       - Approval
+  /admin/approval-history:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves approvalHistorys with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering approvalHistory
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of approvalHistorys
+      tags:
+      - ApprovalHistory
+    post:
+      consumes:
+      - application/json
+      description: Create a new approvalHistory with the provided details
+      parameters:
+      - description: Approval History details
+        in: body
+        name: approvalHistory
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApprovalHistory'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Approval History created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new approvalHistory
+      tags:
+      - ApprovalHistory
+  /admin/approval-history/{id}:
+    delete:
+      description: Delete a approvalHistory by its ID
+      parameters:
+      - description: Approval History ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Approval History deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: ApprovalHistory not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a approvalHistory
+      tags:
+      - ApprovalHistory
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific approvalHistory by its ID
+      parameters:
+      - description: Approval History ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Approval History found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: ApprovalHistory not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get approvalHistory by ID
+      tags:
+      - ApprovalHistory
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing approvalHistory by its ID
+      parameters:
+      - description: Approval History ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated approvalHistory details
+        in: body
+        name: approvalHistory
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApprovalHistory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Approval History updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: ApprovalHistory not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing approvalHistory
+      tags:
+      - ApprovalHistory
+  /admin/approval-history/{id}/ref:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve approval histories based on the provided reference ID
+        (as a path parameter) and reference table
+      parameters:
+      - description: Reference ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Reference Table
+        in: query
+        name: ref_table
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Approval Histories found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID parameter'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Approval Histories not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get approval histories by reference ID
+      tags:
+      - Approval Histories
+  /admin/approval-history/notifications:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve approval notifications based on the authenticated user's
+        ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Approval Notifications found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Approval Notifications not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get approval notifications for the logged-in user
+      tags:
+      - Approval Notifications
   /admin/approval-structure:
     get:
       consumes:
@@ -889,6 +1358,38 @@ paths:
             additionalProperties: true
             type: object
       summary: Get approval structure by ID
+      tags:
+      - Approval Structure
+  /admin/approval-structure/menu:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve approval structure based on the provided menu path
+      parameters:
+      - description: Menu Path
+        in: query
+        name: path
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Approval Structure found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid path'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Approval Structure not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get approval structure by menu path
       tags:
       - Approval Structure
   /admin/approval-user:
