@@ -11,7 +11,6 @@ type MstChartOfAccount struct {
 	Type             string     `json:"type,omitempty"`
 	Class            string     `json:"class,omitempty"`
 	ExchangeRateType string     `json:"exchange_rate_type,omitempty"`
-	Remarks          string     `json:"remarks,omitempty"`
 	IDCreatedby      uint       `json:"id_createdby,omitempty"`
 	IDUpdatedby      uint       `json:"id_updatedby,omitempty"`
 	CreatedAt        *time.Time `gorm:"autoCreateTime" json:"created_at,omitempty"`

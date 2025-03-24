@@ -201,8 +201,6 @@ definitions:
         type: integer
       id_updatedby:
         type: integer
-      remarks:
-        type: string
       type:
         type: string
       updated_at:
@@ -662,6 +660,45 @@ definitions:
       updated_by:
         $ref: '#/definitions/model.MstUser'
     type: object
+  model.MstTaxCode:
+    properties:
+      account_ap:
+        $ref: '#/definitions/model.MstChartOfAccount'
+      account_ar:
+        $ref: '#/definitions/model.MstChartOfAccount'
+      account_ar_process:
+        $ref: '#/definitions/model.MstChartOfAccount'
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_account_ap:
+        type: integer
+      id_account_ar:
+        type: integer
+      id_account_ar_process:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      include:
+        type: string
+      name:
+        type: string
+      rate:
+        type: number
+      type:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstUoms:
     properties:
       code:
@@ -976,6 +1013,185 @@ paths:
       summary: Update an existing chart of account
       tags:
       - Chart Of Account
+  /acf/master/tax-code:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves tax codes with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering tax code
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of tax codes
+      tags:
+      - Tax Code
+    post:
+      consumes:
+      - application/json
+      description: Create a new tax code with the provided details
+      parameters:
+      - description: Tax Code details
+        in: body
+        name: taxCode
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstTaxCode'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Tax Code created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new tax code
+      tags:
+      - Tax Code
+  /acf/master/tax-code/{id}:
+    delete:
+      description: Delete a tax code by its ID
+      parameters:
+      - description: Tax Code ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Tax Code deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Tax Code not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a tax code
+      tags:
+      - Tax Code
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific tax code by its ID
+      parameters:
+      - description: Tax Code ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tax Code found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Tax Code not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get tax code by ID
+      tags:
+      - Tax Code
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing tax code by its ID
+      parameters:
+      - description: Tax Code ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated tax code details
+        in: body
+        name: taxCode
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstTaxCode'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Tax Code updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Tax Code not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing tax code
+      tags:
+      - Tax Code
   /admin/approval:
     get:
       consumes:

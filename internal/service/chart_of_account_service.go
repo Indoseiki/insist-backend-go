@@ -15,17 +15,17 @@ func NewChartOfAccountService(db *gorm.DB) *ChartOfAccountService {
 	return &ChartOfAccountService{db: db}
 }
 
-func (s *ChartOfAccountService) GetByID(deptID uint) (*model.MstChartOfAccount, error) {
-	var dept model.MstChartOfAccount
+func (s *ChartOfAccountService) GetByID(chartOfAccountID uint) (*model.MstChartOfAccount, error) {
+	var chartOfAccount model.MstChartOfAccount
 	if err := s.db.Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
-	}).First(&dept, deptID).Error; err != nil {
+	}).First(&chartOfAccount, chartOfAccountID).Error; err != nil {
 		return nil, err
 	}
 
-	return &dept, nil
+	return &chartOfAccount, nil
 }
 
 func (s *ChartOfAccountService) GetTotal(search string) (int64, error) {
@@ -45,7 +45,7 @@ func (s *ChartOfAccountService) GetTotal(search string) (int64, error) {
 }
 
 func (s *ChartOfAccountService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.MstChartOfAccount, error) {
-	var depts []model.MstChartOfAccount
+	var chartOfAccounts []model.MstChartOfAccount
 
 	query := s.db.Model(&model.MstChartOfAccount{}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
@@ -63,21 +63,21 @@ func (s *ChartOfAccountService) GetAll(offset, limit int, search string, sortBy 
 		query = query.Where("account ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
 	}
 
-	if err := query.Find(&depts).Error; err != nil {
+	if err := query.Find(&chartOfAccounts).Error; err != nil {
 		return nil, err
 	}
 
-	return depts, nil
+	return chartOfAccounts, nil
 }
 
-func (s *ChartOfAccountService) Create(dept *model.MstChartOfAccount) error {
-	return s.db.Create(dept).Error
+func (s *ChartOfAccountService) Create(chartOfAccount *model.MstChartOfAccount) error {
+	return s.db.Create(chartOfAccount).Error
 }
 
-func (s *ChartOfAccountService) Update(dept *model.MstChartOfAccount) error {
-	return s.db.Save(dept).Error
+func (s *ChartOfAccountService) Update(chartOfAccount *model.MstChartOfAccount) error {
+	return s.db.Save(chartOfAccount).Error
 }
 
-func (s *ChartOfAccountService) Delete(dept *model.MstChartOfAccount) error {
-	return s.db.Delete(dept).Error
+func (s *ChartOfAccountService) Delete(chartOfAccount *model.MstChartOfAccount) error {
+	return s.db.Delete(chartOfAccount).Error
 }

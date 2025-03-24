@@ -64,6 +64,7 @@ func main() {
 	// ACF Routes
 	apiACF := api.Group("/acf", middleware.VerifyToken)
 	routes.ChartOfAccountRoutes(apiACF, config.DBINSIST)
+	routes.TaxCodeRoutes(apiACF, config.DBINSIST)
 
 	// EGD Routes
 	apiEGD := api.Group("/egd", middleware.VerifyToken)
