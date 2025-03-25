@@ -34,7 +34,7 @@ func (s *ChartOfAccountService) GetTotal(search string) (int64, error) {
 	query := s.db.Model(&model.MstChartOfAccount{})
 
 	if search != "" {
-		query = query.Where("account ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Where("account::TEXT ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
 	}
 
 	if err := query.Count(&count).Error; err != nil {
@@ -60,7 +60,7 @@ func (s *ChartOfAccountService) GetAll(offset, limit int, search string, sortBy 
 	}
 
 	if search != "" {
-		query = query.Where("account ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Where("account::TEXT ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
 	}
 
 	if err := query.Find(&chartOfAccounts).Error; err != nil {
