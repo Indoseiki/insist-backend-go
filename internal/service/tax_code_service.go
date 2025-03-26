@@ -34,7 +34,7 @@ func (s *TaxCodeService) GetTotal(search string) (int64, error) {
 	query := s.db.Model(&model.MstTaxCode{})
 
 	if search != "" {
-		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Where("name ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
 	}
 
 	if err := query.Count(&count).Error; err != nil {
@@ -47,11 +47,18 @@ func (s *TaxCodeService) GetTotal(search string) (int64, error) {
 func (s *TaxCodeService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.MstTaxCode, error) {
 	var taxCodes []model.MstTaxCode
 
-	query := s.db.Model(&model.MstTaxCode{}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, name")
-	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, name")
-	}).Offset(offset).Limit(limit)
+	query := s.db.Model(&model.MstTaxCode{}).
+		Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id, name")
+		}).
+		Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id, name")
+		}).
+		Preload("AccountAR").
+		Preload("AccountARProc").
+		Preload("AccountAP").
+		Offset(offset).
+		Limit(limit)
 
 	if sortBy != "" {
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
@@ -60,7 +67,7 @@ func (s *TaxCodeService) GetAll(offset, limit int, search string, sortBy string,
 	}
 
 	if search != "" {
-		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Where("name ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
 	}
 
 	if err := query.Find(&taxCodes).Error; err != nil {
