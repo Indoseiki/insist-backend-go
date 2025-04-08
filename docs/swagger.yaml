@@ -208,6 +208,58 @@ definitions:
       updated_by:
         $ref: '#/definitions/model.MstUser'
     type: object
+  model.MstCurrency:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      currency:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstCurrencyRate:
+    properties:
+      buy_rate:
+        type: number
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      effective_date:
+        type: string
+      from_currency:
+        $ref: '#/definitions/model.MstCurrency'
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_from_currency:
+        type: integer
+      id_to_currency:
+        type: integer
+      id_updatedby:
+        type: integer
+      sell_rate:
+        type: number
+      to_currency:
+        $ref: '#/definitions/model.MstCurrency'
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstDept:
     properties:
       code:
@@ -668,10 +720,14 @@ definitions:
         $ref: '#/definitions/model.MstChartOfAccount'
       account_ar_process:
         $ref: '#/definitions/model.MstChartOfAccount'
+      assess_on_return:
+        type: boolean
       created_at:
         type: string
       created_by:
         $ref: '#/definitions/model.MstUser'
+      deductible:
+        type: boolean
       description:
         type: string
       id:
@@ -686,8 +742,28 @@ definitions:
         type: integer
       id_updatedby:
         type: integer
-      include:
-        type: string
+      include_brokerage:
+        type: boolean
+      include_discount:
+        type: boolean
+      include_duty:
+        type: boolean
+      include_freight:
+        type: boolean
+      include_insurance:
+        type: boolean
+      include_local_freight:
+        type: boolean
+      include_misc:
+        type: boolean
+      include_price:
+        type: boolean
+      include_restock_fee:
+        type: boolean
+      include_surcharge:
+        type: boolean
+      include_tax_on_prev_system:
+        type: boolean
       name:
         type: string
       rate:
@@ -1013,6 +1089,404 @@ paths:
       summary: Update an existing chart of account
       tags:
       - Chart Of Account
+  /acf/master/currency:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves currencies with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering currency
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of currencies
+      tags:
+      - Currency
+    post:
+      consumes:
+      - application/json
+      description: Create a new currency with the provided details
+      parameters:
+      - description: Currency details
+        in: body
+        name: currency
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstCurrency'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Currency created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new currency
+      tags:
+      - Currency
+  /acf/master/currency-generate:
+    get:
+      description: Fetch currency data from external API and store it in the database
+      parameters:
+      - description: User ID who initiates the operation
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Currencies generated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid user ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Generate currencies from Frankfurter API
+      tags:
+      - Currency
+  /acf/master/currency-rate:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves currency rates with pagination and optional search
+      parameters:
+      - description: Currency ID
+        in: query
+        name: idCurrency
+        type: integer
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering currency
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: Sorting direction (true for ascending, false for descending)
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of currency rates
+      tags:
+      - Currency Rate
+    post:
+      consumes:
+      - application/json
+      description: Create a new currency rate with the provided details
+      parameters:
+      - description: Currency Rate details
+        in: body
+        name: currency_rate
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstCurrencyRate'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Currency Rate created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new currency rate
+      tags:
+      - Currency Rate
+  /acf/master/currency-rate/{id}:
+    delete:
+      description: Delete a currency rate by its ID
+      parameters:
+      - description: Currency Rate ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Currency Rate deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Currency Rate not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a currency
+      tags:
+      - Currency Rate
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific currency rate by its ID
+      parameters:
+      - description: Currency Rate ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Currency Rate found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Currency Rate not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get currency rate by ID
+      tags:
+      - Currency Rate
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing currency rate by its ID
+      parameters:
+      - description: Currency Rate ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated currency rate details
+        in: body
+        name: currency_rate
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstCurrencyRate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Currency Rate updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Currency Rate not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing currency
+      tags:
+      - Currency Rate
+  /acf/master/currency/{id}:
+    delete:
+      description: Delete a currency by its ID
+      parameters:
+      - description: Currency ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Currency deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Currency not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a currency
+      tags:
+      - Currency
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific currency by its ID
+      parameters:
+      - description: Currency ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Currency found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Currency not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get currency by ID
+      tags:
+      - Currency
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing currency by its ID
+      parameters:
+      - description: Currency ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated currency details
+        in: body
+        name: currency
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstCurrency'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Currency updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Currency not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing currency
+      tags:
+      - Currency
   /acf/master/tax-code:
     get:
       consumes:

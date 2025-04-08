@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS mst_currency_rates;
