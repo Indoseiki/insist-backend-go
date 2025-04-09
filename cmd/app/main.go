@@ -67,6 +67,7 @@ func main() {
 	routes.TaxCodeRoutes(apiACF, config.DBINSIST)
 	routes.CurrencyRoutes(apiACF, config.DBINSIST)
 	routes.CurrencyRateRoutes(apiACF, config.DBINSIST)
+	routes.BankRoutes(apiACF, config.DBINSIST)
 
 	// EGD Routes
 	apiEGD := api.Group("/egd", middleware.VerifyToken)

@@ -156,6 +156,51 @@ definitions:
       user:
         $ref: '#/definitions/model.MstUser'
     type: object
+  model.MstBank:
+    properties:
+      account:
+        $ref: '#/definitions/model.MstChartOfAccount'
+      account_num:
+        type: string
+      address:
+        type: string
+      bic:
+        type: string
+      city:
+        type: string
+      code:
+        type: string
+      country:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      currency:
+        $ref: '#/definitions/model.MstCurrency'
+      id:
+        type: integer
+      id_account:
+        type: integer
+      id_createdby:
+        type: integer
+      id_currency:
+        type: integer
+      id_updatedby:
+        type: integer
+      name:
+        type: string
+      remarks:
+        type: string
+      state:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+      zip_code:
+        type: string
+    type: object
   model.MstBuilding:
     properties:
       code:
@@ -910,6 +955,185 @@ info:
   title: INSIST REST API Documentation
   version: "1.0"
 paths:
+  /acf/master/bank:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves banks with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering bank
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of banks
+      tags:
+      - Bank
+    post:
+      consumes:
+      - application/json
+      description: Create a new bank with the provided details
+      parameters:
+      - description: Bank details
+        in: body
+        name: dept
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstBank'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Bank created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new bank
+      tags:
+      - Bank
+  /acf/master/bank/{id}:
+    delete:
+      description: Delete a bank by its ID
+      parameters:
+      - description: Bank ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Bank deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Bank not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a bank
+      tags:
+      - Bank
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific bank by its ID
+      parameters:
+      - description: Bank ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Bank found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Bank not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get bank by ID
+      tags:
+      - Bank
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing bank by its ID
+      parameters:
+      - description: Bank ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated bank details
+        in: body
+        name: dept
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstBank'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Bank updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Bank not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing bank
+      tags:
+      - Bank
   /acf/master/chart-of-account:
     get:
       consumes:
