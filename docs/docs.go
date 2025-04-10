@@ -89,7 +89,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "Bank details",
-                        "name": "dept",
+                        "name": "bank",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -190,7 +190,7 @@ const docTemplate = `{
                     },
                     {
                         "description": "Updated bank details",
-                        "name": "dept",
+                        "name": "bank",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -1496,7 +1496,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ApprovalHistory"
+                    "Approval History"
                 ],
                 "summary": "Get a list of approvalHistorys",
                 "parameters": [
@@ -1554,7 +1554,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ApprovalHistory"
+                    "Approval History"
                 ],
                 "summary": "Create a new approvalHistory",
                 "parameters": [
@@ -1634,7 +1634,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ApprovalHistory"
+                    "Approval History"
                 ],
                 "summary": "Get approvalHistory by ID",
                 "parameters": [
@@ -1679,7 +1679,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "ApprovalHistory"
+                    "Approval History"
                 ],
                 "summary": "Update an existing approvalHistory",
                 "parameters": [
@@ -1734,7 +1734,7 @@ const docTemplate = `{
             "delete": {
                 "description": "Delete a approvalHistory by its ID",
                 "tags": [
-                    "ApprovalHistory"
+                    "Approval History"
                 ],
                 "summary": "Delete a approvalHistory",
                 "parameters": [
@@ -2936,6 +2936,267 @@ const docTemplate = `{
                     },
                     "404": {
                         "description": "Not Found: Employee not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/master/item-category": {
+            "get": {
+                "description": "Retrieves Item Categories with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Item Category"
+                ],
+                "summary": "Get a list of Item Categories",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering itemCategory",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new Item Category with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Item Category"
+                ],
+                "summary": "Create a new Item Category",
+                "parameters": [
+                    {
+                        "description": "Item Category details",
+                        "name": "ItemCategory",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstItemCategory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Item Category created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/master/item-category/{id}": {
+            "get": {
+                "description": "Retrieve a specific Item Category by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Item Category"
+                ],
+                "summary": "Get Item Category by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Item Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item Category found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Item Category not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing Item Category by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Item Category"
+                ],
+                "summary": "Update an existing Item Category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Item Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated Item Category details",
+                        "name": "ItemCategory",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstItemCategory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item Category updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Item Category not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a Item Category by its ID",
+                "tags": [
+                    "Item Category"
+                ],
+                "summary": "Delete a itemCategory",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Item Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item Category deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Item Category not found",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -5825,6 +6086,267 @@ const docTemplate = `{
                 }
             }
         },
+        "/general/master/billing-term": {
+            "get": {
+                "description": "Retrieves billing terms with pagination and optional search",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BillingTerm"
+                ],
+                "summary": "Get a list of billing terms",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 20,
+                        "description": "Number of rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search keyword for filtering billing term",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: No data found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new billing term with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BillingTerm"
+                ],
+                "summary": "Create a new billing term",
+                "parameters": [
+                    {
+                        "description": "Billing Term details",
+                        "name": "billingTerm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstBillingTerm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Billing Term created successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/general/master/billing-term/{id}": {
+            "get": {
+                "description": "Retrieve a specific billing term by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BillingTerm"
+                ],
+                "summary": "Get billing term by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Billing Term ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Billing Term found successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Billing Term not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the details of an existing billing term by its ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BillingTerm"
+                ],
+                "summary": "Update an existing billing term",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Billing Term ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated billing term details",
+                        "name": "billingTerm",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstBillingTerm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Billing Term updated successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Billing Term not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a billing term by its ID",
+                "tags": [
+                    "BillingTerm"
+                ],
+                "summary": "Delete a billing term",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Billing Term ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Billing Term deleted successfully",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request: Invalid ID",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found: Billing Term not found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/mnt/master/machine": {
             "get": {
                 "description": "Retrieves machines with pagination and optional search",
@@ -8373,6 +8895,74 @@ const docTemplate = `{
                 }
             }
         },
+        "model.MstBillingTerm": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "cutoff_day": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "discount_days": {
+                    "type": "integer"
+                },
+                "discount_percent": {
+                    "type": "number"
+                },
+                "due_days": {
+                    "type": "integer"
+                },
+                "holiday_offset_method": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "is_advanced_terms": {
+                    "type": "boolean"
+                },
+                "is_cash_only": {
+                    "type": "boolean"
+                },
+                "prox_code": {
+                    "type": "integer"
+                },
+                "prox_discount_day": {
+                    "type": "integer"
+                },
+                "prox_discount_months_forward": {
+                    "type": "integer"
+                },
+                "prox_due_day": {
+                    "type": "integer"
+                },
+                "prox_months_forward": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
         "model.MstBuilding": {
             "type": "object",
             "properties": {
@@ -8621,6 +9211,41 @@ const docTemplate = `{
                 },
                 "id_fcs": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.MstItemCategory": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
                 }
             }
         },

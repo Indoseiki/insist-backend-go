@@ -60,6 +60,11 @@ func main() {
 	routes.ApprovalUserRoutes(apiADM, config.DBINSIST)
 	routes.ApprovalStructureRoutes(apiADM, config.DBINSIST)
 	routes.ApprovalHistoryRoutes(apiADM, config.DBINSIST)
+	routes.ItemCategoryRoutes(apiADM, config.DBINSIST)
+
+	// General Routes
+	apiGeneral := api.Group("/general", middleware.VerifyToken)
+	routes.BillingTermRoutes(apiGeneral, config.DBINSIST)
 
 	// ACF Routes
 	apiACF := api.Group("/acf", middleware.VerifyToken)

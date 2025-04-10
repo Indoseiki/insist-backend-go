@@ -201,6 +201,51 @@ definitions:
       zip_code:
         type: string
     type: object
+  model.MstBillingTerm:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      cutoff_day:
+        type: integer
+      description:
+        type: string
+      discount_days:
+        type: integer
+      discount_percent:
+        type: number
+      due_days:
+        type: integer
+      holiday_offset_method:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      is_advanced_terms:
+        type: boolean
+      is_cash_only:
+        type: boolean
+      prox_code:
+        type: integer
+      prox_discount_day:
+        type: integer
+      prox_discount_months_forward:
+        type: integer
+      prox_due_day:
+        type: integer
+      prox_months_forward:
+        type: integer
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstBuilding:
     properties:
       code:
@@ -365,6 +410,29 @@ definitions:
         type: integer
       id_fcs:
         type: integer
+    type: object
+  model.MstItemCategory:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
     type: object
   model.MstKeyValue:
     properties:
@@ -1003,7 +1071,7 @@ paths:
       parameters:
       - description: Bank details
         in: body
-        name: dept
+        name: bank
         required: true
         schema:
           $ref: '#/definitions/model.MstBank'
@@ -1104,7 +1172,7 @@ paths:
         type: integer
       - description: Updated bank details
         in: body
-        name: dept
+        name: bank
         required: true
         schema:
           $ref: '#/definitions/model.MstBank'
@@ -2003,7 +2071,7 @@ paths:
             type: object
       summary: Get a list of approvalHistorys
       tags:
-      - ApprovalHistory
+      - Approval History
     post:
       consumes:
       - application/json
@@ -2035,7 +2103,7 @@ paths:
             type: object
       summary: Create a new approvalHistory
       tags:
-      - ApprovalHistory
+      - Approval History
   /admin/approval-history/{id}:
     delete:
       description: Delete a approvalHistory by its ID
@@ -2068,7 +2136,7 @@ paths:
             type: object
       summary: Delete a approvalHistory
       tags:
-      - ApprovalHistory
+      - Approval History
     get:
       consumes:
       - application/json
@@ -2099,7 +2167,7 @@ paths:
             type: object
       summary: Get approvalHistory by ID
       tags:
-      - ApprovalHistory
+      - Approval History
     put:
       consumes:
       - application/json
@@ -2141,7 +2209,7 @@ paths:
             type: object
       summary: Update an existing approvalHistory
       tags:
-      - ApprovalHistory
+      - Approval History
   /admin/approval-history/{id}/ref:
     get:
       consumes:
@@ -2968,6 +3036,185 @@ paths:
       summary: Synchronize Employee Data
       tags:
       - Employee
+  /admin/master/item-category:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Item Categories with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering itemCategory
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Item Categories
+      tags:
+      - Item Category
+    post:
+      consumes:
+      - application/json
+      description: Create a new Item Category with the provided details
+      parameters:
+      - description: Item Category details
+        in: body
+        name: ItemCategory
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemCategory'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item Category created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Item Category
+      tags:
+      - Item Category
+  /admin/master/item-category/{id}:
+    delete:
+      description: Delete a Item Category by its ID
+      parameters:
+      - description: Item Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Item Category deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Category not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a itemCategory
+      tags:
+      - Item Category
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific Item Category by its ID
+      parameters:
+      - description: Item Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Category found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Category not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Item Category by ID
+      tags:
+      - Item Category
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing Item Category by its ID
+      parameters:
+      - description: Item Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Category details
+        in: body
+        name: ItemCategory
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Category updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Category not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing Item Category
+      tags:
+      - Item Category
   /admin/master/key-value:
     get:
       consumes:
@@ -4942,6 +5189,185 @@ paths:
       summary: Update an existing uom
       tags:
       - UoM
+  /general/master/billing-term:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves billing terms with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering billing term
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of billing terms
+      tags:
+      - BillingTerm
+    post:
+      consumes:
+      - application/json
+      description: Create a new billing term with the provided details
+      parameters:
+      - description: Billing Term details
+        in: body
+        name: billingTerm
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstBillingTerm'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Billing Term created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new billing term
+      tags:
+      - BillingTerm
+  /general/master/billing-term/{id}:
+    delete:
+      description: Delete a billing term by its ID
+      parameters:
+      - description: Billing Term ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Billing Term deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Billing Term not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a billing term
+      tags:
+      - BillingTerm
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific billing term by its ID
+      parameters:
+      - description: Billing Term ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Billing Term found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Billing Term not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get billing term by ID
+      tags:
+      - BillingTerm
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing billing term by its ID
+      parameters:
+      - description: Billing Term ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated billing term details
+        in: body
+        name: billingTerm
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstBillingTerm'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Billing Term updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Billing Term not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing billing term
+      tags:
+      - BillingTerm
   /mnt/master/machine:
     get:
       consumes:
