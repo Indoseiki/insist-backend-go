@@ -10,11 +10,11 @@ import (
 )
 
 type BankHandler struct {
-	deptService *service.BankService
+	bankService *service.BankService
 }
 
-func NewBankHandler(deptService *service.BankService) *BankHandler {
-	return &BankHandler{deptService: deptService}
+func NewBankHandler(bankService *service.BankService) *BankHandler {
+	return &BankHandler{bankService: bankService}
 }
 
 // GetBanks godoc
@@ -38,12 +38,12 @@ func (h *BankHandler) GetBanks(c *fiber.Ctx) error {
 	sortDirection := c.QueryBool("sortDirection")
 	offset := (page - 1) * rows
 
-	total, err := h.deptService.GetTotal(search)
+	total, err := h.bankService.GetTotal(search)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	depts, err := h.deptService.GetAll(offset, rows, search, sortBy, sortDirection)
+	banks, err := h.bankService.GetAll(offset, rows, search, sortBy, sortDirection)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
@@ -73,7 +73,7 @@ func (h *BankHandler) GetBanks(c *fiber.Ctx) error {
 	}
 
 	result := map[string]interface{}{
-		"items": depts,
+		"items": banks,
 		"pagination": map[string]interface{}{
 			"current_page":  page,
 			"next_page":     nextPage,
@@ -85,7 +85,7 @@ func (h *BankHandler) GetBanks(c *fiber.Ctx) error {
 		},
 	}
 
-	if len(depts) == 0 {
+	if len(banks) == 0 {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "No data found"))
 	}
 
@@ -109,12 +109,12 @@ func (h *BankHandler) GetBank(c *fiber.Ctx) error {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 
-	dept, err := h.deptService.GetByID(uint(ID))
+	bank, err := h.bankService.GetByID(uint(ID))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Bank not found"))
 	}
 
-	return pkg.Response(c, fiber.StatusOK, "Bank found successfully", dept)
+	return pkg.Response(c, fiber.StatusOK, "Bank found successfully", bank)
 }
 
 // CreateBank godoc
@@ -123,7 +123,7 @@ func (h *BankHandler) GetBank(c *fiber.Ctx) error {
 // @Tags Bank
 // @Accept json
 // @Produce json
-// @Param dept body model.MstBank true "Bank details"
+// @Param bank body model.MstBank true "Bank details"
 // @Success 201 {object} map[string]interface{} "Bank created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
@@ -131,21 +131,21 @@ func (h *BankHandler) GetBank(c *fiber.Ctx) error {
 func (h *BankHandler) CreateBank(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
-	var dept model.MstBank
-	if err := c.BodyParser(&dept); err != nil {
+	var bank model.MstBank
+	if err := c.BodyParser(&bank); err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 
-	dept.IDCreatedby = userID
-	dept.IDUpdatedby = userID
+	bank.IDCreatedby = userID
+	bank.IDUpdatedby = userID
 
-	err := h.deptService.Create(&dept)
+	err := h.bankService.Create(&bank)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
 	result := map[string]interface{}{
-		"id": dept.ID,
+		"id": bank.ID,
 	}
 
 	return pkg.Response(c, fiber.StatusCreated, "Bank created successfully", result)
@@ -158,7 +158,7 @@ func (h *BankHandler) CreateBank(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Bank ID"
-// @Param dept body model.MstBank true "Updated bank details"
+// @Param bank body model.MstBank true "Updated bank details"
 // @Success 200 {object} map[string]interface{} "Bank updated successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 404 {object} map[string]interface{} "Not Found: Bank not found"
@@ -172,26 +172,26 @@ func (h *BankHandler) UpdateBank(c *fiber.Ctx) error {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 
-	var dept *model.MstBank
-	dept, err = h.deptService.GetByID(uint(ID))
+	var bank *model.MstBank
+	bank, err = h.bankService.GetByID(uint(ID))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Bank not found"))
 	}
 
-	if err := c.BodyParser(dept); err != nil {
+	if err := c.BodyParser(bank); err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 
-	dept.ID = uint(ID)
-	dept.IDUpdatedby = userID
+	bank.ID = uint(ID)
+	bank.IDUpdatedby = userID
 
-	err = h.deptService.Update(dept)
+	err = h.bankService.Update(bank)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
 	result := map[string]interface{}{
-		"id": dept.ID,
+		"id": bank.ID,
 	}
 
 	return pkg.Response(c, fiber.StatusOK, "Bank updated successfully", result)
@@ -213,12 +213,12 @@ func (h *BankHandler) DeleteBank(c *fiber.Ctx) error {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
 	}
 
-	user, err := h.deptService.GetByID(uint(ID))
+	user, err := h.bankService.GetByID(uint(ID))
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Bank not found"))
 	}
 
-	err = h.deptService.Delete(user)
+	err = h.bankService.Delete(user)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}

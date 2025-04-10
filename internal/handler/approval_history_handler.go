@@ -20,7 +20,7 @@ func NewApprovalHistoryHandler(approvalHistoryService *service.ApprovalHistorySe
 // GetApprovalHistories godoc
 // @Summary Get a list of approvalHistorys
 // @Description Retrieves approvalHistorys with pagination and optional search
-// @Tags ApprovalHistory
+// @Tags Approval History
 // @Accept json
 // @Produce json
 // @Param page query int false "Page number" default(1)
@@ -94,7 +94,7 @@ func (h *ApprovalHistoryHandler) GetApprovalHistories(c *fiber.Ctx) error {
 // GetApprovalHistory godoc
 // @Summary Get approvalHistory by ID
 // @Description Retrieve a specific approvalHistory by its ID
-// @Tags ApprovalHistory
+// @Tags Approval History
 // @Accept json
 // @Produce json
 // @Param id path int true "Approval History ID"
@@ -119,7 +119,7 @@ func (h *ApprovalHistoryHandler) GetApprovalHistory(c *fiber.Ctx) error {
 // CreateApprovalHistory godoc
 // @Summary Create a new approvalHistory
 // @Description Create a new approvalHistory with the provided details
-// @Tags ApprovalHistory
+// @Tags Approval History
 // @Accept json
 // @Produce json
 // @Param approvalHistory body model.ApprovalHistory true "Approval History details"
@@ -152,7 +152,7 @@ func (h *ApprovalHistoryHandler) CreateApprovalHistory(c *fiber.Ctx) error {
 // UpdateApprovalHistory godoc
 // @Summary Update an existing approvalHistory
 // @Description Update the details of an existing approvalHistory by its ID
-// @Tags ApprovalHistory
+// @Tags Approval History
 // @Accept json
 // @Produce json
 // @Param id path int true "Approval History ID"
@@ -198,7 +198,7 @@ func (h *ApprovalHistoryHandler) UpdateApprovalHistory(c *fiber.Ctx) error {
 // DeleteApprovalHistory godoc
 // @Summary Delete a approvalHistory
 // @Description Delete a approvalHistory by its ID
-// @Tags ApprovalHistory
+// @Tags Approval History
 // @Param id path int true "Approval History ID"
 // @Success 200 {object} map[string]interface{} "Approval History deleted successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
