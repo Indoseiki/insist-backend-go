@@ -9,13 +9,13 @@ import (
 )
 
 func ItemCategoryRoutes(api fiber.Router, db *gorm.DB) {
-	itemCategory := api.Group("master/item-category")
+	itemCategory := api.Group("master/item/category")
 
 	itemCategoryService := service.NewItemCategoryService(db)
 	itemCategoryHandler := handler.NewItemCategoryHandler(itemCategoryService)
 
 	itemCategory.Get("/", itemCategoryHandler.GetItemCategories)
-	itemCategory.Get("/:id", itemCategoryHandler.GetItemCategory)
+	itemCategory.Get("/:identifier", itemCategoryHandler.GetItemCategory)
 	itemCategory.Post("/", itemCategoryHandler.CreateItemCategory)
 	itemCategory.Put("/:id", itemCategoryHandler.UpdateItemCategory)
 	itemCategory.Delete("/:id", itemCategoryHandler.DeleteItemCategory)

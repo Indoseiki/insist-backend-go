@@ -5,6 +5,7 @@ import (
 	"insist-backend-golang/internal/service"
 	"insist-backend-golang/pkg"
 	"math"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -29,7 +30,7 @@ func NewItemCategoryHandler(itemCategoryService *service.ItemCategoryService) *I
 // @Success 200 {object} map[string]interface{} "Data found successfully"
 // @Failure 404 {object} map[string]interface{} "Not Found: No data found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/item-category [get]
+// @Router /general/master/item/category [get]
 func (h *ItemCategoryHandler) GetItemCategories(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
@@ -93,27 +94,31 @@ func (h *ItemCategoryHandler) GetItemCategories(c *fiber.Ctx) error {
 }
 
 // GetItemCategory godoc
-// @Summary Get Item Category by ID
-// @Description Retrieve a specific Item Category by its ID
+// @Summary Get Item Category by ID or Code
+// @Description Retrieve a specific Item Category using either its numeric ID or alphanumeric Code via path param
 // @Tags Item Category
 // @Accept json
 // @Produce json
-// @Param id path int true "Item Category ID"
+// @Param identifier path string true "Item Category ID (number) or Code (string)"
 // @Success 200 {object} map[string]interface{} "Item Category found successfully"
-// @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
+// @Failure 400 {object} map[string]interface{} "Bad Request: Invalid identifier"
 // @Failure 404 {object} map[string]interface{} "Not Found: Item Category not found"
-// @Router /admin/master/item-category/{id} [get]
+// @Router /general/master/item/category/{identifier} [get]
 func (h *ItemCategoryHandler) GetItemCategory(c *fiber.Ctx) error {
-	ID, err := c.ParamsInt("id")
-	if err != nil {
-		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusBadRequest, err.Error()))
+	identifier := c.Params("identifier")
+
+	if id, err := strconv.Atoi(identifier); err == nil {
+		itemCategory, err := h.itemCategoryService.GetByID(uint(id))
+		if err != nil {
+			return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Item Category not found"))
+		}
+		return pkg.Response(c, fiber.StatusOK, "Item Category found successfully", itemCategory)
 	}
 
-	itemCategory, err := h.itemCategoryService.GetByID(uint(ID))
+	itemCategory, err := h.itemCategoryService.GetByCode(identifier)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusNotFound, "Item Category not found"))
 	}
-
 	return pkg.Response(c, fiber.StatusOK, "Item Category found successfully", itemCategory)
 }
 
@@ -127,7 +132,7 @@ func (h *ItemCategoryHandler) GetItemCategory(c *fiber.Ctx) error {
 // @Success 201 {object} map[string]interface{} "Item Category created successfully"
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/item-category [post]
+// @Router /general/master/item/category [post]
 func (h *ItemCategoryHandler) CreateItemCategory(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -163,7 +168,7 @@ func (h *ItemCategoryHandler) CreateItemCategory(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid input"
 // @Failure 404 {object} map[string]interface{} "Not Found: Item Category not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/item-category/{id} [put]
+// @Router /general/master/item/category/{id} [put]
 func (h *ItemCategoryHandler) UpdateItemCategory(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(uint)
 
@@ -206,7 +211,7 @@ func (h *ItemCategoryHandler) UpdateItemCategory(c *fiber.Ctx) error {
 // @Failure 400 {object} map[string]interface{} "Bad Request: Invalid ID"
 // @Failure 404 {object} map[string]interface{} "Not Found: Item Category not found"
 // @Failure 500 {object} map[string]interface{} "Internal Server Error"
-// @Router /admin/master/item-category/{id} [delete]
+// @Router /general/master/item/category/{id} [delete]
 func (h *ItemCategoryHandler) DeleteItemCategory(c *fiber.Ctx) error {
 	ID, err := c.ParamsInt("id")
 	if err != nil {

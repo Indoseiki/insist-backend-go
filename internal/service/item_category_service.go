@@ -15,17 +15,30 @@ func NewItemCategoryService(db *gorm.DB) *ItemCategoryService {
 	return &ItemCategoryService{db: db}
 }
 
-func (s *ItemCategoryService) GetByID(bankID uint) (*model.MstItemCategory, error) {
-	var bank model.MstItemCategory
+func (s *ItemCategoryService) GetByID(itemCategoryID uint) (*model.MstItemCategory, error) {
+	var itemCategory model.MstItemCategory
 	if err := s.db.Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
 	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
-	}).First(&bank, bankID).Error; err != nil {
+	}).First(&itemCategory, itemCategoryID).Error; err != nil {
 		return nil, err
 	}
 
-	return &bank, nil
+	return &itemCategory, nil
+}
+
+func (s *ItemCategoryService) GetByCode(code string) (*model.MstItemCategory, error) {
+	var itemCategory model.MstItemCategory
+	if err := s.db.Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, name")
+	}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, name")
+	}).Where("code = ?", code).First(&itemCategory).Error; err != nil {
+		return nil, err
+	}
+
+	return &itemCategory, nil
 }
 
 func (s *ItemCategoryService) GetTotal(search string) (int64, error) {
@@ -45,7 +58,7 @@ func (s *ItemCategoryService) GetTotal(search string) (int64, error) {
 }
 
 func (s *ItemCategoryService) GetAll(offset, limit int, search string, sortBy string, sortDirection bool) ([]model.MstItemCategory, error) {
-	var banks []model.MstItemCategory
+	var itemCategorys []model.MstItemCategory
 
 	query := s.db.Model(&model.MstItemCategory{}).Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
 		return db.Select("id, name")
@@ -63,21 +76,21 @@ func (s *ItemCategoryService) GetAll(offset, limit int, search string, sortBy st
 		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
 	}
 
-	if err := query.Find(&banks).Error; err != nil {
+	if err := query.Find(&itemCategorys).Error; err != nil {
 		return nil, err
 	}
 
-	return banks, nil
+	return itemCategorys, nil
 }
 
-func (s *ItemCategoryService) Create(bank *model.MstItemCategory) error {
-	return s.db.Create(bank).Error
+func (s *ItemCategoryService) Create(itemCategory *model.MstItemCategory) error {
+	return s.db.Create(itemCategory).Error
 }
 
-func (s *ItemCategoryService) Update(bank *model.MstItemCategory) error {
-	return s.db.Save(bank).Error
+func (s *ItemCategoryService) Update(itemCategory *model.MstItemCategory) error {
+	return s.db.Save(itemCategory).Error
 }
 
-func (s *ItemCategoryService) Delete(bank *model.MstItemCategory) error {
-	return s.db.Delete(bank).Error
+func (s *ItemCategoryService) Delete(itemCategory *model.MstItemCategory) error {
+	return s.db.Delete(itemCategory).Error
 }
