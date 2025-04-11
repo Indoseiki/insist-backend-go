@@ -465,6 +465,33 @@ definitions:
       updated_by:
         $ref: '#/definitions/model.MstUser'
     type: object
+  model.MstItemProductType:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_item_product:
+        type: integer
+      id_updatedby:
+        type: integer
+      item_product:
+        $ref: '#/definitions/model.MstItemProduct'
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstItemSubCategory:
     properties:
       code:
@@ -5518,6 +5545,198 @@ paths:
       summary: Create a new Item Product
       tags:
       - Item Product
+  /general/master/item/product-type:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Item Product Types with pagination, search, filtering,
+        and sorting options
+      parameters:
+      - description: Filter by Item Product ID
+        in: query
+        name: idItemProduct
+        type: integer
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering Item Product Type
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sort direction: true for ascending, false for descending'
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Item Product Types
+      tags:
+      - Item Product Type
+    post:
+      consumes:
+      - application/json
+      description: Create a new Item Product Type with the provided details
+      parameters:
+      - description: Item Product Type details
+        in: body
+        name: ItemProductType
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemProductType'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item Product Type created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Item Product Type
+      tags:
+      - Item Product Type
+  /general/master/item/product-type/{id}:
+    delete:
+      description: Delete a Item Product Type by its ID
+      parameters:
+      - description: Item Product Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Item Product Type deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Product Type not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a itemProduct
+      tags:
+      - Item Product Type
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific Item Product Type by its ID
+      parameters:
+      - description: Item Product Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Product Type found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Product Type not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Item Product Type by ID
+      tags:
+      - Item Product Type
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing Item Product Type by its ID
+      parameters:
+      - description: Item Product Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Product Type details
+        in: body
+        name: ItemProductType
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemProductType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Product Type updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Product Type not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing Item Product Type
+      tags:
+      - Item Product Type
   /general/master/item/product/{id}:
     delete:
       description: Delete a Item Product by its ID
