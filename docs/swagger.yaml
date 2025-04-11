@@ -434,6 +434,64 @@ definitions:
       updated_by:
         $ref: '#/definitions/model.MstUser'
     type: object
+  model.MstItemProduct:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_item_category:
+        type: integer
+      id_item_sub_category:
+        type: integer
+      id_updatedby:
+        type: integer
+      item_category:
+        $ref: '#/definitions/model.MstItemCategory'
+      item_sub_category:
+        $ref: '#/definitions/model.MstItemSubCategory'
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstItemSubCategory:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_item_category:
+        type: integer
+      id_updatedby:
+        type: integer
+      item_category:
+        $ref: '#/definitions/model.MstItemCategory'
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstKeyValue:
     properties:
       created_at:
@@ -3036,185 +3094,6 @@ paths:
       summary: Synchronize Employee Data
       tags:
       - Employee
-  /admin/master/item-category:
-    get:
-      consumes:
-      - application/json
-      description: Retrieves Item Categories with pagination and optional search
-      parameters:
-      - default: 1
-        description: Page number
-        in: query
-        name: page
-        type: integer
-      - default: 20
-        description: Number of rows per page
-        in: query
-        name: rows
-        type: integer
-      - description: Search keyword for filtering itemCategory
-        in: query
-        name: search
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Data found successfully
-          schema:
-            additionalProperties: true
-            type: object
-        "404":
-          description: 'Not Found: No data found'
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Get a list of Item Categories
-      tags:
-      - Item Category
-    post:
-      consumes:
-      - application/json
-      description: Create a new Item Category with the provided details
-      parameters:
-      - description: Item Category details
-        in: body
-        name: ItemCategory
-        required: true
-        schema:
-          $ref: '#/definitions/model.MstItemCategory'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Item Category created successfully
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: 'Bad Request: Invalid input'
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Create a new Item Category
-      tags:
-      - Item Category
-  /admin/master/item-category/{id}:
-    delete:
-      description: Delete a Item Category by its ID
-      parameters:
-      - description: Item Category ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: Item Category deleted successfully
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: 'Bad Request: Invalid ID'
-          schema:
-            additionalProperties: true
-            type: object
-        "404":
-          description: 'Not Found: Item Category not found'
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Delete a itemCategory
-      tags:
-      - Item Category
-    get:
-      consumes:
-      - application/json
-      description: Retrieve a specific Item Category by its ID
-      parameters:
-      - description: Item Category ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Item Category found successfully
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: 'Bad Request: Invalid ID'
-          schema:
-            additionalProperties: true
-            type: object
-        "404":
-          description: 'Not Found: Item Category not found'
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Get Item Category by ID
-      tags:
-      - Item Category
-    put:
-      consumes:
-      - application/json
-      description: Update the details of an existing Item Category by its ID
-      parameters:
-      - description: Item Category ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Updated Item Category details
-        in: body
-        name: ItemCategory
-        required: true
-        schema:
-          $ref: '#/definitions/model.MstItemCategory'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Item Category updated successfully
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: 'Bad Request: Invalid input'
-          schema:
-            additionalProperties: true
-            type: object
-        "404":
-          description: 'Not Found: Item Category not found'
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
-      summary: Update an existing Item Category
-      tags:
-      - Item Category
   /admin/master/key-value:
     get:
       consumes:
@@ -5368,6 +5247,575 @@ paths:
       summary: Update an existing billing term
       tags:
       - BillingTerm
+  /general/master/item/category:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Item Categories with pagination and optional search
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering itemCategory
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Item Categories
+      tags:
+      - Item Category
+    post:
+      consumes:
+      - application/json
+      description: Create a new Item Category with the provided details
+      parameters:
+      - description: Item Category details
+        in: body
+        name: ItemCategory
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemCategory'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item Category created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Item Category
+      tags:
+      - Item Category
+  /general/master/item/category/{id}:
+    delete:
+      description: Delete a Item Category by its ID
+      parameters:
+      - description: Item Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Item Category deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Category not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a itemCategory
+      tags:
+      - Item Category
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing Item Category by its ID
+      parameters:
+      - description: Item Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Category details
+        in: body
+        name: ItemCategory
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Category updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Category not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing Item Category
+      tags:
+      - Item Category
+  /general/master/item/category/{identifier}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific Item Category using either its numeric ID or
+        alphanumeric Code via path param
+      parameters:
+      - description: Item Category ID (number) or Code (string)
+        in: path
+        name: identifier
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Category found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid identifier'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Category not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Item Category by ID or Code
+      tags:
+      - Item Category
+  /general/master/item/product:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Item Products with pagination, search, filtering, and
+        sorting options
+      parameters:
+      - description: Filter by Item Category Code
+        in: query
+        name: categoryCode
+        type: string
+      - description: Filter by Item Sub Category Code
+        in: query
+        name: subCategoryCode
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering Item Product
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sort direction: true for ascending, false for descending'
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Item Products
+      tags:
+      - Item Product
+    post:
+      consumes:
+      - application/json
+      description: Create a new Item Product with the provided details
+      parameters:
+      - description: Item Product details
+        in: body
+        name: ItemProduct
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemProduct'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item Product created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Item Product
+      tags:
+      - Item Product
+  /general/master/item/product/{id}:
+    delete:
+      description: Delete a Item Product by its ID
+      parameters:
+      - description: Item Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Item Product deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Product not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a itemProduct
+      tags:
+      - Item Product
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific Item Product by its ID
+      parameters:
+      - description: Item Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Product found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Product not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Item Product by ID
+      tags:
+      - Item Product
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing Item Product by its ID
+      parameters:
+      - description: Item Product ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Product details
+        in: body
+        name: ItemProduct
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemProduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Product updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Product not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing Item Product
+      tags:
+      - Item Product
+  /general/master/item/sub-category:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Item Sub Categories with pagination, filtering, search,
+        and sorting
+      parameters:
+      - description: Filter by Item Category Code
+        in: query
+        name: categoryCode
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering Item Sub Category
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sort direction: true for ascending, false for descending'
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Item Sub Categories
+      tags:
+      - Item Sub Category
+    post:
+      consumes:
+      - application/json
+      description: Create a new Item Sub Category with the provided details
+      parameters:
+      - description: Item Sub Category details
+        in: body
+        name: ItemSubCategory
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemSubCategory'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item Sub Category created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Item Sub Category
+      tags:
+      - Item Sub Category
+  /general/master/item/sub-category/{id}:
+    delete:
+      description: Delete a Item Sub Category by its ID
+      parameters:
+      - description: Item Sub Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Item Sub Category deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Sub Category not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete a itemSubCategory
+      tags:
+      - Item Sub Category
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific Item Sub Category by its ID
+      parameters:
+      - description: Item Sub Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Sub Category found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Sub Category not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Item Sub Category by ID
+      tags:
+      - Item Sub Category
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing Item Sub Category by its ID
+      parameters:
+      - description: Item Sub Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Sub Category details
+        in: body
+        name: ItemSubCategory
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemSubCategory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Sub Category updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Sub Category not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing Item Sub Category
+      tags:
+      - Item Sub Category
   /mnt/master/machine:
     get:
       consumes:
