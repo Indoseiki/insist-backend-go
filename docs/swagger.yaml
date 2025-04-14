@@ -488,6 +488,33 @@ definitions:
       updated_by:
         $ref: '#/definitions/model.MstUser'
     type: object
+  model.MstItemProcess:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_item_category:
+        type: integer
+      id_updatedby:
+        type: integer
+      item_category:
+        $ref: '#/definitions/model.MstItemCategory'
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstItemProduct:
     properties:
       code:
@@ -5896,6 +5923,202 @@ paths:
       summary: Update an existing Item Group
       tags:
       - Item Group
+  /general/master/item/process:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Item Processes with pagination, search, filtering, and
+        sorting options
+      parameters:
+      - description: Filter by Item Category Code
+        in: query
+        name: categoryCode
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering Item Process
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sort direction: true for ascending, false for descending'
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Item Processes
+      tags:
+      - Item Process
+    post:
+      consumes:
+      - application/json
+      description: Create a new Item Process with the provided details
+      parameters:
+      - description: Item Process details
+        in: body
+        name: ItemProcess
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemProcess'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item Process created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Item Process
+      tags:
+      - Item Process
+  /general/master/item/process/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an Item Process by its ID
+      parameters:
+      - description: Item Process ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Process deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Process not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete an Item Process
+      tags:
+      - Item Process
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific Item Process by its ID
+      parameters:
+      - description: Item Process ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Process found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Process not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Item Process by ID
+      tags:
+      - Item Process
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing Item Process by its ID
+      parameters:
+      - description: Item Process ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Process details
+        in: body
+        name: ItemProcess
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemProcess'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Process updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Process not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing Item Process
+      tags:
+      - Item Process
   /general/master/item/product:
     get:
       consumes:
