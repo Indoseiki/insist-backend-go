@@ -434,6 +434,60 @@ definitions:
       updated_by:
         $ref: '#/definitions/model.MstUser'
     type: object
+  model.MstItemGroup:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_item_product_type:
+        type: integer
+      id_updatedby:
+        type: integer
+      item_product_type:
+        $ref: '#/definitions/model.MstItemProductType'
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstItemGroupType:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_item_group:
+        type: integer
+      id_updatedby:
+        type: integer
+      item_group:
+        $ref: '#/definitions/model.MstItemGroup'
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstItemProduct:
     properties:
       code:
@@ -5455,6 +5509,393 @@ paths:
       summary: Get Item Category by ID or Code
       tags:
       - Item Category
+  /general/master/item/group:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Item Groups with pagination, filtering, and sorting options
+      parameters:
+      - description: Filter by Product Type ID
+        in: query
+        name: id_product_type
+        type: integer
+      - description: Filter by Item Category Code
+        in: query
+        name: categoryCode
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering Item Group
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sort direction: true for ascending, false for descending'
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Item Groups
+      tags:
+      - Item Group
+    post:
+      consumes:
+      - application/json
+      description: Create a new Item Group with the provided details
+      parameters:
+      - description: Item Group details
+        in: body
+        name: ItemGroup
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemGroup'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item Group created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Item Group
+      tags:
+      - Item Group
+  /general/master/item/group-type:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Item Group Types with pagination, search, filtering,
+        and sorting options
+      parameters:
+      - description: Filter by Item Group ID
+        in: query
+        name: idItemGroup
+        type: integer
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering Item Group Type
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sort direction: true for ascending, false for descending'
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Item Group Types
+      tags:
+      - Item Group Type
+    post:
+      consumes:
+      - application/json
+      description: Create a new Item Group Type with the provided details
+      parameters:
+      - description: Item Group Type details
+        in: body
+        name: ItemGroupType
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemGroupType'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item Group Type created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Item Group Type
+      tags:
+      - Item Group Type
+  /general/master/item/group-type/{id}:
+    delete:
+      description: Delete an Item Group Type by its ID
+      parameters:
+      - description: Item Group Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Item Group Type deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Group Type not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete an Item Group Type
+      tags:
+      - Item Group Type
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific Item Group Type by its ID
+      parameters:
+      - description: Item Group Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Group Type found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Group Type not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Item Group Type by ID
+      tags:
+      - Item Group Type
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing Item Group Type by its ID
+      parameters:
+      - description: Item Group Type ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Group Type details
+        in: body
+        name: ItemGroupType
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemGroupType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Group Type updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Group Type not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing Item Group Type
+      tags:
+      - Item Group Type
+  /general/master/item/group/{id}:
+    delete:
+      description: Delete an Item Group by its ID
+      parameters:
+      - description: Item Group ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Item Group deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Group not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete an Item Group
+      tags:
+      - Item Group
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific Item Group by its ID
+      parameters:
+      - description: Item Group ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Group found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Group not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Item Group by ID
+      tags:
+      - Item Group
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing Item Group by its ID
+      parameters:
+      - description: Item Group ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Group details
+        in: body
+        name: ItemGroup
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemGroup'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Group updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Group not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing Item Group
+      tags:
+      - Item Group
   /general/master/item/product:
     get:
       consumes:

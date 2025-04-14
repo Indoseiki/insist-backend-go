@@ -68,6 +68,8 @@ func main() {
 	routes.ItemSubCategoryRoutes(apiGeneral, config.DBINSIST)
 	routes.ItemProductRoutes(apiGeneral, config.DBINSIST)
 	routes.ItemProductTypeRoutes(apiGeneral, config.DBINSIST)
+	routes.ItemGroupRoutes(apiGeneral, config.DBINSIST)
+	routes.ItemGroupTypeRoutes(apiGeneral, config.DBINSIST)
 
 	// ACF Routes
 	apiACF := api.Group("/acf", middleware.VerifyToken)
