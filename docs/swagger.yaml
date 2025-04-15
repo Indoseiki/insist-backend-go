@@ -573,7 +573,61 @@ definitions:
       updated_by:
         $ref: '#/definitions/model.MstUser'
     type: object
+  model.MstItemSource:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_item_category:
+        type: integer
+      id_updatedby:
+        type: integer
+      item_category:
+        $ref: '#/definitions/model.MstItemCategory'
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstItemSubCategory:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_item_category:
+        type: integer
+      id_updatedby:
+        type: integer
+      item_category:
+        $ref: '#/definitions/model.MstItemCategory'
+      remarks:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstItemSurface:
     properties:
       code:
         type: string
@@ -6507,6 +6561,178 @@ paths:
       summary: Update an existing Item Product
       tags:
       - Item Product
+  /general/master/item/source:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Item Sources with pagination, search, filtering, and
+        sorting options
+      parameters:
+      - description: Filter by Item Category Code
+        in: query
+        name: categoryCode
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering Item Source
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sort direction: true for ascending, false for descending'
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Item Sources
+      tags:
+      - Item Source
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Item Source data
+        in: body
+        name: ItemSource
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemSource'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Item Source
+      tags:
+      - Item Source
+  /general/master/item/source/{id}:
+    delete:
+      parameters:
+      - description: Item Source ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete Item Source by ID
+      tags:
+      - Item Source
+    get:
+      parameters:
+      - description: Item Source ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Item Source by ID
+      tags:
+      - Item Source
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Item Source ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Source data
+        in: body
+        name: ItemSource
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemSource'
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update Item Source by ID
+      tags:
+      - Item Source
   /general/master/item/sub-category:
     get:
       consumes:
@@ -6699,6 +6925,198 @@ paths:
       summary: Update an existing Item Sub Category
       tags:
       - Item Sub Category
+  /general/master/item/surface:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves Item Surfaces with pagination, search, filtering, and
+        sorting options
+      parameters:
+      - description: Filter by Item Category Code
+        in: query
+        name: categoryCode
+        type: string
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Number of rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search keyword for filtering Item Surface
+        in: query
+        name: search
+        type: string
+      - description: Field to sort by
+        in: query
+        name: sortBy
+        type: string
+      - description: 'Sort direction: true for ascending, false for descending'
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Data found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: No data found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get a list of Item Surfaces
+      tags:
+      - Item Surface
+    post:
+      consumes:
+      - application/json
+      description: Create a new Item Surface with the provided details
+      parameters:
+      - description: Item Surface details
+        in: body
+        name: ItemSurface
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemSurface'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Item Surface created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create a new Item Surface
+      tags:
+      - Item Surface
+  /general/master/item/surface/{id}:
+    delete:
+      description: Delete an Item Surface by its ID
+      parameters:
+      - description: Item Surface ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Item Surface deleted successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Surface not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete an Item Surface
+      tags:
+      - Item Surface
+    get:
+      consumes:
+      - application/json
+      description: Retrieve a specific Item Surface by its ID
+      parameters:
+      - description: Item Surface ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Surface found successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid ID'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Surface not found'
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Item Surface by ID
+      tags:
+      - Item Surface
+    put:
+      consumes:
+      - application/json
+      description: Update the details of an existing Item Surface by its ID
+      parameters:
+      - description: Item Surface ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Surface details
+        in: body
+        name: ItemSurface
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemSurface'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Item Surface updated successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: 'Bad Request: Invalid input'
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: 'Not Found: Item Surface not found'
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update an existing Item Surface
+      tags:
+      - Item Surface
   /mnt/master/machine:
     get:
       consumes:
