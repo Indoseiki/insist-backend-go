@@ -411,6 +411,41 @@ definitions:
       id_fcs:
         type: integer
     type: object
+  model.MstItem:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      description:
+        type: string
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_item_category:
+        type: integer
+      id_uom:
+        type: integer
+      id_updatedby:
+        type: integer
+      infor_code:
+        type: string
+      infor_description:
+        type: string
+      item_category:
+        $ref: '#/definitions/model.MstItemCategory'
+      remarks:
+        type: string
+      uom:
+        $ref: '#/definitions/model.MstUoms'
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
   model.MstItemCategory:
     properties:
       code:
@@ -568,6 +603,47 @@ definitions:
         $ref: '#/definitions/model.MstItemProduct'
       remarks:
         type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstItemRawMaterial:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_item:
+        type: integer
+      id_item_group_type:
+        type: integer
+      id_item_process:
+        type: integer
+      id_item_product_type:
+        type: integer
+      id_item_source:
+        type: integer
+      id_item_surface:
+        type: integer
+      id_updatedby:
+        type: integer
+      item:
+        $ref: '#/definitions/model.MstItem'
+      item_group_type:
+        $ref: '#/definitions/model.MstItemGroupType'
+      item_process:
+        $ref: '#/definitions/model.MstItemProcess'
+      item_product_type:
+        $ref: '#/definitions/model.MstItemProductType'
+      item_source:
+        $ref: '#/definitions/model.MstItemSource'
+      item_surface:
+        $ref: '#/definitions/model.MstItemSurface'
       updated_at:
         type: string
       updated_by:
@@ -5590,6 +5666,131 @@ paths:
       summary: Get Item Category by ID or Code
       tags:
       - Item Category
+  /general/master/item/generate/raw-material:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: Item Category Code
+        in: query
+        name: categoryCode
+        type: string
+      - description: Sort by field
+        in: query
+        name: sortBy
+        type: string
+      - description: true = ASC, false = DESC
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get list of Item Raw Materials
+      tags:
+      - Item Raw Material
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Item Raw Material Body
+        in: body
+        name: item_raw_material
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemRawMaterial'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new item raw material
+      tags:
+      - Item Raw Material
+  /general/master/item/generate/raw-material/{id}:
+    delete:
+      parameters:
+      - description: Item Raw Material ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete item raw material
+      tags:
+      - Item Raw Material
+    get:
+      parameters:
+      - description: Item Raw Material ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.MstItemRawMaterial'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get item raw material by ID
+      tags:
+      - Item Raw Material
+    put:
+      parameters:
+      - description: Item Raw Material ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item Raw Material
+        in: body
+        name: item_raw_material
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItemRawMaterial'
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update item raw material
+      tags:
+      - Item Raw Material
   /general/master/item/group:
     get:
       consumes:
@@ -7117,6 +7318,131 @@ paths:
       summary: Update an existing Item Surface
       tags:
       - Item Surface
+  /general/master/items:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: Item Category ID
+        in: query
+        name: idItemCategory
+        type: string
+      - description: Sort by field
+        in: query
+        name: sortBy
+        type: string
+      - description: true = ASC, false = DESC
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get list of Items
+      tags:
+      - Item
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Item Body
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItem'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new item
+      tags:
+      - Item
+  /general/master/items/{id}:
+    delete:
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete item
+      tags:
+      - Item
+    get:
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.MstItem'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get item by ID
+      tags:
+      - Item
+    put:
+      parameters:
+      - description: Item ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Item
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstItem'
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update item
+      tags:
+      - Item
   /mnt/master/machine:
     get:
       consumes:

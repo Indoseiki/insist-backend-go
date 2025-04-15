@@ -64,6 +64,7 @@ func main() {
 	// General Routes
 	apiGeneral := api.Group("/general", middleware.VerifyToken)
 	routes.BillingTermRoutes(apiGeneral, config.DBINSIST)
+	routes.ItemRoutes(apiGeneral, config.DBINSIST)
 	routes.ItemCategoryRoutes(apiGeneral, config.DBINSIST)
 	routes.ItemSubCategoryRoutes(apiGeneral, config.DBINSIST)
 	routes.ItemProductRoutes(apiGeneral, config.DBINSIST)
@@ -73,6 +74,7 @@ func main() {
 	routes.ItemProcessRoutes(apiGeneral, config.DBINSIST)
 	routes.ItemSurfaceRoutes(apiGeneral, config.DBINSIST)
 	routes.ItemSourceRoutes(apiGeneral, config.DBINSIST)
+	routes.ItemRawMaterialRoutes(apiGeneral, config.DBINSIST)
 
 	// ACF Routes
 	apiACF := api.Group("/acf", middleware.VerifyToken)
