@@ -73,6 +73,8 @@ func (s *ItemRawMaterialService) GetAll(offset, limit int, search, categoryCode,
 
 	if sortBy != "" {
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: !sortAsc})
+	} else {
+		query = query.Order("mst_items.code ASC")
 	}
 
 	if search != "" {

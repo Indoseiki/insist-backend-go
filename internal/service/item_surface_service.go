@@ -66,7 +66,7 @@ func (s *ItemSurfaceService) GetAll(offset, limit int, search, sortBy string, so
 	if sortBy != "" {
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
 	} else {
-		query = query.Order("mst_item_surfaces.updated_at ASC")
+		query = query.Order("mst_item_surfaces.code ASC")
 	}
 
 	if categoryCode != "" {

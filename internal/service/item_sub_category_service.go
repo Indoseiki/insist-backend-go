@@ -66,7 +66,7 @@ func (s *ItemSubCategoryService) GetAll(offset, limit int, search, sortBy string
 	if sortBy != "" {
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
 	} else {
-		query = query.Order("mst_item_sub_categories.updated_at ASC")
+		query = query.Order("mst_item_sub_categories.code ASC")
 	}
 
 	if itemCategoryCode != "" {

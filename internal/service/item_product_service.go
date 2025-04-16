@@ -74,7 +74,7 @@ func (s *ItemProductService) GetAll(offset, limit int, search, sortBy string, so
 	if sortBy != "" {
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
 	} else {
-		query = query.Order("mst_item_products.updated_at ASC")
+		query = query.Order("mst_item_products.code ASC")
 	}
 
 	if categoryCode != "" {

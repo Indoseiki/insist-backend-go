@@ -72,7 +72,7 @@ func (s *ItemGroupTypeService) GetAll(offset, limit int, search, sortBy string, 
 	if sortBy != "" {
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
 	} else {
-		query = query.Order("updated_at ASC")
+		query = query.Order("code ASC")
 	}
 
 	if search != "" {

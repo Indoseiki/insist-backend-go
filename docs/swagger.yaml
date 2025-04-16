@@ -7443,6 +7443,47 @@ paths:
       summary: Update item
       tags:
       - Item
+  /infor/master/item:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: Sort by field
+        in: query
+        name: sortBy
+        type: string
+      - description: true = ASC, false = DESC
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get list of Item Infors
+      tags:
+      - Item Infor
   /mnt/master/machine:
     get:
       consumes:

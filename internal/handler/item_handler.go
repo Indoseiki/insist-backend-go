@@ -35,17 +35,18 @@ func (h *ItemHandler) GetItems(c *fiber.Ctx) error {
 	page := c.QueryInt("page", 1)
 	rows := c.QueryInt("rows", 20)
 	search := c.Query("search", "")
-	idItemCategory := c.Query("idItemCategory", "")
+	idItemCategory := c.QueryInt("idItemCategory", 0)
+	categoryCode := c.Query("categoryCode", "")
 	sortBy := c.Query("sortBy", "")
 	sortDirection := c.QueryBool("sortDirection", true)
 	offset := (page - 1) * rows
 
-	total, err := h.itemService.GetTotal(search, idItemCategory)
+	total, err := h.itemService.GetTotal(search, uint(idItemCategory), categoryCode)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}
 
-	items, err := h.itemService.GetAll(offset, rows, search, sortBy, sortDirection, idItemCategory)
+	items, err := h.itemService.GetAll(offset, rows, search, sortBy, sortDirection, uint(idItemCategory), categoryCode)
 	if err != nil {
 		return pkg.ErrorResponse(c, fiber.NewError(fiber.StatusInternalServerError, err.Error()))
 	}

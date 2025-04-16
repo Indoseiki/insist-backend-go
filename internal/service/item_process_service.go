@@ -67,7 +67,7 @@ func (s *ItemProcessService) GetAll(offset, limit int, search, sortBy string, so
 	if sortBy != "" {
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
 	} else {
-		query = query.Order("mst_item_processes.updated_at ASC")
+		query = query.Order("mst_item_processes.code ASC")
 	}
 
 	if categoryCode != "" {

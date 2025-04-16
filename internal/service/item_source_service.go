@@ -62,7 +62,7 @@ func (s *ItemSourceService) GetAll(offset, limit int, search, sortBy string, sor
 	if sortBy != "" {
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: sortDirection})
 	} else {
-		query = query.Order("mst_item_sources.updated_at ASC")
+		query = query.Order("mst_item_sources.code ASC")
 	}
 
 	if categoryCode != "" {

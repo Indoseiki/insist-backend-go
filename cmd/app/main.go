@@ -109,6 +109,10 @@ func main() {
 	// Log Route
 	routes.ActivityLogRoutes(api, config.DBINSIST)
 
+	// INFOR'
+	apiINFOR := api.Group("/infor", middleware.VerifyToken)
+	routes.ItemInforRoutes(apiINFOR, config.DBINFOR)
+
 	println("Starting app with port " + os.Getenv("PORT"))
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 }

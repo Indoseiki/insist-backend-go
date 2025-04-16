@@ -8950,6 +8950,68 @@ const docTemplate = `{
                 }
             }
         },
+        "/infor/master/item": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Item Infor"
+                ],
+                "summary": "Get list of Item Infors",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort by field",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "true = ASC, false = DESC",
+                        "name": "sortDirection",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/mnt/master/machine": {
             "get": {
                 "description": "Retrieves machines with pagination and optional search",

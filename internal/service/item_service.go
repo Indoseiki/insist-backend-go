@@ -29,15 +29,18 @@ func (s *ItemService) GetByID(id uint) (*model.MstItem, error) {
 	return &item, nil
 }
 
-func (s *ItemService) GetTotal(search, idItemCategory string) (int64, error) {
+func (s *ItemService) GetTotal(search string, idItemCategory uint, categoryCode string) (int64, error) {
 	var count int64
-	query := s.db.Model(&model.MstItem{})
+	query := s.db.Model(&model.MstItem{}).Joins("LEFT JOIN mst_item_categories ON mst_item_categories.id = mst_items.id_item_category")
 
 	if search != "" {
-		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Where("mst_items.code ILIKE ? OR mst_items.description ILIKE ?", "%"+search+"%", "%"+search+"%")
 	}
-	if idItemCategory != "" {
-		query = query.Where("id_item_category = ?", idItemCategory)
+	if idItemCategory != 0 {
+		query = query.Where("mst_items.id_item_category = ?", idItemCategory)
+	}
+	if categoryCode != "" {
+		query = query.Where("mst_item_categories.code = ?", categoryCode)
 	}
 
 	if err := query.Count(&count).Error; err != nil {
@@ -46,10 +49,11 @@ func (s *ItemService) GetTotal(search, idItemCategory string) (int64, error) {
 	return count, nil
 }
 
-func (s *ItemService) GetAll(offset, limit int, search, sortBy string, sortAsc bool, idItemCategory string) ([]model.MstItem, error) {
+func (s *ItemService) GetAll(offset, limit int, search, sortBy string, sortAsc bool, idItemCategory uint, categoryCode string) ([]model.MstItem, error) {
 	var items []model.MstItem
 
 	query := s.db.Model(&model.MstItem{}).
+		Joins("LEFT JOIN mst_item_categories ON mst_item_categories.id = mst_items.id_item_category").
 		Preload("ItemCategory").
 		Preload("UOM").
 		Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
@@ -63,11 +67,17 @@ func (s *ItemService) GetAll(offset, limit int, search, sortBy string, sortAsc b
 	}
 
 	if search != "" {
-		query = query.Where("code ILIKE ? OR description ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Where("mst_items.code ILIKE ? OR mst_items.description ILIKE ?", "%"+search+"%", "%"+search+"%")
+	} else {
+		query = query.Order("mst_items.code ASC")
 	}
 
-	if idItemCategory != "" {
-		query = query.Where("id_item_category = ?", idItemCategory)
+	if idItemCategory != 0 {
+		query = query.Where("mst_items.id_item_category = ?", idItemCategory)
+	}
+
+	if categoryCode != "" {
+		query = query.Where("mst_item_categories.code = ?", categoryCode)
 	}
 
 	if err := query.Find(&items).Error; err != nil {
