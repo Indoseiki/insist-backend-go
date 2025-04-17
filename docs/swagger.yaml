@@ -614,6 +614,8 @@ definitions:
         type: string
       created_by:
         $ref: '#/definitions/model.MstUser'
+      diameter_size:
+        type: string
       id:
         type: integer
       id_createdby:
@@ -632,6 +634,8 @@ definitions:
         type: integer
       id_updatedby:
         type: integer
+      inner_diameter_size:
+        type: string
       item:
         $ref: '#/definitions/model.MstItem'
       item_group_type:
@@ -644,6 +648,8 @@ definitions:
         $ref: '#/definitions/model.MstItemSource'
       item_surface:
         $ref: '#/definitions/model.MstItemSurface'
+      length_size:
+        type: string
       updated_at:
         type: string
       updated_by:
@@ -916,6 +922,96 @@ definitions:
         type: string
       updated_by:
         $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstMaterial:
+    properties:
+      code:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_updatedby:
+        type: integer
+      item:
+        $ref: '#/definitions/model.MstItem'
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+    type: object
+  model.MstMaterialDetail:
+    properties:
+      compotition_c:
+        type: string
+      compotition_cr:
+        type: string
+      compotition_cu:
+        type: string
+      compotition_mn:
+        type: string
+      compotition_mo:
+        type: string
+      compotition_ni:
+        type: string
+      compotition_p:
+        type: string
+      compotition_s:
+        type: string
+      compotition_si:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        $ref: '#/definitions/model.MstUser'
+      cutting_length:
+        type: string
+      hardness:
+        type: string
+      height:
+        type: number
+      id:
+        type: integer
+      id_createdby:
+        type: integer
+      id_material:
+        type: integer
+      id_tolerance_min:
+        type: number
+      id_tolerance_plus:
+        type: number
+      id_updatedby:
+        type: integer
+      material:
+        $ref: '#/definitions/model.MstMaterial'
+      od_tolerance_min:
+        type: number
+      od_tolerance_plus:
+        type: number
+      origin:
+        type: string
+      ovality:
+        type: string
+      remarks:
+        type: string
+      rev_no:
+        type: integer
+      rmss_num:
+        type: string
+      sa_ratio:
+        type: string
+      tensile_strength:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        $ref: '#/definitions/model.MstUser'
+      width:
+        type: number
     type: object
   model.MstMenu:
     properties:
@@ -4948,6 +5044,252 @@ paths:
       summary: Get user information
       tags:
       - Authentication
+  /egd/master/material-detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: Material ID
+        in: query
+        name: idMaterial
+        type: integer
+      - description: Sort by field
+        in: query
+        name: sortBy
+        type: string
+      - description: true = ASC, false = DESC
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get list of Material Details
+      tags:
+      - Material Detail
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Material Detail Body
+        in: body
+        name: materialDetail
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstMaterialDetail'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new material detail
+      tags:
+      - Material Detail
+  /egd/master/material-detail/{id}:
+    delete:
+      parameters:
+      - description: Material Detail ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete material detail
+      tags:
+      - Material Detail
+    get:
+      parameters:
+      - description: Material Detail ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.MstMaterialDetail'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Material Detail by ID
+      tags:
+      - Material Detail
+    put:
+      parameters:
+      - description: Material Detail ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Material Detail
+        in: body
+        name: materialDetail
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstMaterialDetail'
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update material detail
+      tags:
+      - Material Detail
+  /egd/master/material/{id}:
+    delete:
+      parameters:
+      - description: Material ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete material
+      tags:
+      - Material
+    get:
+      parameters:
+      - description: Material ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.MstMaterial'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Material by ID
+      tags:
+      - Material
+    put:
+      parameters:
+      - description: Material ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Material
+        in: body
+        name: material
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstMaterial'
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update material
+      tags:
+      - Material
+  /egd/master/materials:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Rows per page
+        in: query
+        name: rows
+        type: integer
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: Sort by field
+        in: query
+        name: sortBy
+        type: string
+      - description: true = ASC, false = DESC
+        in: query
+        name: sortDirection
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get list of Materials
+      tags:
+      - Material
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Material Body
+        in: body
+        name: material
+        required: true
+        schema:
+          $ref: '#/definitions/model.MstMaterial'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new material
+      tags:
+      - Material
   /egd/master/process:
     get:
       consumes:

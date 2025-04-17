@@ -88,6 +88,8 @@ func main() {
 	apiEGD := api.Group("/egd", middleware.VerifyToken)
 	routes.ProcessRoutes(apiEGD, config.DBINSIST)
 	routes.UoMRoutes(apiEGD, config.DBINSIST)
+	routes.MaterialRoutes(apiEGD, config.DBINSIST)
+	routes.MaterialDetailRoutes(apiEGD, config.DBINSIST)
 
 	// MNT Routes
 	apiMNT := api.Group("/mnt", middleware.VerifyToken)

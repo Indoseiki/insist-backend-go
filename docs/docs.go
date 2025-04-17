@@ -5303,6 +5303,378 @@ const docTemplate = `{
                 }
             }
         },
+        "/egd/master/material-detail": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Material Detail"
+                ],
+                "summary": "Get list of Material Details",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Material ID",
+                        "name": "idMaterial",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort by field",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "true = ASC, false = DESC",
+                        "name": "sortDirection",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Material Detail"
+                ],
+                "summary": "Create new material detail",
+                "parameters": [
+                    {
+                        "description": "Material Detail Body",
+                        "name": "materialDetail",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstMaterialDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/egd/master/material-detail/{id}": {
+            "get": {
+                "tags": [
+                    "Material Detail"
+                ],
+                "summary": "Get Material Detail by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Material Detail ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.MstMaterialDetail"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Material Detail"
+                ],
+                "summary": "Update material detail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Material Detail ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated Material Detail",
+                        "name": "materialDetail",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstMaterialDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Material Detail"
+                ],
+                "summary": "Delete material detail",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Material Detail ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/egd/master/material/{id}": {
+            "get": {
+                "tags": [
+                    "Material"
+                ],
+                "summary": "Get Material by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Material ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.MstMaterial"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Material"
+                ],
+                "summary": "Update material",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Material ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated Material",
+                        "name": "material",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstMaterial"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Material"
+                ],
+                "summary": "Delete material",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Material ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/egd/master/materials": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Material"
+                ],
+                "summary": "Get list of Materials",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Rows per page",
+                        "name": "rows",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort by field",
+                        "name": "sortBy",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "true = ASC, false = DESC",
+                        "name": "sortDirection",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Material"
+                ],
+                "summary": "Create new material",
+                "parameters": [
+                    {
+                        "description": "Material Body",
+                        "name": "material",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MstMaterial"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/egd/master/process": {
             "get": {
                 "description": "Retrieves processs with pagination and optional search",
@@ -12187,6 +12559,9 @@ const docTemplate = `{
                 "created_by": {
                     "$ref": "#/definitions/model.MstUser"
                 },
+                "diameter_size": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -12214,6 +12589,9 @@ const docTemplate = `{
                 "id_updatedby": {
                     "type": "integer"
                 },
+                "inner_diameter_size": {
+                    "type": "string"
+                },
                 "item": {
                     "$ref": "#/definitions/model.MstItem"
                 },
@@ -12231,6 +12609,9 @@ const docTemplate = `{
                 },
                 "item_surface": {
                     "$ref": "#/definitions/model.MstItemSurface"
+                },
+                "length_size": {
+                    "type": "string"
                 },
                 "updated_at": {
                     "type": "string"
@@ -12643,6 +13024,142 @@ const docTemplate = `{
                 },
                 "updated_by": {
                     "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
+        "model.MstMaterial": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "item": {
+                    "$ref": "#/definitions/model.MstItem"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                }
+            }
+        },
+        "model.MstMaterialDetail": {
+            "type": "object",
+            "properties": {
+                "compotition_c": {
+                    "type": "string"
+                },
+                "compotition_cr": {
+                    "type": "string"
+                },
+                "compotition_cu": {
+                    "type": "string"
+                },
+                "compotition_mn": {
+                    "type": "string"
+                },
+                "compotition_mo": {
+                    "type": "string"
+                },
+                "compotition_ni": {
+                    "type": "string"
+                },
+                "compotition_p": {
+                    "type": "string"
+                },
+                "compotition_s": {
+                    "type": "string"
+                },
+                "compotition_si": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "cutting_length": {
+                    "type": "string"
+                },
+                "hardness": {
+                    "type": "string"
+                },
+                "height": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "id_createdby": {
+                    "type": "integer"
+                },
+                "id_material": {
+                    "type": "integer"
+                },
+                "id_tolerance_min": {
+                    "type": "number"
+                },
+                "id_tolerance_plus": {
+                    "type": "number"
+                },
+                "id_updatedby": {
+                    "type": "integer"
+                },
+                "material": {
+                    "$ref": "#/definitions/model.MstMaterial"
+                },
+                "od_tolerance_min": {
+                    "type": "number"
+                },
+                "od_tolerance_plus": {
+                    "type": "number"
+                },
+                "origin": {
+                    "type": "string"
+                },
+                "ovality": {
+                    "type": "string"
+                },
+                "remarks": {
+                    "type": "string"
+                },
+                "rev_no": {
+                    "type": "integer"
+                },
+                "rmss_num": {
+                    "type": "string"
+                },
+                "sa_ratio": {
+                    "type": "string"
+                },
+                "tensile_strength": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by": {
+                    "$ref": "#/definitions/model.MstUser"
+                },
+                "width": {
+                    "type": "number"
                 }
             }
         },
