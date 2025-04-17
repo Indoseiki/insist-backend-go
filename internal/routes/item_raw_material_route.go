@@ -9,7 +9,7 @@ import (
 )
 
 func ItemRawMaterialRoutes(api fiber.Router, db *gorm.DB) {
-	itemRawMaterial := api.Group("master/item/generate/raw-material")
+	itemRawMaterial := api.Group("master/item/generate-raw-material")
 
 	itemRawMaterialService := service.NewItemRawMaterialService(db)
 	itemRawMaterialHandler := handler.NewItemRawMaterialHandler(itemRawMaterialService)

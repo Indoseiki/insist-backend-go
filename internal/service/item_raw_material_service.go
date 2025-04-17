@@ -18,8 +18,11 @@ func NewItemRawMaterialService(db *gorm.DB) *ItemRawMaterialService {
 func (s *ItemRawMaterialService) GetByID(id uint) (*model.MstItemRawMaterial, error) {
 	var itemRawMaterial model.MstItemRawMaterial
 	if err := s.db.Preload("Item").
+		Preload("Item.UOM").
 		Preload("ItemProductType").
+		Preload("ItemProductType.ItemProduct").
 		Preload("ItemGroupType").
+		Preload("ItemGroupType.ItemGroup").
 		Preload("ItemProcess").
 		Preload("ItemSurface").
 		Preload("ItemSource").
@@ -40,7 +43,7 @@ func (s *ItemRawMaterialService) GetTotal(search, categoryCode string) (int64, e
 		Joins("JOIN mst_item_categories ON mst_items.id_item_category = mst_item_categories.id")
 
 	if search != "" {
-		query = query.Where("mst_items.code ILIKE ? OR mst_items.description ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Where("mst_items.code ILIKE ? OR mst_items.description ILIKE ? OR mst_items.infor_code ILIKE ? OR mst_items.infor_description ILIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%", "%"+search+"%")
 	}
 
 	if categoryCode != "" {
@@ -59,17 +62,22 @@ func (s *ItemRawMaterialService) GetAll(offset, limit int, search, categoryCode,
 	query := s.db.Model(&model.MstItemRawMaterial{}).
 		Joins("JOIN mst_items ON mst_items.id = mst_item_raw_materials.id_item").
 		Joins("JOIN mst_item_categories ON mst_items.id_item_category = mst_item_categories.id").
+		Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id, name")
+		}).
+		Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id, name")
+		}).
 		Preload("Item").
+		Preload("Item.UOM").
 		Preload("ItemProductType").
+		Preload("ItemProductType.ItemProduct").
 		Preload("ItemGroupType").
+		Preload("ItemGroupType.ItemGroup").
 		Preload("ItemProcess").
 		Preload("ItemSurface").
 		Preload("ItemSource").
-		Preload("CreatedBy", func(db *gorm.DB) *gorm.DB {
-			return db.Select("id, name")
-		}).Preload("UpdatedBy", func(db *gorm.DB) *gorm.DB {
-		return db.Select("id, name")
-	}).Offset(offset).Limit(limit)
+		Offset(offset).Limit(limit)
 
 	if sortBy != "" {
 		query = query.Order(clause.OrderByColumn{Column: clause.Column{Name: sortBy}, Desc: !sortAsc})
@@ -78,7 +86,7 @@ func (s *ItemRawMaterialService) GetAll(offset, limit int, search, categoryCode,
 	}
 
 	if search != "" {
-		query = query.Where("mst_items.code ILIKE ? OR mst_items.description ILIKE ?", "%"+search+"%", "%"+search+"%")
+		query = query.Where("mst_items.code ILIKE ? OR mst_items.description ILIKE ? OR mst_items.infor_code ILIKE ? OR mst_items.infor_description ILIKE ?", "%"+search+"%", "%"+search+"%", "%"+search+"%", "%"+search+"%")
 	}
 
 	if categoryCode != "" {
@@ -96,7 +104,9 @@ func (s *ItemRawMaterialService) Create(itemRawMaterial *model.MstItemRawMateria
 }
 
 func (s *ItemRawMaterialService) Update(itemRawMaterial *model.MstItemRawMaterial) error {
-	return s.db.Save(itemRawMaterial).Error
+	return s.db.Model(&model.MstItemRawMaterial{}).
+		Where("id = ?", itemRawMaterial.ID).
+		Updates(itemRawMaterial).Error
 }
 
 func (s *ItemRawMaterialService) Delete(itemRawMaterial *model.MstItemRawMaterial) error {

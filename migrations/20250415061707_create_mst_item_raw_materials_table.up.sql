@@ -1,7 +1,7 @@
 CREATE TABLE
     mst_item_raw_materials (
         id SERIAL PRIMARY KEY,
-        id_item INT REFERENCES mst_items (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+        id_item INT REFERENCES mst_items (id) ON UPDATE CASCADE ON DELETE CASCADE,
         id_item_product_type INT REFERENCES mst_item_product_types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
         id_item_group_type INT REFERENCES mst_item_group_types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
         id_item_process INT REFERENCES mst_item_processes (id) ON UPDATE CASCADE ON DELETE RESTRICT,

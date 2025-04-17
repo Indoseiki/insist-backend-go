@@ -55,7 +55,7 @@ func (h *ItemRawMaterialHandler) GetItemRawMaterials(c *fiber.Ctx) error {
 	end := int(math.Min(float64(offset+rows), float64(total)))
 
 	result := map[string]interface{}{
-		"item_raw_materials": itemRawMaterials,
+		"items": itemRawMaterials,
 		"pagination": map[string]interface{}{
 			"current_page":  page,
 			"total_pages":   totalPages,
